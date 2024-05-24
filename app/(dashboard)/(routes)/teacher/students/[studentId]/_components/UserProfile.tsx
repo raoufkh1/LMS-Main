@@ -4,7 +4,7 @@ import { Progress } from '@radix-ui/react-progress'
 import React from 'react'
 
 const UserProfile = async ({ params}:{
-    params: {studentId: string}
+    params: {studentId: String}
 }) => {
     console.log(params)
     const userInfo = await clerkClient.users.getUser(params?.studentId)

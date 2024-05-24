@@ -3,9 +3,8 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 import UserProfile from './_components/UserProfile';
 
-export const page = ({children, params}:{
-    children: React.ReactNode,
-    params: {studentId: string}
+export const page = ({params}:{
+    params: {studentId: String}
 }) => {
     const { userId } = auth();
   if (!userId) {
