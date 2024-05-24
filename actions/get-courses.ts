@@ -47,9 +47,7 @@ export const getCourses = async ({
       },
       include: {
         exams: {
-          where: {
-            userId,
-          },
+          
         },
         category: true,
         chapters: {
@@ -65,12 +63,11 @@ export const getCourses = async ({
         createdAt: "desc",
       },
     });
-
     const coursesWithProgress: CourseWithProgressWithCategory[] =
       await Promise.all(
         courses.map(async (course) => {
           let courseProgressPercentage = await getProgress(userId, course.id);
-          console.log(courseProgressPercentage)
+          
           // const courseProgressPercentage =
           //   chapterProgressPercentage.reduce((acc, progress) => acc + progress, 0) /
           //   chapterProgressPercentage.length;

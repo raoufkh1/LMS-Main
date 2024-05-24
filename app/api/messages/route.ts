@@ -9,10 +9,11 @@ export async function POST(req: Request) {
     const { userId } = auth();
     const { context } = await req.json();
 
-    if (!userId || !isTeacher(userId)) {
+    if (!userId) {
+      console.log("sss")
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
+    console.log("sss")
     const message = await db.message.create({
       data:{
         context: context,

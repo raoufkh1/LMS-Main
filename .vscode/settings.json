@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "lms-lms-website.a.aivencloud.com",
+            "port": 21670,
+            "driver": "MySQL",
+            "name": "Test",
+            "username": "avnadmin",
+            "database": "mysql"
+        }
+    ]
+}

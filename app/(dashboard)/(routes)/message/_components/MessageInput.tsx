@@ -13,7 +13,8 @@ const MessageInput = () => {
           console.log(response)
           toast.success("تم إرسال الرسالة");
           setContext("")
-        } catch {
+        } catch (e){
+          console.log(e)
           toast.error("هناك شئ غير صحيح");
         }
       }

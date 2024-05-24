@@ -1,4 +1,5 @@
 import { getCourses } from '@/actions/get-courses'
+import { db } from '@/lib/db';
 import { clerkClient } from '@clerk/nextjs'
 import { Progress } from '@radix-ui/react-progress'
 import React from 'react'
@@ -6,10 +7,9 @@ interface PageProps {
     params: { studentId: string };
   }
 const UserProfile = async ({ params}:PageProps) => {
-    console.log(params)
     const userInfo = await clerkClient.users.getUser(params?.studentId)
-    const courserWithProgress = await getCourses({userId: params?.studentId})
-    console.log(courserWithProgress)
+    const courserWithProgress:any = await getCourses({userId: params?.studentId})
+    console.log(courserWithProgress[0].exams)
   return (
     <div>
     <div className="flex w-full justify-center">
@@ -36,13 +36,17 @@ const UserProfile = async ({ params}:PageProps) => {
                         <td className="px-2 py-2 text-gray-500 font-semibold">Start Exam</td>
                         <td className="px-2 py-2 text-gray-500 font-semibold">Final Exam</td>
                     </tr>
-                    {courserWithProgress.map((course, index) => {
-                        return(
-                            <tr key={index}>
-                                <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
-                                <td className="px-2 py-2 text-gray-900 font-semibold">%{course.progress}</td>
-                            </tr>
-                        )
+                    {courserWithProgress.map((course:any, index:number) => {
+                        if(course.progress > 0){
+                            return(
+                                <tr key={index}>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{course.progress}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{course.exams[0].beforeScore}</td>
+                                </tr>
+                            )
+
+                        }
                     })}
 
                 </tbody>

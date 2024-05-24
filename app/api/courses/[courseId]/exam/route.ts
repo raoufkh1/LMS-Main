@@ -35,9 +35,12 @@ export async function POST(
         starterExam: starter ? true : false
       },
     });
-
+    const course = await db.course.findUnique({
+      where:{
+        id:params.courseId
+      }
+    })
     console.log("====================================");
-    console.log(exam);
     console.log("====================================");
 
     return NextResponse.json(exam);
