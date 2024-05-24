@@ -19,7 +19,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useCallback, useEffect, useRef } from "react";
+import { JSXElementConstructor, Key, PromiseLikeOfReactNode, ReactElement, ReactNode, ReactPortal, useCallback, useEffect, useRef } from "react";
 
 type ExamWithQuestionAndOptions = Prisma.ExamGetPayload<{
   include: {
@@ -35,12 +35,9 @@ type ExamWithQuestionAndOptions = Prisma.ExamGetPayload<{
 }>;
 
 interface CourseSidebarItemProps {
-  lessons: (Lesson & {
-    userProgress: UserProgress[] | null;
-    lock: Boolean
-  })[];
+  lessons: any;
   quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
-  exam: ExamWithQuestionAndOptions | null;
+  exam: any;
   label: string;
   id: string;
   courseId: string;
@@ -62,9 +59,9 @@ export const CourseSidebarItem = ({
 
   const isActive = pathname?.includes(id);
 
-  const isChapterCompleted = lessons.every((lesson) =>
+  const isChapterCompleted = lessons.every((lesson: { userProgress: any[]; }) =>
     lesson.userProgress?.every(
-      (progress) => progress.userId === userId && progress.isCompleted === true
+      (progress: { userId: string | null | undefined; isCompleted: boolean; }) => progress.userId === userId && progress.isCompleted === true
     )
   );
 
@@ -122,33 +119,33 @@ export const CourseSidebarItem = ({
             <div className="ml-auto">{label}</div>
           </AccordionTrigger>
           <AccordionContent className="pb-0 w-full">
-            {lessons.map((lesson, index) => {
+            {lessons.map((lesson: { id: string; lock: boolean; userProgress: any[]; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }, index: Key | null | undefined) => {
               
               return(
               <button
                 key={index}
                 onClick={() => handleLessonClick(lesson.id)}
                 type="button"
-                disabled={lesson.lock}
+                disabled={lesson.lock || false}
                 className={cn(
                   "flex items-center justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-slate-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-teal-600 h-full",
                   pathname?.includes(lesson.id) &&
                     "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
                   pathname?.includes(lesson.id) &&
                     lesson.userProgress?.some(
-                      (progress) =>
+                      (progress: { userId: string | null | undefined; isCompleted: any; }) =>
                         progress.userId === userId && progress.isCompleted
                     ) &&
                     "text-emerald-700 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700",
                   lesson.userProgress?.some(
-                    (progress) =>
+                    (progress: { userId: string | null | undefined; isCompleted: any; }) =>
                       progress.userId === userId && progress.isCompleted
                   ) && "text-emerald-700"
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
                   {lesson.userProgress?.some(
-                    (progress) =>
+                    (progress: { userId: string | null | undefined; isCompleted: any; }) =>
                       progress.userId === userId && progress.isCompleted
                   ) ? (
                     <CheckCircle

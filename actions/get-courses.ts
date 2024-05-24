@@ -76,8 +76,8 @@ export const getCourses = async ({
           //   chapterProgressPercentage.length;
 
           if (
-            course.exams?.beforeScore &&
-            course.exams?.beforeScore >= 50 &&
+            course.exams[0]?.beforeScore &&
+            course.exams[0]?.beforeScore >= 50 &&
             courseProgressPercentage < 100
           ) {
             courseProgressPercentage = Math.min(

@@ -23,6 +23,7 @@ interface CourseSidebarProps {
     chapters: (Chapter & {
       lessons: (Lesson & {
         userProgress: UserProgress[] | null;
+        lock: Boolean
       })[];
       quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
     })[];
@@ -47,7 +48,7 @@ export const CourseSidebar = async ({
   const viewingCertificate = pathname?.includes("certificate");
   const takingQuiz = pathname?.includes("quiz");
 
-  const exam = await db.exam.findUnique({
+  const exam:any = await db.exam.findMany({
     where: {
       courseId: course.id,
       isPublished: true,
@@ -65,10 +66,10 @@ export const CourseSidebar = async ({
     },
   });
 
-  const certificateId = exam?.certificate?.find(
-    (certificate) =>
-      certificate.userId === userId && certificate.nameOfStudent != null
-  );
+  const certificateId = exam[0].certificate.find(
+    (certificate:any) =>
+      {certificate.userId === userId && certificate.nameOfStudent != null}
+  )
 
   const hasCertificate = certificateId != undefined;
 
@@ -141,7 +142,7 @@ export const CourseSidebar = async ({
               courseId={course.id}
               lessons={a}
               quiz={chapter.quiz}
-              exam={exam}
+              exam={exam[0]}
             />
           )
 })}
