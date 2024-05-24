@@ -48,10 +48,11 @@ export const CourseSidebar = async ({
   const viewingCertificate = pathname?.includes("certificate");
   const takingQuiz = pathname?.includes("quiz");
 
-  const exam:any = await db.exam.findMany({
+  const exam:any = await db.exam.findFirst({
     where: {
       courseId: course.id,
       isPublished: true,
+      starterExam: false
     },
     include: {
       certificate: true,
@@ -66,12 +67,18 @@ export const CourseSidebar = async ({
     },
   });
 
-  const certificateId = exam[0].certificate.find(
+  const certificateId = exam.certificate.find(
     (certificate:any) =>
       {certificate.userId === userId && certificate.nameOfStudent != null}
   )
-
+  
   const hasCertificate = certificateId != undefined;
+  const examCompleted = await db.userProgress.findFirst({
+    where:{
+      lessonId:exam.id
+    }
+  })
+  console.log(examCompleted)
 
   // if (progressCount === 100 && exam) {
   //   redirect(`/courses/${course.id}/exam/${exam.id}`);
@@ -113,7 +120,6 @@ export const CourseSidebar = async ({
                 }
               }
               else{
-                console.log(i)
                 let userProgressBool = tempLessons[i].userProgress?.some(
                   (progress) =>
                     progress.userId === userId && progress.isCompleted
@@ -121,11 +127,8 @@ export const CourseSidebar = async ({
                 if(!userProgressBool && i != index ){
                   lesson.lock = true
                   break
-                  console.log(lesson.title)
                 }
                 else{
-                  console.log("```````````````````````````````````````````````````````````````")
-                  console.log(lesson.title)
                   lesson.lock = false
                 }
 
@@ -142,7 +145,7 @@ export const CourseSidebar = async ({
               courseId={course.id}
               lessons={a}
               quiz={chapter.quiz}
-              exam={exam[0]}
+              exam={exam}
             />
           )
 })}
@@ -177,7 +180,7 @@ export const CourseSidebar = async ({
             )
           ) : null}
           {exam?.id ? (
-            hasCertificate ? (
+            examCompleted?.isCompleted ? (
               <Link
                 href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificateId}}`}
                 prefetch={false}

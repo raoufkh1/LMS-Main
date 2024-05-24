@@ -4,9 +4,9 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
-  const { userId } = auth();
+  const { userId }:{userId:any}= auth();
 
-  const course:any = await db.course.findUnique({
+  const course = await db.course.findUnique({
     where: {
       id: params.courseId,
     },
@@ -34,24 +34,8 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   if (!course) {
     return redirect("/");
   }
-  const StartExamProgress:any = await db.exam.findMany({
-    where: {
-      courseId: params.courseId,
-      userId: userId,
-      starterExam: true
-    },
-    include: {
-      questions: {
-        where: {
-          isPublished: true,
-        },
-        include: {
-          options: true,
-        },
-      },
-    },
-  });
-  const StartExam:any = await db.exam.findMany({
+  
+  const StartExam = await db.exam.findFirst({
     where: {
       courseId: params.courseId,
       starterExam: true
@@ -67,19 +51,23 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
       },
     },
   });
-  if(StartExamProgress.length > 0){
-    console.log("````````````````")
+  const StartExamProgress:any = await db.userProgress.findFirst({
+    where: {
+      lessonId: StartExam?.id,
+      userId: userId
+    },
+    
+  });
+  if(StartExamProgress?.isCompleted){
+
   }
   else{
-    console.log("-=================================================")
-    console.log(StartExam)
-    return redirect(
-      `/courses/${StartExam[0].courseId}/exam/${StartExam[0].id}/`
-    );
+    redirect(
+      `/courses/${course.id}/exam/${StartExam?.id}`
+    )
   }
   // const StartExam = course.exams.filter((e:any) => e.starterExam == true)
-  console.log("StartExam")
-  console.log(StartExamProgress)
+  
   
   return redirect(
     `/courses/${course.id}/chapters/${course.chapters[0].id}/lessons/${course.chapters[0].lessons[0].id}`

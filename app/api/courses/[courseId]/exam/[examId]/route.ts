@@ -102,7 +102,34 @@ export async function PATCH(
         ...values,
       },
     });
+    const examProgress = await db.userProgress.findFirst({
+      where:{
+        userId,
+        lessonId: params.examId
+      }
+    })
+    if(examProgress){
+      const completeExam = await db.userProgress.update({
+        data: {
+          userId: userId,
+          lessonId: params.examId,
+          isCompleted: true
+        },
+        where: {
+          id:examProgress.id
+        }
+      })
 
+    }
+    else{
+      const completeExam = await db.userProgress.create({
+        data:{
+          userId: userId,
+          lessonId: params.examId,
+          isCompleted: true
+        }
+      })
+    }
     return NextResponse.json(exam);
   } catch (error) {
     console.log("[EXAM_ID]", error);

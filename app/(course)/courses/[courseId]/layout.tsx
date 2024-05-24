@@ -89,7 +89,6 @@ const CourseLayout = async ({
   }
   let starterExam = exam.filter((e) => e.starterExam == true)[0]
   
-  console.log(starterExam)
   let progressCount = await getProgress(userId, course.id);
 
   const totalExamScore =
