@@ -13,15 +13,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { CourseSidebar } from "./course-sidebar";
 
 interface CourseMobileSidebarProps {
-  course: Course & {
-    chapters: (Chapter & {
-      lessons: (Lesson & {
-        userProgress: UserProgress[] | null;
-        lock: Boolean
-      })[];
-      quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
-    })[];
-  };
+  course: any;
+  
   progressCount: number;
 }
 

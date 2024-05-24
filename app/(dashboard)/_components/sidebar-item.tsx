@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface SidebarItemProps {
-  icon: LucideIcon;
+  icon: any;
   label: string;
   href: string;
 };

@@ -11,10 +11,10 @@ const MessageCard = async () => {
     })
     await Promise.all(
 
-        messages.map(async (msg) => {
+        messages.map(async (msg:any) => {
             if (msg.userId != "nil") {
     
-                const response = await clerkClient.users.getUser(msg!.userId)
+                const response = await clerkClient.users.getUser(msg.userId)
                 let tempMsg = { msg, user: { firstName: response.firstName, lastName: response.lastName } }
                 messagesWithUser.push(tempMsg)
             }

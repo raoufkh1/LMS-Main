@@ -17,8 +17,8 @@ export default async function Dashboard() {
 
   
   const courses = await getCourses({userId})
-  const coursesInProgress = courses.filter((courses) => courses.progress > 0 && courses.progress < 100 )
-  const completedCourses = courses.filter((courses) => courses.progress > 0 && courses.progress == 100 )
+  const coursesInProgress = courses.filter((courses:any) => courses.progress > 0 && courses.progress < 100 )
+  const completedCourses = courses.filter((courses:any) => courses.progress > 0 && courses.progress == 100 )
   const coursesNotStartedYet = courses.filter((courses) => courses.progress == 0 )
   console.log()
   return (
