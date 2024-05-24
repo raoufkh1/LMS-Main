@@ -34,7 +34,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   if (!course) {
     return redirect("/");
   }
-  const StartExam = await db.exam.findMany({
+  const StartExam:any = await db.exam.findMany({
     where: {
       courseId: params.courseId,
       userId: userId,

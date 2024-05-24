@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@radix-ui/react-label";
 
 interface ExamFormProps {
-  initialData: Course & { exams: [Exam] | null };
+  initialData: any;
   courseId: string;
 }
 
@@ -41,7 +41,7 @@ export const StarterExamForm = ({ initialData, courseId }: ExamFormProps) => {
   const toggleCreating = () => {
     setIsCreating((current) => !current);
   };
-  const starterExams = initialData.exams?.filter(e => e.starterExam == true)
+  const starterExams = initialData.exams?.filter((e:any) => e.starterExam == true)
 
   const router = useRouter();
 
@@ -175,12 +175,13 @@ export const StarterExamForm = ({ initialData, courseId }: ExamFormProps) => {
             !initialData.exams  && "text-slate-500 italic"
           )}
         >
-          {starterExams?.map((exam:Exam, index) => {
+          {starterExams?.map((exam:Exam, index:any) => {
             return (
               !exam ? (
                 "لا امتحان"
               ) : (
                 <div
+                key={index}
                   className={cn(
                     "flex justify-between items-center py-3 pl-3 gap-x-2 bg-slate-200 border-slate-200 border text-slate-700 rounded-md mb-4 text-sm"
                   )}

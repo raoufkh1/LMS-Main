@@ -230,7 +230,7 @@ const ExamIdPage = ({
       try {
         const response = await axios.get(`/api/courses/${params.courseId}`);
 
-        setExam(response.data.exams.filter((e) => e.id == params.examId)[0]);
+        setExam(response.data.exams.filter((e:any) => e.id == params.examId)[0]);
 
         console.log("====================================");
         console.log(response.data);

@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Label } from "@radix-ui/react-label";
 
 interface ExamFormProps {
-  initialData: Course & { exams: [Exam] | null };
+  initialData: any;
   courseId: string;
 }
 
@@ -71,7 +71,7 @@ export const ExamForm = ({ initialData, courseId }: ExamFormProps) => {
       toast.error("هناك شئ غير صحيح");
     }
   };
-  const FinalExams = initialData.exams?.filter(e => e.starterExam == false)
+  const FinalExams = initialData.exams?.filter((e:any) => e.starterExam == false)
   console.log(FinalExams)
   const onEdit = (id: string | undefined) => {
     router.push(`/teacher/courses/${courseId}/exam/${id}`);
@@ -171,7 +171,7 @@ export const ExamForm = ({ initialData, courseId }: ExamFormProps) => {
             !initialData.exams && "text-slate-500 italic"
           )}
         >
-          {FinalExams.map((exam:Exam, index) => {
+          {FinalExams.map((exam:Exam, index:any) => {
             return (
               !exam ? (
                 "لا امتحان"

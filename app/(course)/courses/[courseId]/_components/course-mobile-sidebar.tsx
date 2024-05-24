@@ -17,6 +17,7 @@ interface CourseMobileSidebarProps {
     chapters: (Chapter & {
       lessons: (Lesson & {
         userProgress: UserProgress[] | null;
+        lock: Boolean
       })[];
       quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
     })[];
