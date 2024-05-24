@@ -1,0 +1,235 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+model Course {
+  id          String  @id @default(uuid())
+  userId      String
+  title       String  @db.Text
+  description String? @db.Text
+  imageUrl    String? @db.Text
+  isPublished Boolean @default(false)
+  firstExam   Boolean? @default(false)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  chapters    Chapter[]
+  attachments Attachment[]
+  exams       Exam[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@fulltext([title])
+}
+
+model Category {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  courses Course[]
+}
+
+model Attachment {
+  id   String @id @default(uuid())
+  name String
+  url  String @db.Text
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Chapter {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  isPublished Boolean @default(false)
+  position    Int
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  lessons Lesson[]
+  quiz    Quiz?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model UserProgress {
+  id     String @id @default(uuid())
+  userId String
+
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+  @@index([lessonId])
+}
+
+model UserQuizPoints {
+  id     String @id @default(uuid())
+  userId String
+
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  points Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, quizId])
+  @@index([quizId])
+}
+
+model Lesson {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  videoUrl    String? @db.Text
+  position    Int
+  isPublished Boolean @default(false)
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  userProgress UserProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
+}
+
+model Quiz {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  isPublished Boolean @default(false)
+  userId      String? @default("nil")
+
+  chapterId String  @unique
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  userQuizPoints UserQuizPoints[]
+  questions      QuizQuestion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
+}
+
+model Exam {
+  id           String         @id @default(uuid())
+  courseId     String         
+  course       Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title        String
+  description  String?
+  userId       String?        @default("nil")
+  questions    ExamQuestion[]
+  certificate  Certificate[]
+  passingScore Int?           @default(70)
+  beforeScore  Float?         @default(0)
+  afterScore   Float?         @default(0)
+  isPublished  Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  starterExam  Boolean        @default(false)
+  @@index([courseId])
+}
+
+model ExamQuestion {
+  id          String               @id @default(uuid())
+  examId      String
+  exam        Exam                 @relation(fields: [examId], references: [id], onDelete: Cascade)
+  prompt      String
+  position    Int
+  options     ExamQuestionOption[]
+  answer      String               @default("1")
+  isPublished Boolean              @default(false)
+  explanation String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@index([examId])
+}
+
+model QuizQuestion {
+  id          String               @id @default(uuid())
+  quizId      String
+  quiz        Quiz                 @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  prompt      String
+  options     QuizQuestionOption[]
+  isPublished Boolean              @default(false)
+  position    Int
+  answer      String               @default("1")
+  explanation String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@index([quizId])
+}
+
+model ExamQuestionOption {
+  id         String       @id @default(uuid())
+  question   ExamQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  text       String
+  position   Int          @default(autoincrement())
+
+  @@index([questionId])
+  @@index([position])
+}
+
+model QuizQuestionOption {
+  id         String       @id @default(uuid())
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  text       String
+  position   Int          @default(autoincrement())
+
+  @@index([questionId])
+  @@index([position])
+}
+
+model Certificate {
+  id             String   @id @default(uuid())
+  exam           Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examId         String
+  nameOfStudent  String?
+  userId         String?
+  courseTitle    String
+  dateOfIssuance DateTime @default(now())
+
+  @@index([examId])
+}
+model Message {
+  id          String  @id @default(uuid())
+  userId      String? @default("nil")
+  context     String  @db.Text
+  messageId   String? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+}
