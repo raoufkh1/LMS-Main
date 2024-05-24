@@ -13,11 +13,6 @@ const guestRoutes = [
     href: "/",
   },
   {
-    icon: Compass,
-    label: "تصفح",
-    href: "/search",
-  },
-  {
     icon: GiPodiumWinner,
     label: "المتصدرين",
     href: "/leaderboard",
