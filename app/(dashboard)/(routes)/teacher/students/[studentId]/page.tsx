@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 import UserProfile from './_components/UserProfile';
 
-const page = ({children, params}:{
+export const page = ({children, params}:{
     children: React.ReactNode,
     params: {studentId: string}
 }) => {
@@ -15,5 +15,3 @@ const page = ({children, params}:{
     <div className=''><UserProfile params={params}/></div>
   )
 }
-
-export default page
