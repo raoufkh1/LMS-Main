@@ -79,6 +79,7 @@ const ExamIdPage = ({
   const hasUserSelections = Object.keys(userSelections).length > 0;
 
   const handleOptionChange = (questionId: string, optionPosition: number) => {
+    sethasSubmitted(false)
     setUserSelections((prevSelections) => ({
       ...prevSelections,
       [questionId]: optionPosition,
@@ -89,6 +90,7 @@ const ExamIdPage = ({
     if (!quiz || !hasUserSelections) return;
 
     setIsSubmitting(true);
+        sethasSubmitted(true);
 
     try {
       const response = await axios.patch(
@@ -124,11 +126,7 @@ const ExamIdPage = ({
 
         confetti.onOpen();
       } else {
-        sethasSubmitted(false);
-        setUserSelections({});
-        setWrongAnswers(0);
-        setCorrectAnswers(0);
-        setAnsweredQuestions(0);
+        
 
         toast.error(
           "عذرًا، عليك إجراء الاختبار مرة أخرى. لم تصل إلى علامة النجاح.",
@@ -206,8 +204,9 @@ const ExamIdPage = ({
 
     quiz?.questions.forEach((question) => {
       const questionId = question.id;
-      const userSelectedPosition = userSelections[questionId];
-      const correctAnswerPosition = parseInt(question.answer);
+      const userSelectedPosition = userSelections[question.id];
+      console.log(userSelectedPosition)
+      const correctAnswerPosition = parseInt(question.answer) - 1;
 
       if (userSelectedPosition !== undefined) {
         answered++;
@@ -320,8 +319,8 @@ const ExamIdPage = ({
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
                           {question.options.map((option, index) => (
                             <div key={option.id}>
-                              {hasSubmitted || isSubmitting ? (
-                                <div className="flex space-x-2">
+                              {hasSubmitted ? (
+                                <div className={`flex space-x-2 ${index + 1 == parseInt(question.answer) ? "text-green-500" : "text-red-500"}`}>
                                   <label className="capitalize text-sm">
                                     {option.text}
                                   </label>
@@ -330,7 +329,13 @@ const ExamIdPage = ({
                                     type="radio"
                                     name={question.id}
                                     value={index + 1}
-                                    disabled
+                                    onChange={() =>
+                                      handleOptionChange(
+                                        question.id,
+                                        index
+                                        
+                                      )
+                                    }
                                   />
                                 </div>
                               ) : (
@@ -347,7 +352,8 @@ const ExamIdPage = ({
                                     onChange={() =>
                                       handleOptionChange(
                                         question.id,
-                                        question.position
+                                        index
+                                        
                                       )
                                     }
                                   />

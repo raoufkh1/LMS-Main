@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Goal, MessageCircle } from "lucide-react";
+import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact } from "lucide-react";
 import { GiPodiumWinner } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
@@ -27,6 +27,11 @@ const guestRoutes = [
     icon: MessageCircle,
     label: "منتدى النقاش",
     href: "/message",
+  },
+  {
+    icon: Contact,
+    label: "تواصل معنا",
+    href: "/contact",
   },
 ];
 
