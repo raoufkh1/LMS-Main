@@ -4,7 +4,7 @@ import UserProfile from './_components/UserProfile';
 interface PageProps {
   params: { studentId: string };
 }
-export const StudentsPage = async ({params}:PageProps) => {
+const StudentsPage = async ({params}:PageProps) => {
     const { userId } = auth();
   if (!userId) {
     return redirect("/");
@@ -13,3 +13,4 @@ export const StudentsPage = async ({params}:PageProps) => {
     <div className=''><UserProfile params={params}/></div>
   )
 }
+export default StudentsPage
