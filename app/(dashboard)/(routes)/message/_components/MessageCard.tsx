@@ -3,10 +3,7 @@ import { clerkClient } from '@clerk/nextjs'
 import React from 'react'
 
 const MessageCard = async () => {
-    db.$on('query', (e) => {
-        console.log("============================================")
-        console.log(e)
-      })
+    
       
     let messagesWithUser: { msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[] = []
     const messages = await db.message.findMany({
