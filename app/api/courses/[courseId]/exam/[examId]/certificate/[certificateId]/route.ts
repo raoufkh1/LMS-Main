@@ -103,7 +103,7 @@ export async function PATCH(
         ...values,
       },
     });
-
+    console.log("LINE:106", certificate)
     return NextResponse.json(certificate);
   } catch (error) {
     console.log("[CERTIFICATE_ID]", error);

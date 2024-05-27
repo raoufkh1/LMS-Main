@@ -69,16 +69,16 @@ export const CourseSidebar = async ({
 
   const certificateId = exam.certificate.find(
     (certificate:any) =>
-      {certificate.userId === userId && certificate.nameOfStudent != null}
+      {return certificate.userId === userId && certificate.nameOfStudent != null}
   )
-  
+  console.log("Line:75", certificateId)
   const hasCertificate = certificateId != undefined;
   const examCompleted = await db.userProgress.findFirst({
     where:{
-      lessonId:exam.id
+      lessonId:exam.id,
+      userId:userId
     }
   })
-  console.log(examCompleted)
 
   // if (progressCount === 100 && exam) {
   //   redirect(`/courses/${course.id}/exam/${exam.id}`);
@@ -180,9 +180,9 @@ export const CourseSidebar = async ({
             )
           ) : null}
           {exam?.id ? (
-            examCompleted?.isCompleted ? (
+            examCompleted?.isCompleted == true && hasCertificate ? (
               <Link
-                href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificateId}}`}
+                href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificateId.id}`}
                 prefetch={false}
                 className={cn(
                   "flex items-center text-right gap-x-2 px-4 bg-emerald-500/20 text-emerald-500 text-sm font-[500] py-4 transition-all hover:text-emerald-600 hover:bg-emerald-500/20"

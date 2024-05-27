@@ -7,6 +7,7 @@ import { CoursesList } from "@/components/courses-list";
 
 import { InfoCard } from "./_components/info-card";
 import { getCourses } from "@/actions/get-courses";
+import { env } from "process";
 
 export default async function Dashboard() {
   const { userId } = auth();
@@ -15,8 +16,10 @@ export default async function Dashboard() {
     return redirect("/");
   }
 
-  
-  const courses = await getCourses({userId})
+
+  const introductionCourseId = process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID
+  const coursesNot = await getCourses({userId})
+  const courses = coursesNot.filter((e) => e.id != introductionCourseId)
   const coursesInProgress = courses.filter((courses:any) => courses.progress > 0 && courses.progress < 100 )
   const completedCourses = courses.filter((courses:any) => courses.progress > 0 && courses.progress == 100 )
   const coursesNotStartedYet = courses.filter((courses) => courses.progress == 0 )

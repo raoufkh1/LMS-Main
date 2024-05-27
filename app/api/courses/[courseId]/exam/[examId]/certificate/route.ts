@@ -31,9 +31,10 @@ export async function POST(
       data: {
         examId: params.examId,
         courseTitle: exam.course.title,
+        userId: userId
       },
     });
-
+    console.log("line 37", certificate)
     return NextResponse.json(certificate);
   } catch (error) {
     console.error("CERTIFICATE_ID_EXAM", error);
