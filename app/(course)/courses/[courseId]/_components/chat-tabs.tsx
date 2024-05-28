@@ -25,7 +25,7 @@ export function ChatWidgetTabs() {
             <div className="rounded-full h-7 w-7 p-1 flex items-center border bg-emerald-600 justify-center">
               <Headphones size={15} className="text-white" />
             </div>
-            <h2>بوت الدعم</h2>
+            <h2>الخبير</h2>
           </CardTitle>
         </TabsTrigger>
         <TabsTrigger
@@ -36,7 +36,7 @@ export function ChatWidgetTabs() {
             <div className="rounded-full h-7 w-7 p-1 flex items-center border bg-emerald-600 justify-center">
               <BotIcon size={15} className="text-white" />
             </div>
-            <h2>مساعد المتعلم</h2>
+            <h2>ChatGPT</h2>
           </CardTitle>
         </TabsTrigger>
       </TabsList>

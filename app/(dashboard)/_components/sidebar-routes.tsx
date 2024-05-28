@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact } from "lucide-react";
+import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact,GraduationCap } from "lucide-react";
 import { GiPodiumWinner } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
@@ -33,6 +33,11 @@ const guestRoutes = [
     label: "تواصل معنا",
     href: "/contact",
   },
+  {
+    icon: GraduationCap,
+    label: "كورس تعريفي",
+    href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
+  }
 ];
 
 const teacherRoutes = [

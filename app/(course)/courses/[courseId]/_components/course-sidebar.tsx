@@ -67,7 +67,7 @@ export const CourseSidebar = async ({
     },
   });
 
-  const certificateId = exam.certificate.find(
+  const certificateId = exam?.certificate?.find(
     (certificate:any) =>
       {return certificate.userId === userId && certificate.nameOfStudent != null}
   )
@@ -75,7 +75,7 @@ export const CourseSidebar = async ({
   const hasCertificate = certificateId != undefined;
   const examCompleted = await db.userProgress.findFirst({
     where:{
-      lessonId:exam.id,
+      lessonId:exam?.id,
       userId:userId
     }
   })

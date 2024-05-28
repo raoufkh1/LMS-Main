@@ -9,7 +9,7 @@ interface PageProps {
 const UserProfile = async ({ params}:PageProps) => {
     const userInfo = await clerkClient.users.getUser(params?.studentId)
     const courserWithProgress:any = await getCourses({userId: params?.studentId})
-    console.log(courserWithProgress[0].exams)
+    
   return (
     <div>
     <div className="flex w-full justify-center">
@@ -36,13 +36,28 @@ const UserProfile = async ({ params}:PageProps) => {
                         <td className="px-2 py-2 text-gray-500 font-semibold">Start Exam</td>
                         <td className="px-2 py-2 text-gray-500 font-semibold">Final Exam</td>
                     </tr>
-                    {courserWithProgress.map((course:any, index:number) => {
+                    {courserWithProgress.map(async (course:any, index:number) => {
+                        const exams = course?.exams
+                        const startCourse = exams.find((e:any) => {return e.firstExam == true})
+                        const finalCourse = exams.find((e:any) => {return e.firstExam == false})
+                        
+                        const firstExamsPrgress = await db.userProgress.findFirst({
+                            where: {
+                                lessonId: startCourse?.id
+                            }
+                        })
+                        const finalExamsPrgress = await db.userProgress.findFirst({
+                            where: {
+                                lessonId: finalCourse?.id
+                            }
+                        })
                         if(course.progress > 0){
                             return(
                                 <tr key={index}>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">%{course.progress}</td>
-                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{course.exams[0].beforeScore}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">{firstExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">{finalExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
                                 </tr>
                             )
 
