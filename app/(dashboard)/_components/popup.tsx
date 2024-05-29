@@ -36,7 +36,7 @@ export const Popup = ({setPopup} : {setPopup: Function}) => {
                                 نتشرف بزيارتك لموقعنا و نتمنى ان يعجبك 
                             </p>
                             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                هناك كورس تعليمي للموقع اذا احسست انك ضائع فل موقع يرجى مشاهدة الكورس
+                                هناك كورس تعليمي للموقع اذا احسست انك ضائع في الموقع يرجى مشاهدة الكورس
                             </p>
                         </div>
 
