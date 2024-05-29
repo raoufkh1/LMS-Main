@@ -9,7 +9,8 @@ interface PageProps {
 const UserProfile = async ({ params}:PageProps) => {
     const userInfo = await clerkClient.users.getUser(params?.studentId)
     const courserWithProgress:any = await getCourses({userId: params?.studentId})
-    
+    console.log(params?.studentId)
+    console.log(courserWithProgress)
   return (
     <div>
     <div className="flex w-full justify-center">
@@ -43,15 +44,17 @@ const UserProfile = async ({ params}:PageProps) => {
                         
                         const firstExamsPrgress = await db.userProgress.findFirst({
                             where: {
-                                lessonId: startCourse?.id
+                                lessonId: startCourse?.id,
+                                userId: params.studentId
                             }
                         })
                         const finalExamsPrgress = await db.userProgress.findFirst({
                             where: {
-                                lessonId: finalCourse?.id
+                                lessonId: finalCourse?.id,
+                                userId: params.studentId
                             }
                         })
-                        if(course.progress > 0){
+                        if(course.progress > 10){
                             return(
                                 <tr key={index}>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
