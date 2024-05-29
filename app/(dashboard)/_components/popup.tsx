@@ -33,7 +33,7 @@ export const Popup = ({setPopup} : {setPopup: Function}) => {
 
                         <div className="p-4 md:p-5 space-y-4">
                             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                نتشرف بزيارتك لموقعنا و نتمنى ان يعجبك 
+                                 نتشرف بزيارتك لموقعنا و نتمنى ان يعجبك 
                             </p>
                             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                 هناك كورس تعليمي للموقع اذا احسست انك ضائع في الموقع يرجى مشاهدة الكورس
