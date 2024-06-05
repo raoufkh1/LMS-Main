@@ -71,9 +71,9 @@ const ChatGPTTab = () => {
 
       // Fetch response from ChatGPT
       const response = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
+        "https://api.pawan.krd/v1/chat/completions",
         {
-          model: "gpt-3.5-turbo",
+          model: "gpt-3.5-unfiltered",
           messages: queryMessages,
           max_tokens: 1024,
           temperature: 0.7,
@@ -85,7 +85,7 @@ const ChatGPTTab = () => {
           },
         }
       );
-
+      console.log(response)
       // Extract the ChatGPT response
       const chatGPTResponse: string = response.data.choices[0].message.content;
 

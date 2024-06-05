@@ -61,6 +61,7 @@ const ExamIdPage = ({
 
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
+  const [failedInExam, setFailedInExam] = useState<boolean>(false)
   // State to store the user's selected options
   const [userSelections, setUserSelections] = useState<{
     [key: string]: number;
@@ -80,12 +81,18 @@ const ExamIdPage = ({
   const hasUserSelections = Object.keys(userSelections).length > 0;
 
   const handleOptionChange = (questionId: string, optionPosition: number) => {
+    console.log(userSelections)
     setUserSelections((prevSelections) => ({
       ...prevSelections,
       [questionId]: optionPosition,
     }));
   };
-
+  const handleRepeat = () => {
+    
+    setUserSelections({})
+    sethasSubmitted(false)
+    setFailedInExam(false)
+  }
   const handleSubmit = useCallback(async () => {
     if (!exam || !hasUserSelections || hasSubmitted) return;
 
@@ -121,7 +128,13 @@ const ExamIdPage = ({
           toast.error("لا يمكن إنشاء شهادة في هذا الوقت، آسف!");
         }
       }
-
+      else{
+        setTimeout(() => {
+          toast.error("فشلت في الاختبار. يرجى المحاولة مرة اخرى",{ duration: 4000 });
+          setFailedInExam(true)
+        }, 1500);
+        
+      }
       console.log("====================================");
       console.log(response.data);
       console.log("====================================");
@@ -217,12 +230,13 @@ const ExamIdPage = ({
     setScorePercentage((correct / totalQuestions) * 100);
 
     // Enable submission when all questions are answered
-    setCanSubmit(answered === totalQuestions);
   }, [exam?.questions, userSelections, hasSubmitted]);
 
   useEffect(() => {
-    if (answeredQuestions === exam?.questions.length)
-      setCanSubmit((current) => !current);
+    if (answeredQuestions === exam?.questions.length){
+      setCanSubmit(true);
+      console.log("ss")
+    }
   }, [answeredQuestions, exam?.questions.length]);
 
   useEffect(() => {
@@ -316,7 +330,7 @@ const ExamIdPage = ({
                           </div>
                         )}
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
-                          {question.options.map((option, index) => (
+                          {question.options.sort((a,b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => (
                             <div key={option.id}>
                               {hasSubmitted || isSubmitting ? (
                                 <div className="flex space-x-2">
@@ -345,7 +359,7 @@ const ExamIdPage = ({
                                     onChange={() =>
                                       handleOptionChange(
                                         question.id,
-                                        question.position
+                                        option.position
                                       )
                                     }
                                   />
@@ -379,7 +393,7 @@ const ExamIdPage = ({
                 <div className="">هل أنت واثق من أنك انتهيت؟</div>
               )}
               <div className="flex flex-row space-x-4 items-center">
-                <div className="flex flex-row space-x-4 items-center">
+                <div className="flex flex-row-reverse gap-4 space-x-4 items-center">
                   <button
                     type="button"
                     onClick={handleSubmit}
@@ -391,6 +405,21 @@ const ExamIdPage = ({
                   >
                     يُقدِّم
                   </button>
+                  {
+                    failedInExam && (
+                      <button
+                    type="button"
+                    onClick={handleRepeat}
+                    className={cn(
+                      "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                      
+                    )}
+                  >
+                    إعادة الاختبار
+                  </button>
+                    )
+                  }
+                  
                   {certificateId !== "" &&
                     certificateId !== undefined &&
                     hasSubmitted &&

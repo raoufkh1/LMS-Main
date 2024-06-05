@@ -1,3 +1,4 @@
+
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
@@ -9,6 +10,7 @@ import { CourseNavbar } from "./_components/course-navbar";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { ChatWidget } from "./_components/chatbot-popup";
+import { headers } from "next/headers";
 
 const CourseLayout = async ({
   children,
@@ -90,7 +92,10 @@ const CourseLayout = async ({
   let starterExam = exam.filter((e) => e.starterExam == true)[0]
   
   let progressCount = await getProgress(userId, course.id);
-
+  const headersList = headers();
+  const fullUrl = headersList.get('referer') || "";
+  const isInExam = fullUrl.includes("exam") == true
+  console.log("LINE:96",isInExam)
   const totalExamScore =
     exam[0]?.afterScore && exam[0].beforeScore
       ? (exam[0]?.beforeScore + exam[0]?.afterScore) / 2
@@ -109,7 +114,8 @@ const CourseLayout = async ({
         <CourseSidebar course={course} progressCount={progressCount} />
       </div>
       <main className="md:pr-80 pt-[80px] h-full">{children}</main>
-      <div className="fixed left-5 bottom-5 z-50">
+      {
+        !isInExam && <div className="fixed left-5 bottom-5 z-50">
         <ChatWidget>
           <Button
             variant="outline"
@@ -119,6 +125,8 @@ const CourseLayout = async ({
           </Button>
         </ChatWidget>
       </div>
+      }
+      
     </div>
   );
 };

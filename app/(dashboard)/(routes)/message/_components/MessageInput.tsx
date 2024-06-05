@@ -1,16 +1,19 @@
 "use client"
+import { getAuth } from '@clerk/nextjs/server';
 import axios from 'axios';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
-const MessageInput = () => {
+const MessageInput = ({setMessages} : {setMessages: Function}) => {
     
     const [context, setContext] = useState("")
     const onSubmit = async (e:any) => {
         e.preventDefault()
         try {
-          const response = await axios.post("/api/messages", {context: context});
-          console.log(response)
+          const {data} = await axios.post("/api/messages", {context: context});
+          console.log(data)
+          setMessages((oldArray:[]) => [data, ...oldArray ])
+          
           toast.success("تم إرسال الرسالة");
           setContext("")
         } catch (e){

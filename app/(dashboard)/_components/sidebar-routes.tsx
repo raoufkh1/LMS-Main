@@ -20,7 +20,7 @@ const guestRoutes = [
   {
     icon: Goal,
     label: "اهداف عامة",
-    href: "#",
+    href: "/goals",
   },
   
   {
