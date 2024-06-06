@@ -15,7 +15,7 @@ import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle, PlayCircle } from "lucide-react";
 import { headers } from "next/headers";
 
 interface CourseSidebarProps {
@@ -47,7 +47,30 @@ export const CourseSidebar = async ({
   const takingExamination = pathname?.includes("exam");
   const viewingCertificate = pathname?.includes("certificate");
   const takingQuiz = pathname?.includes("quiz");
-
+  const starterExam = await db.exam.findFirst({
+    where: {
+      courseId: course.id,
+      isPublished: true,
+      starterExam: true
+    },
+    include: {
+      certificate: true,
+      questions: {
+        where: {
+          isPublished: true,
+        },
+        include: {
+          options: true,
+        },
+      },
+    },
+  });
+  const starterExamProgress = await db.userProgress.findFirst({
+    where:{
+      lessonId: starterExam?.id,
+      userId: userId
+    }
+  })
   const exam:any = await db.exam.findFirst({
     where: {
       courseId: course.id,
@@ -93,6 +116,38 @@ export const CourseSidebar = async ({
         </div>
       </div>
       <div className="flex flex-col w-full">
+      {starterExam && (
+              <button
+              type="button"
+              disabled={true}
+              className={cn(
+                "flex items-center justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full",
+                pathname?.includes(starterExam.id) &&
+                  "text-slate-700  hover:bg-gray-500 hover:text-slate-700"
+              )}
+            >
+              <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
+                {starterExamProgress?.isCompleted ? (
+                  <CheckCircle
+                    size={22}
+                    className={cn(
+                      "text-gray-700",
+                      pathname?.includes(starterExam.id) && "text-gray-800"
+                    )}
+                  />
+                ) : (
+                  <PlayCircle
+                    size={22}
+                    className={cn(
+                      "text-slate-500",
+                      pathname?.includes(starterExam.id) && "text-slate-700"
+                    )}
+                  />
+                )}
+                <div>{starterExam.title}</div>
+              </div>
+            </button>
+            )}
         {course.chapters.map((chapter,chapterIndex) => {
           let a: ({ id: string; title: string; description: string | null; videoUrl: string | null; position: number; isPublished: boolean; chapterId: string; createdAt: Date; updatedAt: Date; } & { userProgress: { id: string; userId: string; lessonId: string; isCompleted: boolean; createdAt: Date; updatedAt: Date; }[] | null; })[] = []
           let tempLessons = chapter.lessons
@@ -146,6 +201,8 @@ export const CourseSidebar = async ({
               lessons={a}
               quiz={chapter.quiz}
               exam={exam}
+              starterExam={starterExam}
+              starterExamProgress={starterExamProgress}
             />
           )
 })}

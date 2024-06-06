@@ -7,7 +7,7 @@ import { clerkClient } from '@clerk/nextjs'
 import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 
-const page = () => {
+const Message = () => {
   const [messages, setMessages] = useState<{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[]>([])
   console.log(messages)
   useEffect(() => {
@@ -47,4 +47,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Message

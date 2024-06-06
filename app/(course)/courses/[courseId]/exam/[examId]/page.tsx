@@ -92,6 +92,7 @@ const ExamIdPage = ({
     setUserSelections({})
     sethasSubmitted(false)
     setFailedInExam(false)
+    setCanSubmit(false)
   }
   const handleSubmit = useCallback(async () => {
     if (!exam || !hasUserSelections || hasSubmitted) return;
@@ -330,8 +331,8 @@ const ExamIdPage = ({
                           </div>
                         )}
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
-                          {question.options.sort((a,b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => (
-                            <div key={option.id}>
+                          {question.options.sort((a,b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => {
+                            return (<div key={option.id}>
                               {hasSubmitted || isSubmitting ? (
                                 <div className="flex space-x-2">
                                   <label className="capitalize text-sm">
@@ -356,6 +357,7 @@ const ExamIdPage = ({
                                     type="radio"
                                     name={question.id}
                                     value={index + 1}
+                                    checked={(userSelections[question.id] - 1) == index}
                                     onChange={() =>
                                       handleOptionChange(
                                         question.id,
@@ -365,8 +367,8 @@ const ExamIdPage = ({
                                   />
                                 </div>
                               )}
-                            </div>
-                          ))}
+                            </div>)
+                          })}
                         </div>
                       </div>
                     </div>

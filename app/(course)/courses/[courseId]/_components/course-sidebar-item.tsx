@@ -41,6 +41,8 @@ interface CourseSidebarItemProps {
   label: string;
   id: string;
   courseId: string;
+  starterExam: any;
+  starterExamProgress: any;
 }
 
 export const CourseSidebarItem = ({
@@ -50,6 +52,8 @@ export const CourseSidebarItem = ({
   courseId,
   exam,
   quiz,
+  starterExam,
+  starterExamProgress
 }: CourseSidebarItemProps) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -119,6 +123,7 @@ export const CourseSidebarItem = ({
             <div className="ml-auto">{label}</div>
           </AccordionTrigger>
           <AccordionContent className="pb-0 w-full">
+            
             {lessons.map((lesson: { id: string; lock: boolean; userProgress: any[]; title: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }, index: Key | null | undefined) => {
               
               return(
@@ -186,7 +191,7 @@ export const CourseSidebarItem = ({
                   "flex mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-yellow-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full",
 
                   hasTakenQuiz &&
-                    "text-emerald-700 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700 border-teal-600"
+                    "text-emerald-700 hover:bg-emerald-200/20 hover:text-emerald-700 border-teal-600"
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
