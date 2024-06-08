@@ -25,7 +25,7 @@ interface CourseSidebarProps {
         userProgress: UserProgress[] | null;
         lock: Boolean
       })[];
-      quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
+      quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null, lock : boolean }) | null;
     })[];
   };
   progressCount: number;
@@ -197,6 +197,15 @@ export const CourseSidebar = async ({
             }
             a.push(lesson)
           })
+          for(let i = 0; i < chapter.lessons.length; i++){
+            if(chapter.lessons[i].lock){
+              if(chapter.quiz){
+                chapter.quiz!.lock = true
+                break
+
+              }
+            }
+          }
           return(
             
             <CourseSidebarItem
@@ -224,22 +233,22 @@ export const CourseSidebar = async ({
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
-                  {examCompleted?.isCompleted ? (
-                    <CheckCircle
+                  {!(progressCount == 100) ? (
+                    <LockIcon
                       size={22}
                       className={cn(
                         "text-gray-700",
                         pathname?.includes(exam.id) && "text-gray-800"
                       )}
                     />
-                  ) : !(progressCount == 100) ? <LockIcon
+                  ) : !exam.isCompleted ? <PlayCircle
                   size={22}
                   className={cn(
                     "text-slate-500",
                     pathname?.includes(exam.id) && "text-slate-700"
                   )}
                 /> : (
-                    <PlayCircle
+                    <CheckCircle
                       size={22}
                       className={cn(
                         "text-slate-500",

@@ -111,7 +111,6 @@ const ExamIdPage = ({
 
       sethasSubmitted(true);
 
-      toast.success("تم تقديم الامتحان بنجاح.", { duration: 4000 });
 
       if (scorePercentage > 50) {
         const response = await axios.patch(
@@ -197,7 +196,6 @@ const ExamIdPage = ({
     // Clear the interval when the component unmounts
     return () => clearInterval(timerId);
   }, []);
-
   useEffect(() => {
     // If time is up, set isSubmitting to true
     if (timeRemaining === 0 && !hasSubmitted) {
@@ -337,7 +335,7 @@ const ExamIdPage = ({
           <div className="flex flex-col px-10 mt-10  items-center relative">
             <Carousel className="w-[98%] md:w-[95%] p-4 mb-3 ">
               <CarouselContent>
-                {exam?.questions.map((question, index) => (
+                {exam?.questions.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((question, index) => (
                   <CarouselItem key={index} className="">
                     <div className="bg-sky-100 border border-slate-200 rounded-lg p-4 max-w-full ">
                       <div className="w-full flex h-fit flex-col items-end">
@@ -354,6 +352,8 @@ const ExamIdPage = ({
                         )}
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
                           {question.options.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => {
+                            option.position = index + 1
+                            console.log(option.position)
                             return (<div key={option.id}>
                               {hasSubmitted || isSubmitting ? (
                                 <div className="flex space-x-2">
@@ -379,11 +379,11 @@ const ExamIdPage = ({
                                     type="radio"
                                     name={question.id}
                                     value={index + 1}
-                                    checked={(userSelections[question.id] - 1) == index}
+                                    checked={(userSelections[question.id]) == index + 1}
                                     onChange={() =>
                                       handleOptionChange(
                                         question.id,
-                                        option.position
+                                        option.position 
                                       )
                                     }
                                   />

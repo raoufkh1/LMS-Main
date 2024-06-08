@@ -36,7 +36,7 @@ type ExamWithQuestionAndOptions = Prisma.ExamGetPayload<{
 
 interface CourseSidebarItemProps {
   lessons: any;
-  quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null }) | null;
+  quiz: (Quiz & { userQuizPoints: UserQuizPoints[] | null , lock : boolean}) | null;
   exam: any;
   label: string;
   id: string;
@@ -186,6 +186,7 @@ export const CourseSidebarItem = ({
                 onClick={() => {
                   handleQuizClick(quiz.id);
                 }}
+                disabled={quiz.lock ? true : false}
                 type="button"
                 className={cn(
                   "flex mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-yellow-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full",
@@ -195,7 +196,7 @@ export const CourseSidebarItem = ({
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
-                  {hasTakenQuiz ? (
+                  {quiz.lock ? <LockIcon size={22} className={cn("text-yellow-600 hover:text-yellow-700")} /> : hasTakenQuiz ? (
                     <CheckCircle size={22} className={cn("text-emerald-500")} />
                   ) : (
                     <PlayCircle
