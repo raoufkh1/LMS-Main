@@ -72,7 +72,6 @@ export const ExamForm = ({ initialData, courseId }: ExamFormProps) => {
     }
   };
   const FinalExams = initialData.exams?.filter((e:any) => e.starterExam == false)
-  console.log(FinalExams)
   const onEdit = (id: string | undefined) => {
     router.push(`/teacher/courses/${courseId}/exam/${id}`);
   };

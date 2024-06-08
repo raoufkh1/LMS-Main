@@ -85,7 +85,6 @@ const ChatGPTTab = () => {
           },
         }
       );
-      console.log(response)
       // Extract the ChatGPT response
       const chatGPTResponse: string = response.data.choices[0].message.content;
 

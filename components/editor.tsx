@@ -26,7 +26,8 @@ export const Editor = ({ onChange, value }: EditorProps) => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      [{ direction: "rtl" }], // this is rtl support
+      [{ direction: "rtl" }],
+      ["link", "image"], // this is rtl support
     ],
   };
 

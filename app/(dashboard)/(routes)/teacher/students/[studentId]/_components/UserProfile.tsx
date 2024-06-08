@@ -9,8 +9,7 @@ interface PageProps {
 const UserProfile = async ({ params}:PageProps) => {
     const userInfo = await clerkClient.users.getUser(params?.studentId)
     const courserWithProgress:any = await getCourses({userId: params?.studentId})
-    console.log(params?.studentId)
-    console.log(courserWithProgress)
+    
   return (
     <div>
     <div className="flex w-full justify-center">

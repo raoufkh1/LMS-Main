@@ -34,7 +34,7 @@ export const LessonsList = ({ items, onReorder, onEdit }: LessonsListProps) => {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    console.log("RESULT", result);
+    
 
     const items = Array.from(lessons);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -52,7 +52,6 @@ export const LessonsList = ({ items, onReorder, onEdit }: LessonsListProps) => {
       position: items.findIndex((item) => item.id === lesson.id),
     }));
 
-    console.log("LESSONS_REORDER", bulkUpdateData);
 
     onReorder(bulkUpdateData);
   };

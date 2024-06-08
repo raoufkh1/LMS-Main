@@ -23,7 +23,6 @@ export default async function Dashboard() {
   const coursesInProgress = courses.filter((courses:any) => courses.progress > 0 && courses.progress < 100 )
   const completedCourses = courses.filter((courses:any) => courses.progress > 0 && courses.progress == 100 )
   const coursesNotStartedYet = courses.filter((courses:any) => courses.progress == 0 )
-  console.log()
   return (
     <div className="p-6 space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

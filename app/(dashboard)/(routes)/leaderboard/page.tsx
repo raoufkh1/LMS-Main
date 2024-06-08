@@ -39,7 +39,6 @@ const Leaderboard = async () => {
   });
 
   let currentRank = 1;
-  console.log(points)
   for (const point of points) {
     const userEntry = usersQuizCounts[point.userId];
     if (!userEntry) {

@@ -71,7 +71,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const completionText = `(${completedFields}/${totalFields})`;
 
   const isComplete = requiredFields.every(Boolean);
-  console.log(course)
   return (
     <>
       {!course.isPublished && (

@@ -9,12 +9,10 @@ import axios from 'axios'
 
 const Message = () => {
   const [messages, setMessages] = useState<{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[]>([])
-  console.log(messages)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const {data} = await axios.get("/api/messages")
-        console.log(data)
         setMessages(data)
       } catch (error) {
         console.log(error)

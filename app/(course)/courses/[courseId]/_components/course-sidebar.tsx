@@ -15,7 +15,7 @@ import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight, CheckCircle, PlayCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, LockIcon, PlayCircle } from "lucide-react";
 import { headers } from "next/headers";
 
 interface CourseSidebarProps {
@@ -42,8 +42,7 @@ export const CourseSidebar = async ({
   }
   const headersList = headers();
 
-  const pathname = headersList.get("x-invoke-path") || "";
-
+  const pathname = headersList.get("referer") || "";
   const takingExamination = pathname?.includes("exam");
   const viewingCertificate = pathname?.includes("certificate");
   const takingQuiz = pathname?.includes("quiz");
@@ -71,6 +70,8 @@ export const CourseSidebar = async ({
       userId: userId
     }
   })
+  console.log()
+  console.log(starterExamProgress)
   const exam:any = await db.exam.findFirst({
     where: {
       courseId: course.id,
@@ -94,7 +95,6 @@ export const CourseSidebar = async ({
     (certificate:any) =>
       {return certificate.userId === userId && certificate.nameOfStudent != null}
   )
-  console.log("Line:75", certificateId)
   const hasCertificate = certificateId != undefined;
   const examCompleted = await db.userProgress.findFirst({
     where:{
@@ -102,7 +102,11 @@ export const CourseSidebar = async ({
       userId:userId
     }
   })
-
+  const handleLessonClick = (examId: string) => {
+    console.log("s")
+  
+      redirect(`/courses/${course.id}/exam/${examId}`)
+    };
   // if (progressCount === 100 && exam) {
   //   redirect(`/courses/${course.id}/exam/${exam.id}`);
   // }
@@ -121,9 +125,8 @@ export const CourseSidebar = async ({
               type="button"
               disabled={true}
               className={cn(
-                "flex items-center justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full",
-                pathname?.includes(starterExam.id) &&
-                  "text-slate-700  hover:bg-gray-500 hover:text-slate-700"
+                `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
+                
               )}
             >
               <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
@@ -154,7 +157,10 @@ export const CourseSidebar = async ({
           chapter.lessons.map((lesson,index) => {
             let tempLessons = chapter.lessons.slice(0, index + 1) 
             for (let i = 0; i < tempLessons.length; i++) {
-              if(index == 0){
+              if(!starterExamProgress?.isCompleted){
+                lesson.lock = true
+              }
+              else if(index == 0){
                 if(chapterIndex == 0){
                   lesson.lock = false
                 }
@@ -207,75 +213,46 @@ export const CourseSidebar = async ({
           )
 })}
       </div>
-      {!takingExamination && !viewingCertificate && !takingQuiz && exam?.id && (
-        <div
-          className={`mt-auto border-t border-teal-600 bg-teal-100/50 ${
-            !hasCertificate && "pt-4"
-          } `}
-        >
-          {!hasCertificate ? (
-            progressCount <= 0 ? (
-              <div className="px-4 pb-4 text-xs italic">
-               يمكنك إجراء اختبارات الدورة قبل بدء الدورة. لك
-سيتم مقارنة النتيجة مع المخبر الذي تقوم به عندما تأخذ
-الامتحانات في نهاية الدورة ويمكنك تتبع الخاص بك
-تحسين. سيتم منحك تقدمًا بنسبة 10 بالمائة إذا قمت بذلك
-الإجابة على أكثر من 50% من السؤال بشكل صحيح
-              </div>
-            ) : progressCount === 100 ? (
-              <div className="px-4 pb-4 text-xs italic">
-                لقد انتهيت من الدورة{" "}
-                <span className={cn(!exam?.id && "hidden")}>
-                يرجى إجراء الامتحان. سوف تحصل على شهادة!
-                </span>
-              </div>
-            ) : (
-              <div className="px-4 pb-4 text-xs italic">
-                هناك امتحان في نهاية الدورة يقدم شهادة، ولكن
-                عليك أن تأخذ الدورة لتأخذها. استمر بالتسلق!
-              </div>
-            )
-          ) : null}
-          {exam?.id ? (
-            examCompleted?.isCompleted == true && hasCertificate ? (
-              <Link
-                href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificateId.id}`}
-                prefetch={false}
+      <div>
+        { exam?.id && (
+                <Link
+                type="button"
+                href={(progressCount == 100) ?`/courses/${course.id}/exam/${exam.id}` : "#"}
                 className={cn(
-                  "flex items-center text-right gap-x-2 px-4 bg-emerald-500/20 text-emerald-500 text-sm font-[500] py-4 transition-all hover:text-emerald-600 hover:bg-emerald-500/20"
+                  `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
+                  
                 )}
               >
-                انظر شهادتك{" "}
-                <ArrowRight
+                <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
+                  {examCompleted?.isCompleted ? (
+                    <CheckCircle
+                      size={22}
+                      className={cn(
+                        "text-gray-700",
+                        pathname?.includes(exam.id) && "text-gray-800"
+                      )}
+                    />
+                  ) : !(progressCount == 100) ? <LockIcon
+                  size={22}
                   className={cn(
-                    "ml-4 text-slate-500",
-                    progressCount === 100 && "text-emerald-500"
+                    "text-slate-500",
+                    pathname?.includes(exam.id) && "text-slate-700"
                   )}
-                />
-              </Link>
-            ) : (
-              <Link
-                href={`/courses/${course.id}/exam/${exam.id}`}
-                prefetch={false}
-                className={cn(
-                  "flex items-center text-right gap-x-2 px-4 bg-slate-500/20 text-slate-500 text-sm font-[500] py-4 transition-all hover:text-slate-600 hover:bg-slate-500/20",
-                  progressCount > 0 && progressCount < 100
-                    ? "cursor-not-allowed"
-                    : "animate-pulse text-emerald-500 bg-emerald-500/20 hover:text-emerald-600 hover:bg-emerald-600/20"
-                )}
-              >
-                خذ امتحان الدورة؟{" "}
-                <ArrowRight
-                  className={cn(
-                    "ml-4 text-slate-500",
-                    progressCount === 100 && "text-emerald-500"
+                /> : (
+                    <PlayCircle
+                      size={22}
+                      className={cn(
+                        "text-slate-500",
+                        pathname?.includes(exam.id) && "text-slate-700"
+                      )}
+                    />
                   )}
-                />
+                  <div>{exam.title}</div>
+                </div>
               </Link>
-            )
-          ) : null}
-        </div>
-      )}
+              )}
+
+      </div>
     </div>
   );
 };

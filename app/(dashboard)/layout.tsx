@@ -13,7 +13,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode}) => {
   const welcomeMsg = localStorage.getItem("welcome")
   useEffect(() => {
     if(welcomeMsg){
-      console.log(welcomeMsg)
       return
     }
     setPopup(true)

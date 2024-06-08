@@ -205,7 +205,6 @@ const ExamIdPage = ({
     quiz?.questions.forEach((question) => {
       const questionId = question.id;
       const userSelectedPosition = userSelections[question.id];
-      console.log(userSelectedPosition)
       const correctAnswerPosition = parseInt(question.answer) - 1;
 
       if (userSelectedPosition !== undefined) {
@@ -241,8 +240,6 @@ const ExamIdPage = ({
         setCourse(courseResponse.data);
 
         console.log("====================================");
-        console.log(chapterResponse.data);
-        console.log(courseResponse.data);
         console.log("====================================");
       } catch (error) {
         console.log("====================================");

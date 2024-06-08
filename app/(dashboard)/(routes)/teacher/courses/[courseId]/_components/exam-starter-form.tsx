@@ -57,7 +57,6 @@ export const StarterExamForm = ({ initialData, courseId }: ExamFormProps) => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  console.log(!initialData)
     try {
       const response = await axios.post(
         `/api/courses/${courseId}/exam`,
@@ -98,7 +97,6 @@ export const StarterExamForm = ({ initialData, courseId }: ExamFormProps) => {
     //  setIsDeleting(false);
     }
   };
-  console.log(starterExams)
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
       {isUpdating && (

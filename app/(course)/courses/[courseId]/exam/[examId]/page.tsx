@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { Preview } from "@/components/preview";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { escape } from "querystring";
 
 type ExamWithQuestionsAndOptions = Prisma.ExamGetPayload<{
   include: {
@@ -62,6 +63,8 @@ const ExamIdPage = ({
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
   const [failedInExam, setFailedInExam] = useState<boolean>(false)
+
+  const [isFirstExam, setFirstExam] = useState<boolean>(false)
   // State to store the user's selected options
   const [userSelections, setUserSelections] = useState<{
     [key: string]: number;
@@ -69,7 +72,7 @@ const ExamIdPage = ({
 
   // Calculate the time per question (5 minutes)
   const TIME_PER_QUESTION_MS = 5 * 60 * 1000;
-
+  const router = useRouter()
   const [answeredQuestions, setAnswersQuestions] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
@@ -88,7 +91,7 @@ const ExamIdPage = ({
     }));
   };
   const handleRepeat = () => {
-    
+
     setUserSelections({})
     sethasSubmitted(false)
     setFailedInExam(false)
@@ -104,40 +107,51 @@ const ExamIdPage = ({
         ? "afterScore"
         : "beforeScore";
 
-      const response = await axios.patch(
-        `/api/courses/${params.courseId}/exam/${exam.id}`,
-        {
-          [fieldToUpdate]: scorePercentage,
-          userId: userId,
-        }
-      );
+
 
       sethasSubmitted(true);
 
       toast.success("تم تقديم الامتحان بنجاح.", { duration: 4000 });
 
       if (scorePercentage > 50) {
-        const certificateResponse = await axios.post(
-          `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
+        const response = await axios.patch(
+          `/api/courses/${params.courseId}/exam/${exam.id}`,
+          {
+            [fieldToUpdate]: scorePercentage,
+            userId: userId,
+          }
         );
+        if (!isFirstExam) {
+          const certificateResponse = await axios.post(
+            `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
+          );
 
-        if (certificateResponse.status === 200) {
-          toast.success("شهادتك جاهزة!");
-          setCertificateId(certificateResponse.data.id);
-          confetti.onOpen();
-        } else {
-          toast.error("لا يمكن إنشاء شهادة في هذا الوقت، آسف!");
+          if (certificateResponse.status === 200) {
+
+            toast.success("شهادتك جاهزة!");
+            setCertificateId(certificateResponse.data.id);
+            confetti.onOpen();
+          } else {
+            toast.error("لا يمكن إنشاء شهادة في هذا الوقت، آسف!");
+          }
+
+        }
+        if (response) {
+          if (isFirstExam) {
+
+            router.push(`/courses/${course?.id}`)
+
+          }
         }
       }
-      else{
+      else {
         setTimeout(() => {
-          toast.error("فشلت في الاختبار. يرجى المحاولة مرة اخرى",{ duration: 4000 });
+          toast.error("فشلت في الاختبار. يرجى المحاولة مرة اخرى", { duration: 4000 });
           setFailedInExam(true)
         }, 1500);
-        
+
       }
       console.log("====================================");
-      console.log(response.data);
       console.log("====================================");
     } catch (error) {
       console.log("====================================");
@@ -234,23 +248,31 @@ const ExamIdPage = ({
   }, [exam?.questions, userSelections, hasSubmitted]);
 
   useEffect(() => {
-    if (answeredQuestions === exam?.questions.length){
+    if (answeredQuestions === exam?.questions.length) {
       setCanSubmit(true);
       console.log("ss")
     }
   }, [answeredQuestions, exam?.questions.length]);
-
+  useEffect(() => {
+    console.log(exam)
+    if (exam?.starterExam) {
+      setFirstExam(true)
+    }
+    else {
+      setFirstExam(false)
+    }
+  }, [exam])
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get(`/api/courses/${params.courseId}`);
-
-        setExam(response.data.exams.filter((e:any) => e.id == params.examId)[0]);
+        setExam(response.data.exams.filter((e: any) => e.id == params.examId)[0]);
 
         console.log("====================================");
         console.log(response.data);
         console.log("====================================");
 
+        console.log(exam)
         setCourse(response.data);
 
         console.log("====================================");
@@ -289,7 +311,7 @@ const ExamIdPage = ({
             <div className="w-full flex flex-col justify-center items-end h-12 pt-12 px-6">
               <div className="flex space-x-4 items-center">
                 <h1 className="text-lg md:text-xl font-medium capitalize">
-                الوقت المتبقي: {Math.floor(timeRemaining / 60000)}:
+                  الوقت المتبقي: {Math.floor(timeRemaining / 60000)}:
                   {((timeRemaining % 60000) / 1000).toFixed(0).padStart(2, "0")}
                 </h1>
 
@@ -306,7 +328,7 @@ const ExamIdPage = ({
               <div className="flex space-x-3 ">
                 <div className="text-md">{exam?.description}</div>
                 <div className="text-md">
-                مجموع الأسئلة {exam?.questions.length}
+                  مجموع الأسئلة {exam?.questions.length}
                 </div>
               </div>
             </div>
@@ -320,7 +342,7 @@ const ExamIdPage = ({
                     <div className="bg-sky-100 border border-slate-200 rounded-lg p-4 max-w-full ">
                       <div className="w-full flex h-fit flex-col items-end">
                         <div className="font-medium text-slate-500 mb-4 text-right">
-                        سؤال {index + 1}
+                          سؤال {index + 1}
                         </div>
                         <div className="text-slate-700 font-bold text-lg">
                           {question.prompt}
@@ -331,7 +353,7 @@ const ExamIdPage = ({
                           </div>
                         )}
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
-                          {question.options.sort((a,b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => {
+                          {question.options.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0)).map((option, index) => {
                             return (<div key={option.id}>
                               {hasSubmitted || isSubmitting ? (
                                 <div className="flex space-x-2">
@@ -385,11 +407,10 @@ const ExamIdPage = ({
             <div className="flex flex-col justify-end items-end w-full space-y-3 mr-12 md:mr-20">
               {hasSubmitted && scorePercentage != undefined ? (
                 <div className="text-right w-1/2">
-                  {`لقد سجلت النسبة المئوية ${scorePercentage.toFixed(2)}% ${
-                    hasTakenTheExamBefore
+                  {`لقد سجلت النسبة المئوية ${scorePercentage.toFixed(2)}% ${hasTakenTheExamBefore
                       ? "ستتم إضافة درجاتك وتجميعها مع النتيجة التي تحصل عليها عند إجراء الاختبار بعد تعلم الدورة"
                       : "تهانينا!"
-                  } `}
+                    } `}
                 </div>
               ) : (
                 <div className="">هل أنت واثق من أنك انتهيت؟</div>
@@ -402,7 +423,7 @@ const ExamIdPage = ({
                     className={cn(
                       "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
                       (!canSubmit || isSubmitting || hasSubmitted) &&
-                        "bg-slate-400 cursor-not-allowed"
+                      "bg-slate-400 cursor-not-allowed"
                     )}
                   >
                     يُقدِّم
@@ -410,21 +431,22 @@ const ExamIdPage = ({
                   {
                     failedInExam && (
                       <button
-                    type="button"
-                    onClick={handleRepeat}
-                    className={cn(
-                      "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
-                      
-                    )}
-                  >
-                    إعادة الاختبار
-                  </button>
+                        type="button"
+                        onClick={handleRepeat}
+                        className={cn(
+                          "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+
+                        )}
+                      >
+                        إعادة الاختبار
+                      </button>
                     )
                   }
-                  
+
                   {certificateId !== "" &&
                     certificateId !== undefined &&
                     hasSubmitted &&
+                    !isFirstExam &&
                     scorePercentage > 50 && (
                       <PrepareCertificateModal
                         courseId={params.courseId}
@@ -447,7 +469,7 @@ const ExamIdPage = ({
       ) : (
         <div className="flex items-center justify-center h-full w-full">
           <div className="font-bold text-2xl text-slate-500 animate-pulse">
-          ...جارٍ تحميل الأسئلة
+            ...جارٍ تحميل الأسئلة
           </div>
         </div>
       )}

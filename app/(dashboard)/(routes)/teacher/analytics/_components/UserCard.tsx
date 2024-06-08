@@ -4,7 +4,6 @@ import React from 'react'
 
 const UserCard = async () => {
     const users = await clerkClient.users.getUserList()
-    console.log(users)
     return (
 
 

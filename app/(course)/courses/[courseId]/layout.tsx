@@ -95,7 +95,6 @@ const CourseLayout = async ({
   const headersList = headers();
   const fullUrl = headersList.get('referer') || "";
   const isInExam = fullUrl.includes("exam") == true
-  console.log("LINE:96",isInExam)
   const totalExamScore =
     exam[0]?.afterScore && exam[0].beforeScore
       ? (exam[0]?.beforeScore + exam[0]?.afterScore) / 2
