@@ -41,7 +41,7 @@ const LessonIdPage = async ({
   }
 
   const completeOnEnd = !userProgress?.isCompleted;
-
+  console.log("LINE44", nextChapter)
   return (
     <div>
       {userProgress?.isCompleted && (
@@ -75,7 +75,7 @@ const LessonIdPage = async ({
               courseId={params.courseId}
               nextLessonId={nextLesson?.id}
               nextChapterId={nextChapter?.id}
-              nextChapterFirstLessonId={nextChapter?.lessons[0].id}
+              nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
               isCompleted={!!userProgress?.isCompleted}
             />
           </div>

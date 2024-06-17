@@ -14,8 +14,8 @@ const UserProfile = async ({ params}:PageProps) => {
     <div>
     <div className="flex w-full justify-center">
     
-    <div className="max-w-xs">
-        <div className="bg-white shadow-2xl rounded-lg py-3">
+    <div className="">
+        <div className="bg-white shadow-2xl rounded-lg py-3 px-3">
             <div className="photo-wrapper p-2">
                 <img className="w-32 h-32 rounded-full mx-auto" src={userInfo.imageUrl} alt="John Doe"/>
             </div>
@@ -38,32 +38,32 @@ const UserProfile = async ({ params}:PageProps) => {
                     </tr>
                     {courserWithProgress.map(async (course:any, index:number) => {
                         const exams = course?.exams
-                        const startCourse = exams.find((e:any) => {return e.firstExam == true})
-                        const finalCourse = exams.find((e:any) => {return e.firstExam == false})
+                        const startCourse = exams.find((e:any) => {return e.starterExam})
+                        const finalCourse = exams.find((e:any) => {return !e.starterExam})
+                        console.log("LINE42" ,startCourse)
                         
-                        const firstExamsPrgress = await db.userProgress.findFirst({
+                        const firstExamsPrgress = startCourse ? await db.userProgress.findFirst({
                             where: {
                                 lessonId: startCourse?.id,
                                 userId: params.studentId
                             }
-                        })
-                        const finalExamsPrgress = await db.userProgress.findFirst({
+                        }) : null
+                        const finalExamsPrgress = finalCourse ? await db.userProgress.findFirst({
                             where: {
                                 lessonId: finalCourse?.id,
                                 userId: params.studentId
                             }
-                        })
-                        if(course.progress > 10){
+                        }) : null
                             return(
                                 <tr key={index}>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
-                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{course.progress}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{Math.round(course.progress) }</td>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{firstExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{finalExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
                                 </tr>
                             )
 
-                        }
+                        
                     })}
 
                 </tbody>

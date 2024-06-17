@@ -5,6 +5,9 @@ import { GiPodiumWinner } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
+import { isTeacher } from "@/lib/teacher";
+import { useAuth } from "@clerk/nextjs";
+import { FcStatistics } from "react-icons/fc";
 
 const guestRoutes = [
   {
@@ -13,49 +16,75 @@ const guestRoutes = [
     href: "/",
   },
   {
-    icon: GiPodiumWinner,
-    label: "المتصدرين",
-    href: "/leaderboard",
+    icon: GraduationCap,
+    label: "التعريف بالموقع",
+    href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
   },
   {
     icon: Goal,
     label: "اهداف عامة",
     href: "/goals",
   },
-  
   {
     icon: MessageCircle,
     label: "منتدى النقاش",
     href: "/message",
   },
   {
+    icon: GiPodiumWinner,
+    label: "المتصدرين",
+    href: "/leaderboard",
+  },
+  
+  {
     icon: Contact,
     label: "تواصل معنا",
     href: "/contact",
   },
-  {
-    icon: GraduationCap,
-    label: "كورس تعريفي",
-    href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
-  }
 ];
 
 const teacherRoutes = [
   {
     icon: List,
-    label: "الدورات",
+    label: "لوحة القيادة",
     href: "/teacher/courses",
   },
   {
-    icon: Compass,
-    label: "تصفح",
-    href: "/search",
+    icon: FcStatistics,
+    label: "الاحصائيات",
+    href: "/teacher/analytics",
+  },{
+    icon: Layout,
+    label: "الدورات التدريبية",
+    href: "/",
+  },
+  {
+    icon: GraduationCap,
+    label: "التعريف بالموقع",
+    href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
+  },
+  {
+    icon: Goal,
+    label: "اهداف عامة",
+    href: "/goals",
+  },
+  {
+    icon: MessageCircle,
+    label: "منتدى النقاش",
+    href: "/message",
   },
   {
     icon: GiPodiumWinner,
     label: "المتصدرين",
     href: "/leaderboard",
   },
+  
+  {
+    icon: Contact,
+    label: "تواصل معنا",
+    href: "/contact",
+  },
+  
   // {
   //   icon: BarChart,
   //   label: "Analytics",
@@ -64,11 +93,13 @@ const teacherRoutes = [
 ];
 
 export const SidebarRoutes = () => {
+  const { userId } = useAuth();
+
   const pathname = usePathname();
 
   const isTeacherPage = pathname?.includes("/teacher");
 
-  const routes = isTeacherPage ? teacherRoutes : guestRoutes;
+  const routes = isTeacher(userId) ? teacherRoutes : guestRoutes;
 
   return (
     <div className="flex flex-col w-full">

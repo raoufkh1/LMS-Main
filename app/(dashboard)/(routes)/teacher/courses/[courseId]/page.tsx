@@ -116,19 +116,20 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               </div>
               <ChaptersForm initialData={course} courseId={course.id} />
             </div>
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={ShieldQuestion} />
-                <h2 className="text-xl">امتحان الدورة </h2>
-              </div>
-              <ExamForm initialData={course} courseId={course.id} />
-            </div>
+            
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={ShieldQuestion} />
                 <h2 className="text-xl">امتحان الابتدائي للدورة </h2>
               </div>
               <StarterExamForm initialData={course} courseId={course.id} />
+            </div>
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={ShieldQuestion} />
+                <h2 className="text-xl">امتحان الدورة </h2>
+              </div>
+              <ExamForm initialData={course} courseId={course.id} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">

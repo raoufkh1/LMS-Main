@@ -100,7 +100,6 @@ const ExamIdPage = ({
         }
       );
 
-      toast.success("تم إرسال الاختبار بنجاح.", { duration: 4000 });
 
       console.log("====================================");
       console.log(response);

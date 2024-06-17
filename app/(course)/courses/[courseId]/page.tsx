@@ -67,11 +67,54 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     )
   }
   // const StartExam = course.exams.filter((e:any) => e.starterExam == true)
-  
-  
-  return redirect(
-    `/courses/${course.id}/chapters/${course.chapters[0].id}/lessons/${course.chapters[0].lessons[0].id}`
-  );
+  let currentLesson
+  let currentChapter
+  for (let i = 0; i < course.chapters.length; i++) {
+    const chapter = course.chapters[i];
+    for (let j = 0; j < chapter.lessons.length; j++) {
+      const lesson = chapter.lessons[j];
+      const progress = await db.userProgress.findFirst({where: {lessonId: lesson.id, userId: userId}})
+      if(progress?.isCompleted){
+
+      }
+      else{
+        currentLesson = lesson
+        currentChapter = chapter
+        break
+      }
+    }
+    if(currentLesson){
+      console.log(currentLesson)
+      break
+    }
+  }
+  if(currentChapter && currentLesson){
+
+    return redirect(
+      `/courses/${course.id}/chapters/${currentChapter?.id}/lessons/${currentLesson?.id}`
+    );
+  }
+  else{
+    const finalExam = await db.exam.findFirst({
+      where: {
+        courseId: params.courseId,
+        starterExam: false
+      },
+      include: {
+        questions: {
+          where: {
+            isPublished: true,
+          },
+          include: {
+            options: true,
+          },
+        },
+      },
+    });
+    return redirect(`/courses/${course.id}/exam/${finalExam?.id}`)
+
+
+  }
 };
 
 export default CourseIdPage;

@@ -198,7 +198,12 @@ export const CourseSidebar = async ({
             a.push(lesson)
           })
           for(let i = 0; i < chapter.lessons.length; i++){
-            if(chapter.lessons[i].lock){
+            const element = chapter.lessons[i];
+                    let userProgressBool = element.userProgress?.some(
+                      (progress) =>
+                        progress.userId === userId && progress.isCompleted
+                    )
+            if(!userProgressBool){
               if(chapter.quiz){
                 chapter.quiz!.lock = true
                 break
@@ -241,7 +246,7 @@ export const CourseSidebar = async ({
                         pathname?.includes(exam.id) && "text-gray-800"
                       )}
                     />
-                  ) : !exam.isCompleted ? <PlayCircle
+                  ) : !examCompleted?.isCompleted ? <PlayCircle
                   size={22}
                   className={cn(
                     "text-slate-500",
