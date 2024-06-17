@@ -294,11 +294,10 @@ const ExamIdPage = ({
             </div>
           )}
 
-          <div className="flex flex-col px-10 mt-10 items-center relative">
-            <Carousel className="w-[98%] md:w-[95%] p-4 mb-3 ">
-              <CarouselContent>
+          <div className="flex flex-col px-10 mt-10  items-center relative">
+            
                 {quiz?.questions.map((question, index) => (
-                  <CarouselItem key={index} className="">
+                  <CarouselItem key={index} className="w-full mb-4">
                     <div className="bg-sky-100 border border-slate-200 rounded-lg p-4 max-w-full ">
                       <div className="w-full flex h-fit flex-col items-end">
                         <div className="font-medium text-slate-500 mb-4 text-right">
@@ -362,14 +361,8 @@ const ExamIdPage = ({
                     </div>
                   </CarouselItem>
                 ))}
-              </CarouselContent>
-              {quiz.questions.length > 1 ? (
-                <>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </>
-              ) : null}
-            </Carousel>
+              
+              
             <div className="flex flex-col justify-end items-end w-full space-y-3 mr-12 md:mr-20">
               {hasSubmitted && points != undefined ? (
                 <div>

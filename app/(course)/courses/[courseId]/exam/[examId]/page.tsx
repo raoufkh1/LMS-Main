@@ -113,7 +113,10 @@ const ExamIdPage = ({
 
 
       if (scorePercentage > 50) {
-        toast.success("لقد اجتزت الامتحان الابتدائي");
+        if(isFirstExam){
+
+          toast.success("لقد اجتزت الامتحان الابتدائي");
+        }
 
         const response = await axios.patch(
           `/api/courses/${params.courseId}/exam/${exam.id}`,

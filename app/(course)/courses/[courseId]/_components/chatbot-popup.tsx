@@ -17,7 +17,7 @@ export function ChatWidget({ children }: ChatWidgetProps) {
   return (
     <div>
       {
-        !pathname.includes("exam") && 
+        !pathname.includes("exam") &&  !pathname.includes("quiz") && 
           (<Popover>
             <PopoverTrigger asChild>{children}</PopoverTrigger>
             <PopoverContent className="w-fit rounded-xl ml-5 p-0">
