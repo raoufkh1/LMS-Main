@@ -6,6 +6,7 @@ import { db } from '@/lib/db'
 import { clerkClient } from '@clerk/nextjs'
 import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
+import { pusherClient } from '@/lib/pusher'
 
 const Message = () => {
   const [messages, setMessages] = useState<{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[]>([])
@@ -22,7 +23,19 @@ const Message = () => {
     fetchData();
   }, []);
 
-
+  useEffect(() => {
+    pusherClient.subscribe("chat-event")
+    pusherClient.bind("update-message", (e: any) =>{
+      let {tempMsg} = e
+      setMessages((prevState:{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date; }; user: { firstName: string | null; lastName: string | null; }; }[]) => [tempMsg, ...prevState ])
+    })
+    return () => {
+      pusherClient.unsubscribe("chat-event")
+      pusherClient.unbind("update-message", () =>{
+        console.log("new message")
+      })
+    }
+  }, [])
   return (
     <div>
     <div className='px-6 pt-6 block'>

@@ -37,7 +37,6 @@ const CertificatePage = ({
         }
 
         console.log("====================================");
-        console.log(response.data);
         console.log("====================================");
       } catch (error) {
         console.log("====================================");

@@ -41,7 +41,6 @@ const LessonIdPage = async ({
   }
 
   const completeOnEnd = !userProgress?.isCompleted;
-  console.log("LINE44", nextChapter)
   return (
     <div>
       {userProgress?.isCompleted && (

@@ -70,8 +70,7 @@ export const CourseSidebar = async ({
       userId: userId
     }
   })
-  console.log()
-  console.log(starterExamProgress)
+  
   const exam:any = await db.exam.findFirst({
     where: {
       courseId: course.id,
@@ -103,7 +102,6 @@ export const CourseSidebar = async ({
     }
   })
   const handleLessonClick = (examId: string) => {
-    console.log("s")
   
       redirect(`/courses/${course.id}/exam/${examId}`)
     };

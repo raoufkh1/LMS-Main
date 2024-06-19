@@ -58,8 +58,8 @@ const UserProfile = async ({ params}:PageProps) => {
                                 <tr key={index}>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">{course.title}</td>
                                     <td className="px-2 py-2 text-gray-900 font-semibold">%{Math.round(course.progress) }</td>
-                                    <td className="px-2 py-2 text-gray-900 font-semibold">{firstExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
-                                    <td className="px-2 py-2 text-gray-900 font-semibold">{finalExamsPrgress?.isCompleted == true ? "passed" : "not passed"}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{firstExamsPrgress?.percentage ? firstExamsPrgress?.percentage : 0}</td>
+                                    <td className="px-2 py-2 text-gray-900 font-semibold">%{finalExamsPrgress?.percentage ? finalExamsPrgress?.percentage : 0}</td>
                                 </tr>
                             )
 

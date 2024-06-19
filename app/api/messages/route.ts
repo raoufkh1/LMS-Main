@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 import { isTeacher } from "@/lib/teacher";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(req: Request) {
   try {
@@ -10,10 +11,8 @@ export async function POST(req: Request) {
     const { context } = await req.json();
 
     if (!userId) {
-      console.log("sss")
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    console.log("sss")
     const message = await db.message.create({
       data:{
         context: context,
@@ -22,6 +21,9 @@ export async function POST(req: Request) {
     })
     const user = await clerkClient.users.getUser(userId)
     let tempMsg = { msg:message, user: { firstName: user.firstName, lastName: user.lastName } }
+    pusherServer.trigger("chat-event", "update-message", {
+      tempMsg
+    })
     console.log(tempMsg)
     return NextResponse.json(tempMsg);
   } catch (error) {
@@ -34,10 +36,8 @@ export async function GET(req: Request) {
     const { userId } = auth();
 
     if (!userId) {
-      console.log("sss")
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    console.log("sss")
     let messagesWithUser: { msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[] = []
     const messages = await db.message.findMany({
       orderBy: {

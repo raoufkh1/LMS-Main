@@ -84,7 +84,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
       }
     }
     if(currentLesson){
-      console.log(currentLesson)
       break
     }
   }

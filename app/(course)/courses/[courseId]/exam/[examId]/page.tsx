@@ -84,7 +84,6 @@ const ExamIdPage = ({
   const hasUserSelections = Object.keys(userSelections).length > 0;
 
   const handleOptionChange = (questionId: string, optionPosition: number) => {
-    console.log(userSelections)
     setUserSelections((prevSelections) => ({
       ...prevSelections,
       [questionId]: optionPosition,
@@ -277,7 +276,6 @@ const ExamIdPage = ({
         console.log(response.data);
         console.log("====================================");
 
-        console.log(exam)
         setCourse(response.data);
 
         console.log("====================================");

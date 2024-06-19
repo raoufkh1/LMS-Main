@@ -76,7 +76,6 @@ export const CourseSidebarItem = ({
     ) !== undefined;
 
   const handleLessonClick = (lessonId: string) => {
-  console.log("s")
 
     router.replace(`/courses/${courseId}/chapters/${id}/lessons/${lessonId}`)
   };

@@ -11,8 +11,6 @@ const MessageInput = ({setMessages} : {setMessages: Function}) => {
         e.preventDefault()
         try {
           const {data} = await axios.post("/api/messages", {context: context});
-          console.log(data)
-          setMessages((oldArray:[]) => [data, ...oldArray ])
           
           toast.success("تم إرسال الرسالة");
           setContext("")

@@ -81,7 +81,7 @@ model UserProgress {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  percentage Float? @default(0)
   @@unique([userId, lessonId])
   @@index([lessonId])
 }

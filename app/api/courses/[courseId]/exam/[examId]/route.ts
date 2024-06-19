@@ -75,7 +75,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const { ...values } = await req.json();
-
+    
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -88,7 +88,7 @@ export async function PATCH(
     });
 
     const studentId = values?.userId === userId;
-
+    console.log(values)
     if (!ownCourse && !studentId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -113,7 +113,8 @@ export async function PATCH(
         data: {
           userId: userId,
           lessonId: params.examId,
-          isCompleted: true
+          isCompleted: true,
+          percentage: values.afterScore
         },
         where: {
           id:examProgress.id
@@ -126,7 +127,8 @@ export async function PATCH(
         data:{
           userId: userId,
           lessonId: params.examId,
-          isCompleted: true
+          isCompleted: true,
+          percentage: values.afterScore
         }
       })
     }
