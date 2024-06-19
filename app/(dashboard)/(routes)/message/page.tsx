@@ -30,7 +30,9 @@ const Message = () => {
       let {tempMsg} = e
       setMessages((prevState:{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date; }; user: { firstName: string | null; lastName: string | null; }; }[]) => [tempMsg, ...prevState ])
     })
-    
+    return () => {
+      pusherClient.unsubscribe("chat-event");
+    };
   }, [])
   return (
     <div>
