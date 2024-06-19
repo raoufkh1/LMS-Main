@@ -26,15 +26,11 @@ const Message = () => {
   useEffect(() => {
     pusherClient.subscribe("chat-event")
     pusherClient.bind("update-message", (e: any) =>{
+      console.log("new msg")
       let {tempMsg} = e
       setMessages((prevState:{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date; }; user: { firstName: string | null; lastName: string | null; }; }[]) => [tempMsg, ...prevState ])
     })
-    return () => {
-      pusherClient.unsubscribe("chat-event")
-      pusherClient.unbind("update-message", () =>{
-        console.log("new message")
-      })
-    }
+    
   }, [])
   return (
     <div>
