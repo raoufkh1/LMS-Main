@@ -9,7 +9,7 @@ const UserCard = async () => {
 
         <div className="w-full  p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4 ">
-                <h5 className="text-xl w-full font-bold leading-none text-gray-900 dark:text-white text-center">تقرير الطلاب</h5>
+                <h5 className="text-xl w-full font-bold leading-none text-gray-600 dark:text-white text-center">تقرير الطلاب</h5>
 
             </div>
             <div className="flow-root">
@@ -30,7 +30,7 @@ const UserCard = async () => {
                                                 {user.emailAddresses[0].emailAddress}
                                             </p>
                                         </div>
-                                        <div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                        <div className="inline-flex bg-sky-700 text-gray-200 rounded-lg py-2 spacing tracking-wider px-2 items-center text-base font-semibold  dark:text-white">
                                            <Link href={`/teacher/students/${user.id}`}>تقرير</Link>
                                         </div>
                                     </div>

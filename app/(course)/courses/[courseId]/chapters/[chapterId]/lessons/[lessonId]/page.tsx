@@ -46,7 +46,7 @@ const LessonIdPage = async ({
       {userProgress?.isCompleted && (
         <Banner variant="success" label=".لقد أكملت هذا الدرس بالفعل" />
       )}
-      <div className="flex flex-col max-w-4xl mx-auto pb-20">
+      <div className="flex flex-col max-w-4xl mx-auto pb-20 " dir="rtl">
         {lesson.videoUrl && (
           <div className="p-4">
             <VideoPlayer
@@ -66,7 +66,6 @@ const LessonIdPage = async ({
           <div className="p-4 flex flex-col md:flex-row items-center justify-between">
             <div>
               <h2 className="text-2xl font-semibold">{lesson.title}</h2>
-              <div className="text-base font-medium">درس {lesson.position}</div>
             </div>
             <CourseProgressButton
               lessonId={params.lessonId}
@@ -79,8 +78,8 @@ const LessonIdPage = async ({
             />
           </div>
           <Separator />
-          <div>
-            <div className="text-lg text-slate-700 px-4">وصف الدرس</div>
+          <div dir="rtl">
+            <div  className="text-lg text-slate-700 px-4">وصف الدرس</div>
             <Preview value={lesson.description!} />
           </div>
           {!!attachments.length && (

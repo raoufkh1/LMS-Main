@@ -33,6 +33,7 @@ export default async function Dashboard() {
         />
         <InfoCard
           icon={CheckCircle}
+          
           label="مكتمل"
           numberOfItems={completedCourses.length}
           variant="success"

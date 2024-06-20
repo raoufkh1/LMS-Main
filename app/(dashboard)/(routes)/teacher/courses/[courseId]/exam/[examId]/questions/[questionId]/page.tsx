@@ -64,7 +64,7 @@ const QuestinoIdPage = async ({
           label="هذا السؤال غير منشور. لن يكون مرئيا في الامتحان"
         />
       )}
-      <div className="p-6">
+      <div className="p-6" dir="rtl">
         <div className="flex items-center justify-between">
           <div className="w-full">
             <Link

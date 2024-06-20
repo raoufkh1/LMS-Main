@@ -51,7 +51,7 @@ const LessonIdPage = async ({
           label="هذا الدرس غير منشور لن يكون مرئيا في الدورة"
         />
       )}
-      <div className="p-6">
+      <div className="p-6" dir="rtl">
         <div className="flex items-center justify-between">
           <div className="w-full">
             <Link

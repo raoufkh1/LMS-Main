@@ -15,7 +15,6 @@ export const Editor = ({ onChange, value }: EditorProps) => {
     () => dynamic(() => import("react-quill"), { ssr: false }),
     []
   );
-
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -26,7 +25,7 @@ export const Editor = ({ onChange, value }: EditorProps) => {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      [{ direction: "rtl" }],
+      [{ direction: "rtl", default: true }],
       ["link", "image"], // this is rtl support
     ],
   };
@@ -53,15 +52,18 @@ export const Editor = ({ onChange, value }: EditorProps) => {
     "image",
     "code-block",
     "formula",
+
   ];
   return (
     <div className="bg-white">
       <ReactQuill
+        className="text-right"
         theme="snow"
         value={value}
         onChange={onChange}
         modules={modules}
         formats={formats}
+        
       />
     </div>
   );

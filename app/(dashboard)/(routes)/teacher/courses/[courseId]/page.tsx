@@ -76,7 +76,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
       {!course.isPublished && (
         <Banner label=".هذه الدورة غير منشورة. ولن تكون مرئية للطلاب" />
       )}
-      <div className="p-6">
+      <div className="p-6" dir="rtl">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
             <h1 className="text-2xl font-medium">إعداد الدورة</h1>
