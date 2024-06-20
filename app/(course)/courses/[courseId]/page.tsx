@@ -58,13 +58,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     },
     
   });
-  if(StartExamProgress?.isCompleted){
+  if(StartExam){
+    if(StartExamProgress?.isCompleted){
+  
+    }
+    else{
+      redirect(
+        `/courses/${course.id}/exam/${StartExam?.id}`
+      )
+    }
 
-  }
-  else{
-    redirect(
-      `/courses/${course.id}/exam/${StartExam?.id}`
-    )
   }
   // const StartExam = course.exams.filter((e:any) => e.starterExam == true)
   let currentLesson

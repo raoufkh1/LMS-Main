@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { ChatWidget } from "./_components/chatbot-popup";
 import { headers } from "next/headers";
+import { Sidebar } from "@/app/(dashboard)/_components/sidebar";
+import { Navbar } from "@/app/(dashboard)/_components/navbar";
 
 const CourseLayout = async ({
   children,
@@ -24,7 +26,6 @@ const CourseLayout = async ({
   if (!userId) {
     return redirect("/");
   }
-
   const course:any = await db.course.findUnique({
     where: {
       id: params.courseId,
@@ -90,6 +91,7 @@ const CourseLayout = async ({
     return redirect("/");
   }
   let starterExam = exam.filter((e) => e.starterExam == true)[0]
+  const isIntroductionCoursePage = course.id == process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID
   
   let progressCount = await getProgress(userId, course.id);
   const headersList = headers();
@@ -106,13 +108,17 @@ const CourseLayout = async ({
 
   return (
     <div className="h-full">
-      <div className="h-[80px] md:pr-80 fixed inset-y-0 w-full z-50">
-        <CourseNavbar course={course} progressCount={progressCount} />
+      <div className={`h-[80px] ${isIntroductionCoursePage ? "md:pr-56" : "md:pr-80 "} fixed inset-y-0 w-full z-50`}>
+        
+        {course.id == process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID ? <Navbar/> : <CourseNavbar course={course} progressCount={progressCount} />}
       </div>
-      <div className="hidden md:flex h-full w-80 flex-col fixed right-0 inset-y-0 z-50">
-        <CourseSidebar course={course} progressCount={progressCount} />
+      <div className={`hidden md:flex h-full ${isIntroductionCoursePage ? "md:w-56" : "w-80"} flex-col fixed right-0 inset-y-0 z-40`}>
+        {
+          course.id == process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID ? <Sidebar /> : <CourseSidebar course={course} progressCount={progressCount} />
+        }
+        
       </div>
-      <main className="md:pr-80 pt-[80px] h-full">{children}</main>
+      <main className={`${isIntroductionCoursePage ? "md:pr-56" : "md:pr-80 "} pt-[80px] h-full`}>{children}</main>
       {
         !isInExam && <div className="fixed left-5 bottom-5 z-50">
         <ChatWidget>

@@ -18,6 +18,7 @@ export const NavbarRoutes = () => {
   const pathname = usePathname();
   const isTeacherPage = pathname?.startsWith("/teacher");
   const isCoursePage = pathname?.startsWith("/courses");
+  const isIntroductionCoursePage:boolean = pathname?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!);
   const isSearchPage = pathname === "/search";
 
   const UserButtonWrapper = dynamic(() => import('@clerk/nextjs').then(module => module.UserButton), {
@@ -38,7 +39,7 @@ export const NavbarRoutes = () => {
           <div id="google_translate_element "></div>
 
           <UserButtonWrapper afterSignOutUrl="/" />
-        {isCoursePage ? (
+        {isCoursePage && !isIntroductionCoursePage ? (
           <Link href="/">
             <Button size="sm" variant="ghost">
               <LogOut className="h-4 w-4 mr-2" />
