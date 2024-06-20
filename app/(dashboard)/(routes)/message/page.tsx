@@ -34,7 +34,7 @@ const Message = () => {
     return () => {
       pusherClient.unsubscribe("chat-event");
     };
-  })
+  }, [])
   return (
     <div>
     <div className='px-6 pt-6 block'>
