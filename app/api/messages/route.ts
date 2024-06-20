@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const user = await clerkClient.users.getUser(userId)
     let tempMsg = { msg:message, user: { firstName: user.firstName, lastName: user.lastName } }
 
-      pusherServer.trigger("chat-event", "update-message", {
+      await pusherServer.trigger("chat-event", "update-message", {
         tempMsg
       })
 
