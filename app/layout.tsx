@@ -1,11 +1,11 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Noto_Kufi_Arabic } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toaster-provider'
 import { ConfettiProvider } from '@/components/providers/confetti-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Noto_Kufi_Arabic({ subsets: ['arabic'] })
 
 export const metadata: Metadata = {
   title: 'كورسات',

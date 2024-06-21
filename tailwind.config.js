@@ -72,6 +72,13 @@ module.exports = withUt({
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      boxShadow: {
+        "3xl" : "0 4px 14px 0 rgb(0 118 255 / 39%)"
+      },
+      fontFamily: {
+        Noto: ["Noto Kufi Arabic", "sans-serif"],
+        // Add more custom font families as needed
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

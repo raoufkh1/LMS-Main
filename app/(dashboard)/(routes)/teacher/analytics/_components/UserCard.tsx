@@ -30,19 +30,19 @@ const UserCard = async () => {
                                                 {user.emailAddresses[0].emailAddress}
                                             </p>
                                         </div>
-                                        <div className="inline-flex bg-sky-700 text-gray-200 rounded-lg py-2 spacing tracking-wider px-2 items-center text-base font-semibold  dark:text-white">
-                                           <Link href={`/teacher/students/${user.id}`}>تقرير</Link>
-                                        </div>
+                                        <div >
+                                        <Link className='text-white font-normal text-2xl shadow-3xl rounded-md hover:bg-[rgba(0,118,255,0.9)] bg-[#0070f3] py-0 px-14 inline-block outline-0 cursor-pointer border-none leading-[45px] h-[45px]' href={`/teacher/students/${user.id}`}>تقرير</Link>
                                     </div>
+                                </div>
                                 </li>
-                            )
+                )
                         })
                     }
 
 
-                </ul>
-            </div>
+            </ul>
         </div>
+        </div >
 
     )
 }
