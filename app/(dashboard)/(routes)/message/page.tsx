@@ -7,14 +7,18 @@ import { clerkClient } from '@clerk/nextjs'
 import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
-
+interface Props {
+  msg: {context: string, createdAt: string},
+  user:{imageUrl: string, lastName: string, firstName: string}
+}
 const Message = () => {
-  const [messages, setMessages] = useState<{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date }; user: { firstName: string | null; lastName: string | null } }[]>([])
+  const [messages, setMessages] = useState<Props[]>([])
   useEffect(() => {
     const fetchData = async () => {
       try {
         const {data} = await axios.get("/api/messages")
         setMessages(data)
+        console.log(data)
       } catch (error) {
         console.log(error)
       }
@@ -29,7 +33,7 @@ const Message = () => {
     pusherClient.bind("update-message", (e: any) =>{
       console.log("new msg")
       let {tempMsg} = e
-      setMessages((prevState:{ msg: { id: string; userId: string | null; context: string; messageId: string | null; createdAt: Date; updatedAt: Date; }; user: { firstName: string | null; lastName: string | null; }; }[]) => [tempMsg, ...prevState ])
+      setMessages((prevState:Props[]) => [tempMsg, ...prevState ])
     })
     setTimeout(() => {
       
@@ -43,13 +47,13 @@ const Message = () => {
     <div className='px-6 pt-6 block'>
         <MessageInput setMessages={setMessages}/>
     </div>
-    <div className='mt-24 flex justify-center'>
+    <div className='mt-6 flex justify-center'>
       <div>
       {
                   messages.map(({msg, user}, index) => {
                       return (
                         
-                        <MessageCard key={index} context={msg.context} firstName={user.firstName || ""} lastName={user.lastName || ""}/>
+                        <MessageCard key={index} msg={msg} user={user}/>
                       )
                   })
               }

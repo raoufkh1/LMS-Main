@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       }
     })
     const user = await clerkClient.users.getUser(userId)
-    let tempMsg = { msg:message, user: { firstName: user.firstName, lastName: user.lastName } }
+    let tempMsg = { msg:message, user: user }
 
       await pusherServer.trigger("chat-event", "update-message", {
         tempMsg
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
           if (msg.userId != "nil") {
   
               const response = await clerkClient.users.getUser(msg.userId)
-              let tempMsg = { msg, user: { firstName: response.firstName, lastName: response.lastName } }
+              let tempMsg = { msg, user: response }
               messagesWithUser.push(tempMsg)
           }
       })

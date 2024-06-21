@@ -30,19 +30,19 @@ const UserProfile = async ({ params}:PageProps) => {
                 <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{`${userInfo.firstName} ${userInfo.lastName}`}</h3>
                 <div className="text-center text-gray-400 text-xs font-semibold">
                     <p>اخر تسجيل دخول:{`${(new Date(userInfo.updatedAt)).getDate()}/${(new Date(userInfo.updatedAt)).getMonth() + 1}/${(new Date(userInfo.updatedAt)).getFullYear()}`}</p>
-                    <p>اخر رسالة :{`${ (new Date(lastMessage?.updatedAt!)).getHours()}:${(new Date(lastMessage?.updatedAt!)).getMinutes() }:${(new Date(lastMessage?.updatedAt!)).getSeconds()}` +` || ` +  `${(new Date(lastMessage?.updatedAt!)).getDate()}/${(new Date(lastMessage?.updatedAt!)).getMonth() + 1}/${(new Date(lastMessage?.updatedAt!)).getFullYear()}`}</p>
+                    <p>اخر رسالة :{lastMessage ?`${ (new Date(lastMessage?.updatedAt!)).getHours()}:${(new Date(lastMessage?.updatedAt!)).getMinutes() }:${(new Date(lastMessage?.updatedAt!)).getSeconds()}` +` || ` +  `${(new Date(lastMessage?.updatedAt!)).getDate()}/${(new Date(lastMessage?.updatedAt!)).getMonth() + 1}/${(new Date(lastMessage?.updatedAt!)).getFullYear()}` : `لم يرسل اي رسالة`}</p>
                 </div>
                 <table className="text-xs my-3" dir='rtl'>
                     <tbody>
-                    <tr>
+                    <tr className='text-base'>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الإيميل</td>
                         <td className="px-2 py-2 text-gray-800" >{userInfo.emailAddresses[0].emailAddress}</td>
                     </tr>
-                    <tr>
-                        <td className="px-2 py-2 text-sky-700 font-semibold">اسم الكورس</td>
-                        <td className="px-2 py-2 text-sky-700  font-semibold">التقدم</td>
-                        <td className="px-2 py-2 text-sky-700  font-semibold">الامتحان الابتدائي</td>
-                        <td className="px-2 py-2 text-sky-700  font-semibold">الامتحان النهائي</td>
+                    <tr className='text-base'>
+                        <td className="px-2 py-2 text-gray-600 font-semibold">اسم الكورس</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold">التقدم</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold">الامتحان الابتدائي</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold">الامتحان النهائي</td>
                     </tr>
                     {courserWithProgress.map(async (course:any, index:number) => {
                         const exams = course?.exams
@@ -64,11 +64,11 @@ const UserProfile = async ({ params}:PageProps) => {
                         }) : null
                         if(course.id != process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID){
                             return(
-                                <tr key={index}>
-                                    <td className="px-2 py-2 text-gray-500 cursor-pointer hover:text-sky-600 font-semibold">{course.title}</td>
-                                    <td className="px-2 py-2 text-gray-500 cursor-pointer hover:text-sky-600 font-semibold">%{Math.round(course.progress) }</td>
-                                    <td className="px-2 py-2 text-gray-500 cursor-pointer hover:text-sky-600 font-semibold">%{firstExamsPrgress?.percentage ? firstExamsPrgress?.percentage : 0}</td>
-                                    <td className="px-2 py-2 text-gray-500 cursor-pointer hover:text-sky-600 font-semibold">%{finalExamsPrgress?.percentage ? finalExamsPrgress?.percentage : 0}</td>
+                                <tr key={index} className='text-base'>
+                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{course.title}</td>
+                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{Math.round(course.progress) }</td>
+                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{firstExamsPrgress?.percentage ? firstExamsPrgress?.percentage : 0}</td>
+                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{finalExamsPrgress?.percentage ? finalExamsPrgress?.percentage : 0}</td>
                                 </tr>
                             )
 
