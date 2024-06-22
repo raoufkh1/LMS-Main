@@ -420,7 +420,7 @@ const ExamIdPage = ({
                     type="button"
                     onClick={handleSubmit}
                     className={cn(
-                      "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                      "bg-sky-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
                       (!canSubmit || isSubmitting || hasSubmitted) &&
                       "bg-slate-400 cursor-not-allowed"
                     )}

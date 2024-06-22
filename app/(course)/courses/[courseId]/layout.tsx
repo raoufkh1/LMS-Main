@@ -124,7 +124,7 @@ const CourseLayout = async ({
         <ChatWidget>
           <Button
             variant="outline"
-            className="bg-emerald-600 rounded-full p-4 h-14 w-14 shadow-md hover:bg-emerald-600"
+            className="bg-sky-700 rounded-full p-4 h-14 w-14 shadow-md hover:bg-sky-600"
           >
             <MessageCircle size={30} color="white" />
           </Button>

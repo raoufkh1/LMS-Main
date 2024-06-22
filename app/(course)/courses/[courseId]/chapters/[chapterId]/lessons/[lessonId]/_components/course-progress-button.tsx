@@ -74,12 +74,13 @@ export const CourseProgressButton = ({
     <Button
       onClick={onClick}
       disabled={isLoading}
+      
       type="button"
       variant={isCompleted ? "outline" : "success"}
-      className="w-full md:w-auto"
+      className="w-full md:w-auto bg-sky-700 hover:bg-sky-600"
     >
       {isCompleted ? "غير مكتمل" : "وضع علامة كمكتملة"}
-      <Icon className="h-4 w-4 ml-2" />
+      <Icon className="h-4 w-4 mr-2" />
     </Button>
   );
 };

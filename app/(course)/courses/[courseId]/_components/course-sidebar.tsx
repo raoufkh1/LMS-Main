@@ -114,7 +114,7 @@ export const CourseSidebar = async ({
       <div className="p-8 flex flex-col border-b">
         <h1 className="font-semibold">{course.title}</h1>
         <div className="mt-10">
-          <CourseProgress variant="success" value={progressCount} />
+          <CourseProgress variant="default" value={progressCount} />
         </div>
       </div>
       <div className="flex flex-col w-full">

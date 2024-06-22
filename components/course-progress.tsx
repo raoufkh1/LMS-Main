@@ -31,7 +31,6 @@ export const CourseProgress = ({
       />
       <div className={cn(
         "font-medium mt-2 text-sky-700",
-        colorByVariant[variant || "default"],
         sizeByVariant[size || "default"],
       )}>
         {Math.round(value)}% مكتمل

@@ -112,11 +112,11 @@ export const CourseSidebarItem = ({
           <AccordionTrigger
             ref={accordionTrigerRef}
             className={cn(
-              "flex items-center text-right gap-x-2 text-slate-500 text-sm font-[500] pl-6 pr-4 py-4 transition-all hover:text-slate-600 hover:bg-slate-300/20",
+              "flex items-center text-sky-500 text-right gap-x-2  text-sm font-[500] pl-6 pr-4 py-4 transition-all hover:text-slate-600 hover:bg-slate-300/20",
               isActive &&
-                "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
+                "text-slate-700 bg-sky-200/20 hover:bg-slate-200/20 hover:text-slate-700",
               isChapterCompleted &&
-                "text-emerald-700 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700"
+                "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700"
             )}
           >
             <div className="ml-auto">{label}</div>
@@ -132,7 +132,7 @@ export const CourseSidebarItem = ({
                 type="button"
                 disabled={lesson.lock || false}
                 className={cn(
-                  "flex items-center justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-slate-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-teal-600 h-full",
+                  "flex items-center justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-slate-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-sky-700 h-full",
                   pathname?.includes(lesson.id) &&
                     "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
                   pathname?.includes(lesson.id) &&
