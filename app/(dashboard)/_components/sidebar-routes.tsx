@@ -10,11 +10,7 @@ import { useAuth } from "@clerk/nextjs";
 import { FcStatistics } from "react-icons/fc";
 
 const guestRoutes = [
-  {
-    icon: Layout,
-    label: "لوحة القيادة – الدورات التدريبية",
-    href: "/",
-  },
+  
   {
     icon: GraduationCap,
     label: "التعريف بالموقع",
@@ -24,6 +20,11 @@ const guestRoutes = [
     icon: Goal,
     label: "اهداف عامة",
     href: "/goals",
+  },
+  {
+    icon: Layout,
+    label: "الدورات التدريبية",
+    href: "/",
   },
   {
     icon: MessageCircle,
@@ -53,10 +54,6 @@ const teacherRoutes = [
     icon: FcStatistics,
     label: "الاحصائيات",
     href: "/teacher/analytics",
-  },{
-    icon: Layout,
-    label: "الدورات التدريبية",
-    href: "/",
   },
   {
     icon: GraduationCap,
@@ -67,6 +64,11 @@ const teacherRoutes = [
     icon: Goal,
     label: "اهداف عامة",
     href: "/goals",
+  },
+  {
+    icon: Layout,
+    label: "الدورات التدريبية",
+    href: "/",
   },
   {
     icon: MessageCircle,

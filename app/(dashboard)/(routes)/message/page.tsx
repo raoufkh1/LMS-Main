@@ -8,11 +8,12 @@ import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
 interface Props {
-  msg: {context: string, createdAt: string},
-  user:{imageUrl: string, lastName: string, firstName: string}
+  msg: {context: string, createdAt: string, id:string},
+  user:{imageUrl: string, lastName: string, firstName: string, id: string}
 }
 const Message = () => {
   const [messages, setMessages] = useState<Props[]>([])
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -34,6 +35,13 @@ const Message = () => {
       console.log("new msg")
       let {tempMsg} = e
       setMessages((prevState:Props[]) => [tempMsg, ...prevState ])
+    })
+    pusherClient.bind("delete-message", (e: any) =>{
+      console.log("delete msg")
+      let {messageId} = e
+      const tempMsg = messages
+      setMessages((prevState:Props[]) => [...prevState.filter(e => e.msg.id != messageId) ])
+
     })
     setTimeout(() => {
       

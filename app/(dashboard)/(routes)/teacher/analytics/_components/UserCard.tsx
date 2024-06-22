@@ -31,7 +31,7 @@ const UserCard = async () => {
                                             </p>
                                         </div>
                                         <div >
-                                        <Link className='text-white font-normal text-2xl shadow-3xl rounded-md hover:bg-[rgba(0,118,255,0.9)] bg-[#0070f3] py-0 px-14 inline-block outline-0 cursor-pointer border-none leading-[45px] h-[45px]' href={`/teacher/students/${user.id}`}>تقرير</Link>
+                                        <Link className='text-white font-normal text-xl transition-all shadow-3xl rounded-md hover:bg-[rgba(0,118,255,0.9)] bg-[#2655a3] py-0 px-14 inline-block outline-0 cursor-pointer border-none leading-[45px] h-[45px]' href={`/teacher/students/${user.id}`}>تقرير</Link>
                                     </div>
                                 </div>
                                 </li>
