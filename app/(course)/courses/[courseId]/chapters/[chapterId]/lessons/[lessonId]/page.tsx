@@ -39,7 +39,7 @@ const LessonIdPage = async ({
   if (!chapter || !course || !lesson) {
     return redirect("/");
   }
-
+  const isInroductionCourse = process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID === course.id
   const completeOnEnd = !userProgress?.isCompleted;
   return (
     <div>
@@ -67,21 +67,31 @@ const LessonIdPage = async ({
             <div>
               <h2 className="text-2xl font-semibold">{lesson.title}</h2>
             </div>
-            <CourseProgressButton
-              lessonId={params.lessonId}
-              chapterId={params.chapterId}
-              courseId={params.courseId}
-              nextLessonId={nextLesson?.id}
-              nextChapterId={nextChapter?.id}
-              nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
-              isCompleted={!!userProgress?.isCompleted}
-            />
+            {
+              !isInroductionCourse && (
+                <CourseProgressButton
+                  lessonId={params.lessonId}
+                  chapterId={params.chapterId}
+                  courseId={params.courseId}
+                  nextLessonId={nextLesson?.id}
+                  nextChapterId={nextChapter?.id}
+                  nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
+                  isCompleted={!!userProgress?.isCompleted}
+                />
+
+              )
+            }
           </div>
           <Separator />
-          <div dir="rtl">
-            <div  className="text-lg text-slate-700 px-4">وصف الدرس</div>
-            <Preview value={lesson.description!} />
-          </div>
+          {
+            !isInroductionCourse && (
+            <div dir="rtl">
+              <div  className="text-lg text-slate-700 px-4">وصف الدرس</div>
+              <Preview value={lesson.description!} />
+            </div>
+              
+            )
+          }
           {!!attachments.length && (
             <>
               <Separator />

@@ -62,31 +62,30 @@ const ChatGPTTab = () => {
       const queryMessages = messages
         .slice(-10) // Take the last 10 messages
         .map((msg) => ({
-          role: msg.isUserMessage ? "user" : "assistant",
-          content: msg.text,
+          role: msg.isUserMessage ? "user" : "user",
+          parts: [{ "text": msg.text }],
         }));
 
       // Add the current user message to queryMessages
-      queryMessages.push({ role: "user", content: message });
+      queryMessages.push({ role: "user", parts: [{ "text": message }] });
 
       // Fetch response from ChatGPT
+    
       const response = await axios.post(
-        "https://api.pawan.krd/v1/chat/completions",
+        "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
         {
-          model: "gpt-3.5-unfiltered",
-          messages: queryMessages,
-          max_tokens: 1024,
-          temperature: 0.7,
+          contents: queryMessages
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_CHATGPY_API_KEY}`,
+            "x-goog-api-key": process.env.NEXT_PUBLIC_CHATGPY_API_KEY
           },
         }
       );
+      console.log(response.data.candidates[0].content.parts[0].text)
       // Extract the ChatGPT response
-      const chatGPTResponse: string = response.data.choices[0].message.content;
+      const chatGPTResponse: string = response.data.candidates[0].content.parts[0].text;
 
       // Update messages array with ChatGPT response
       setMessages((prevMessages) => [
@@ -108,9 +107,8 @@ const ChatGPTTab = () => {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex text-white text-sm ${
-                msg.isUserMessage ? "justify-end" : "justify-start"
-              }`}
+              className={`flex text-white text-sm ${msg.isUserMessage ? "justify-end" : "justify-start"
+                }`}
             >
               {msg.isUserMessage ? (
                 <div className="bg-emerald-500 rounded-xl rounded-br-none w-fit max-w-xs px-3 py-2">

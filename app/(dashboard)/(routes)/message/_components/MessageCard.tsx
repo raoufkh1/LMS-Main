@@ -40,7 +40,7 @@ const MessageCard = ({msg, user}:Props) => {
    <img className="w-8 h-8 rounded-full" src={user.imageUrl} alt="Jese image"/>
    <div className="flex flex-col w-[400px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
       <div className="flex items-center space-x-2 rtl:space-x-reverse">
-         <span className="text-sm font-semibold text-gray-900 dark:text-white">{`${user.firstName} ${user.lastName}`}</span>
+         <span className="text-sm font-semibold text-gray-900 dark:text-white">{`${user.firstName} ${user.lastName ? user.lastName : ""}`}</span>
          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">{dateString}</span>
       </div>
       <p className="text-base font-medium py-2.5 text-gray-900 dark:text-white">{msg?.context!}</p>

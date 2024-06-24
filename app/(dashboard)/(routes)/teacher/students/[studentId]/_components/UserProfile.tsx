@@ -27,10 +27,10 @@ const UserProfile = async ({ params}:PageProps) => {
                 <img className="w-32 h-32 rounded-full mx-auto" src={userInfo.imageUrl} alt="John Doe"/>
             </div>
             <div className="p-2">
-                <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{`${userInfo.firstName} ${userInfo.lastName}`}</h3>
+                <h3 className="text-center text-xl text-gray-900 font-medium leading-8">{`${userInfo.firstName} ${userInfo.lastName ? userInfo.lastName : ""}`}</h3>
                 <div className="text-center text-gray-400 text-xs font-semibold">
                     <p>اخر تسجيل دخول:{`${(new Date(userInfo.updatedAt)).getDate()}/${(new Date(userInfo.updatedAt)).getMonth() + 1}/${(new Date(userInfo.updatedAt)).getFullYear()}`}</p>
-                    <p>اخر رسالة :{lastMessage ?`${ (new Date(lastMessage?.updatedAt!)).getHours()}:${(new Date(lastMessage?.updatedAt!)).getMinutes() }:${(new Date(lastMessage?.updatedAt!)).getSeconds()}` +` || ` +  `${(new Date(lastMessage?.updatedAt!)).getDate()}/${(new Date(lastMessage?.updatedAt!)).getMonth() + 1}/${(new Date(lastMessage?.updatedAt!)).getFullYear()}` : `لم يرسل اي رسالة`}</p>
+                    <p>اخر رسالة :{lastMessage ?`${ (new Date(lastMessage?.updatedAt!)).getHours()}:${(new Date(lastMessage?.updatedAt!)).getMinutes() }:${(new Date(lastMessage?.updatedAt!)).getSeconds()}` +` - ` +  `${(new Date(lastMessage?.updatedAt!)).getDate()}/${(new Date(lastMessage?.updatedAt!)).getMonth() + 1}/${(new Date(lastMessage?.updatedAt!)).getFullYear()}` : `لم يرسل اي رسالة`}</p>
                 </div>
                 <table className="text-xs my-3" dir='rtl'>
                     <tbody>
