@@ -75,7 +75,6 @@ const LessonIdPage = async ({
           {
             !isInroductionCourse && (
             <div dir="rtl">
-              <div  className="text-lg text-slate-700 px-4">وصف الدرس</div>
               <Preview value={lesson.description!} />
             </div>
               
