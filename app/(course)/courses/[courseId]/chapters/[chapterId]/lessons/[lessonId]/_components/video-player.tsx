@@ -7,9 +7,12 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock } from "lucide-react";
 import ReactPlayer, { ReactPlayerProps } from "react-player";
+import { LionPlayer } from 'lion-player';
+import 'lion-player/dist/lion-skin.min.css';
 
 import { cn } from "@/lib/utils";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
+import { sources } from "next/dist/compiled/webpack/webpack";
 
 interface VideoPlayerProps {
   courseId: string;
@@ -72,25 +75,23 @@ export const VideoPlayer = ({
       toast.error("هناك شئ غير صحيح");
     }
   };
-
+  const SOURCES = [
+    {
+      src: url!,
+      type: 'application/x-mpegURL',
+    }
+  ];
+  console.log(url)
   return (
     <div className="relative aspect-video h-fit w-full">
-      {!isReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-800">
-          <Loader2 className="h-8 w-8 animate-spin text-secondary" />
-        </div>
-      )}
-      <div className={cn(!isReady && "hidden ")}>
-        <div className="bg-black px-10 py-2">
-          <div className="text-white/70 capitalize">{title}</div>
-        </div>
+      
+      <div className={cn(!isReady && "")}>
+        
         {url && (
-          <ReactPlayer
-            url={url}
-            playing={isReady} // Start paused initially
-            onReady={() => setIsReady(true)}
-            onEnded={onEnd}
-            width={"100%"}
+          <LionPlayer 
+            src={url!}
+            autoplay="muted"
+          
             height={450}
             controls={true} // Show player controls
           />

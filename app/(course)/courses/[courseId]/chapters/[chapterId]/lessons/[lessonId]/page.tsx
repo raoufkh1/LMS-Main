@@ -9,6 +9,8 @@ import { Preview } from "@/components/preview";
 
 import { VideoPlayer } from "./_components/video-player";
 import { CourseProgressButton } from "./_components/course-progress-button";
+import { CourseEditButton } from "./_components/course-introduction-edit";
+import { isTeacher } from "@/lib/teacher";
 
 const LessonIdPage = async ({
   params,
@@ -46,29 +48,14 @@ const LessonIdPage = async ({
       {userProgress?.isCompleted && (
         <Banner variant="success" label=".لقد أكملت هذا الدرس بالفعل" />
       )}
-      <div className="flex flex-col max-w-4xl mx-auto pb-20 " dir="rtl">
-        {lesson.videoUrl && (
-          <div className="p-4">
-            <VideoPlayer
-              chapterId={params.chapterId}
-              title={chapter.title}
-              lessonId={lesson.id}
-              courseId={params.courseId}
-              nextLessonId={nextLesson?.id}
-              nextChapterId={nextChapter?.id}
-              nextChapterFirstLessonId={nextChapter?.lessons[0].id}
-              completeOnEnd={completeOnEnd}
-              url={lesson.videoUrl}
-            />
-          </div>
-        )}
-        <div className="space-y-4">
-          <div className="p-4 flex flex-col md:flex-row items-center justify-between">
-            <div>
+      <div className="flex flex-col max-w-4xl mx-auto pb-20 pt-10" dir="rtl">
+      <div className="flex ">
+              
+        </div>
+        <div className="p-4 flex flex-col md:flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold">{lesson.title}</h2>
-            </div>
             {
-              !isInroductionCourse && (
+              isInroductionCourse ?  isTeacher(userId) ?  <CourseEditButton /> : "" : (
                 <CourseProgressButton
                   lessonId={params.lessonId}
                   chapterId={params.chapterId}
@@ -79,9 +66,11 @@ const LessonIdPage = async ({
                   isCompleted={!!userProgress?.isCompleted}
                 />
 
-              )
+              ) 
             }
           </div>
+        <div className="space-y-4">
+          
           <Separator />
           {
             !isInroductionCourse && (
@@ -111,6 +100,21 @@ const LessonIdPage = async ({
             </>
           )}
         </div>
+        {lesson.videoUrl && (
+          <div className="p-4">
+            <VideoPlayer
+              chapterId={params.chapterId}
+              title={chapter.title}
+              lessonId={lesson.id}
+              courseId={params.courseId}
+              nextLessonId={nextLesson?.id}
+              nextChapterId={nextChapter?.id}
+              nextChapterFirstLessonId={nextChapter?.lessons[0].id}
+              completeOnEnd={completeOnEnd}
+              url={lesson.videoUrl}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

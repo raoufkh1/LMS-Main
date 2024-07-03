@@ -86,5 +86,26 @@ body,
 .ql-container {
   font-size: 16px !important;
 }
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 10px;
+  position: absolute;
+  left: 0;
+}
 
+/* Track */
+.custom-scroll-bar::-webkit-scrollbar-track {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle */
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  background: #265fa1;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: #225794;
+}
 @import "~@uploadthing/react/styles.css"

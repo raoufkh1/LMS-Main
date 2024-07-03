@@ -140,11 +140,11 @@ export const CourseSidebarItem = ({
                       (progress: { userId: string | null | undefined; isCompleted: any; }) =>
                         progress.userId === userId && progress.isCompleted
                     ) &&
-                    "text-emerald-700 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700",
+                    "text-sky-700 bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700",
                   lesson.userProgress?.some(
                     (progress: { userId: string | null | undefined; isCompleted: any; }) =>
                       progress.userId === userId && progress.isCompleted
-                  ) && "text-emerald-700"
+                  ) && "text-sky-700"
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
@@ -155,8 +155,8 @@ export const CourseSidebarItem = ({
                     <CheckCircle
                       size={22}
                       className={cn(
-                        "text-emerald-500",
-                        pathname?.includes(lesson.id) && "text-emerald-700"
+                        "text-sky-500",
+                        pathname?.includes(lesson.id) && "text-sky-700"
                       )}
                     />
                   ) : lesson.lock == true ? (<LockIcon
@@ -174,7 +174,7 @@ export const CourseSidebarItem = ({
                       )}
                     />
                   )}
-                  <div>{lesson.title}</div>
+                  <div className="">{lesson.title}</div>
                 </div>
               </button>
 
@@ -188,10 +188,10 @@ export const CourseSidebarItem = ({
                 disabled={quiz.lock ? true : false}
                 type="button"
                 className={cn(
-                  "flex mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-yellow-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full",
+                  "flex mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-sky-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full",
 
                   hasTakenQuiz &&
-                    "text-emerald-700 hover:bg-emerald-200/20 hover:text-emerald-700 border-teal-600"
+                    ` ${quiz.lock ? "text-yellow-600 hover:text-yellow-700" : "text-sky-600 hover:text-sky-700"} hover:bg-yellow-200/20  border-yellow-700`
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
@@ -204,7 +204,7 @@ export const CourseSidebarItem = ({
                     />
                   )}
                   <div>
-                    <span>اختبار: </span>
+                    <span>نشاط: </span>
                     {quiz.title}
                   </div>
                 </div>

@@ -59,13 +59,17 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     
   });
   if(StartExam){
-    if(StartExamProgress?.isCompleted){
-  
-    }
-    else{
-      redirect(
-        `/courses/${course.id}/exam/${StartExam?.id}`
-      )
+    console.log(StartExam)
+    if(StartExam.isPublished){
+      if(StartExamProgress?.isCompleted){
+    
+      }
+      else{
+        redirect(
+          `/courses/${course.id}/exam/${StartExam?.id}`
+        )
+      }
+
     }
 
   }
@@ -113,8 +117,15 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         },
       },
     });
-    return redirect(`/courses/${course.id}/exam/${finalExam?.id}`)
+    if(finalExam?.isPublished){
 
+      return redirect(`/courses/${course.id}/exam/${finalExam?.id}`)
+    }
+    else{
+      return redirect(
+        `/courses/${course.id}/chapters/${course.chapters[0].id}/lessons/${course.chapters[0].lessons[0].id}`
+      );
+    }
 
   }
 };

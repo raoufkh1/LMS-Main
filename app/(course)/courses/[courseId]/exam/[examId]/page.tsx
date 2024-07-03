@@ -111,10 +111,9 @@ const ExamIdPage = ({
       sethasSubmitted(true);
 
 
-      if (scorePercentage > 50) {
         if(isFirstExam){
 
-          toast.success("لقد اجتزت الامتحان الابتدائي");
+          toast.success("يمكنك الان البدء في الدورة التدريبية");
         }
 
         const response = await axios.patch(
@@ -125,22 +124,31 @@ const ExamIdPage = ({
           }
         );
         if (!isFirstExam) {
-          const certificateResponse = await axios.post(
-            `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
-          );
-
-          if (certificateResponse.status === 200) {
-
-            toast.success("شهادتك جاهزة!");
-            setCertificateId(certificateResponse.data.id);
-            confetti.onOpen();
-          } else {
-            toast.error("لا يمكن إنشاء شهادة في هذا الوقت، آسف!");
+          if(scorePercentage < 50){
+            setFailedInExam(true)
+            toast.error(`لقد احرزت علامة ${scorePercentage} يمكنك اعادة الاختبار بعد مراجعة الدورة التدريبية مرة أخرى`);
           }
+          else{
+            toast.success(`احسنت لقد احرزت علامة ${scorePercentage }  `);
+            const certificateResponse = await axios.post(
+              `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
+            );
+  
+            if (certificateResponse.status === 200) {
+  
+              toast.success("شهادتك جاهزة!");
+              setCertificateId(certificateResponse.data.id);
+              confetti.onOpen();
+            } else {
+              toast.error("لا يمكن إنشاء شهادة في هذا الوقت، آسف!");
+            }
+          }
+          
 
         }
         if (response) {
           if (isFirstExam) {
+            router.refresh()
             setTimeout(() => {
               return router.push(`/courses/${course?.id}`)
               
@@ -148,14 +156,7 @@ const ExamIdPage = ({
 
           }
         }
-      }
-      else {
-        setTimeout(() => {
-          toast.error("فشلت في الاختبار. يرجى المحاولة مرة اخرى", { duration: 4000 });
-          setFailedInExam(true)
-        }, 1500);
-
-      }
+      
       console.log("====================================");
       console.log("====================================");
     } catch (error) {
@@ -412,7 +413,7 @@ const ExamIdPage = ({
                     } `}
                 </div>
               ) : (
-                <div className="">هل أنت واثق من أنك انتهيت؟</div>
+                ""
               )}
               <div className="flex flex-row space-x-4 items-center">
                 <div className="flex flex-row-reverse gap-4 space-x-4 items-center">
@@ -446,7 +447,7 @@ const ExamIdPage = ({
                     certificateId !== undefined &&
                     hasSubmitted &&
                     !isFirstExam &&
-                    scorePercentage > 50 && (
+                    scorePercentage >= 50 && (
                       <PrepareCertificateModal
                         courseId={params.courseId}
                         examId={params.examId}

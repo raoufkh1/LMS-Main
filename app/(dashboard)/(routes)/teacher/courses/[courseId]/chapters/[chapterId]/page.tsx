@@ -54,7 +54,6 @@ const ChapterIdPage = async ({
 
   const requiredFields = [
     chapter.title,
-    chapter.description,
     chapter.lessons.some((lesson) => lesson.isPublished),
   ];
 
@@ -111,11 +110,7 @@ const ChapterIdPage = async ({
                 courseId={params.courseId}
                 chapterId={params.chapterId}
               />
-              <ChapterDescriptionForm
-                initialData={chapter}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
-              />
+              
             </div>
           </div>
           <div>
@@ -132,7 +127,7 @@ const ChapterIdPage = async ({
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={FcQuestions} />
-              <h2 className="text-xl">اختبار الفصل (اختياري)</h2>
+              <h2 className="text-xl">نشاط الفصل (اختياري)</h2>
             </div>
             <QuizForm
               initialData={chapter}

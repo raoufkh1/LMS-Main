@@ -91,7 +91,7 @@ const QuizIdPage = async ({
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />
-                <h2 className="text-xl">تخصيص الاختبار الخاص بك</h2>
+                <h2 className="text-xl">تخصيص النشاط الخاص بك</h2>
               </div>
               <QuizTitleForm
                 initialData={quiz}

@@ -83,7 +83,7 @@ const CertificatePage = ({
       ) : certificate ? (
         <div className="flex flex-col space-y-8 ml-10 pb-8 mt-8 mr-8">
           <button
-            className="self-end rounded-lg text-white font-bold bg-emerald-600 max-w-fit py-2 px-3"
+            className="self-end rounded-lg text-white font-bold bg-sky-600 max-w-fit py-2 px-3"
             onClick={handleDownload}
           >
             <div> تحميل PDF</div>

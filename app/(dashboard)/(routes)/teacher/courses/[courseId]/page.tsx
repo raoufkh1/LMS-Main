@@ -59,7 +59,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
   const requiredFields = [
     course.title,
-    course.description,
     course.imageUrl,
     course.categoryId,
     course.chapters.some((chapter) => chapter.isPublished),
@@ -97,7 +96,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               <h2 className="text-xl">تخصيص الدورة التدريبية الخاصة بك</h2>
             </div>
             <TitleForm initialData={course} courseId={course.id} />
-            <DescriptionForm initialData={course} courseId={course.id} />
             <ImageForm initialData={course} courseId={course.id} />
             <CategoryForm
               initialData={course}
@@ -131,13 +129,7 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               </div>
               <ExamForm initialData={course} courseId={course.id} />
             </div>
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={File} />
-                <h2 className="text-xl">الموارد والمرفقات (اختياري)</h2>
-              </div>
-              <AttachmentForm initialData={course} courseId={course.id} />
-            </div>
+            
           </div>
         </div>
       </div>

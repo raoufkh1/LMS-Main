@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact,GraduationCap } from "lucide-react";
+import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact,GraduationCap, BookLockIcon, ShieldMinus, LibraryIcon } from "lucide-react";
 import { GiPodiumWinner } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
@@ -36,11 +36,20 @@ const guestRoutes = [
     label: "المتصدرين",
     href: "/leaderboard",
   },
-  
+  {
+    icon: LibraryIcon,
+    label: "المكتبة",
+    href: "/library",
+  },
   {
     icon: Contact,
     label: "تواصل معنا",
     href: "/contact",
+  },
+  {
+    icon: ShieldMinus,
+    label: "سياسة الخصوصية",
+    href: "/privacy",
   },
 ];
 
@@ -80,11 +89,20 @@ const teacherRoutes = [
     label: "المتصدرين",
     href: "/leaderboard",
   },
-  
+  {
+    icon: LibraryIcon,
+    label: "المكتبة",
+    href: "/library",
+  },
   {
     icon: Contact,
     label: "تواصل معنا",
     href: "/contact",
+  },
+  {
+    icon: ShieldMinus,
+    label: "سياسة الخصوصية",
+    href: "/privacy",
   },
   
   // {
@@ -104,7 +122,7 @@ export const SidebarRoutes = () => {
   const routes = isTeacher(userId) ? teacherRoutes : guestRoutes;
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full text-right" >
       {routes.map((route) => (
         <SidebarItem
           key={route.href}
