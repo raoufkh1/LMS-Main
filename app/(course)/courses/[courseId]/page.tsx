@@ -76,10 +76,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   // const StartExam = course.exams.filter((e:any) => e.starterExam == true)
   let currentLesson
   let currentChapter
+  let currentQuiz
   for (let i = 0; i < course.chapters.length; i++) {
     const chapter = course.chapters[i];
     for (let j = 0; j < chapter.lessons.length; j++) {
       const lesson = chapter.lessons[j];
+      const quiz = await db.quiz.findFirst({
+        where: {
+          chapterId: chapter.id
+        }
+      })
       const progress = await db.userProgress.findFirst({where: {lessonId: lesson.id, userId: userId}})
       if(progress?.isCompleted){
 
@@ -89,8 +95,24 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         currentChapter = chapter
         break
       }
+      if(quiz){
+        const quizPoints = await db.userQuizPoints.findFirst({
+          where: {
+            userId:userId,
+            quizId: quiz.id
+          }
+        })
+        if(quizPoints){
+
+        }
+        else{
+          currentChapter = chapter
+          currentQuiz = quiz
+          break
+        }
+      }
     }
-    if(currentLesson){
+    if(currentLesson || currentQuiz){
       break
     }
   }
@@ -98,6 +120,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
 
     return redirect(
       `/courses/${course.id}/chapters/${currentChapter?.id}/lessons/${currentLesson?.id}`
+    );
+  }
+  else if(currentChapter && currentQuiz){
+    return redirect(
+      `/courses/${course.id}/chapters/${currentChapter?.id}/quiz/${currentQuiz?.id}`
     );
   }
   else{

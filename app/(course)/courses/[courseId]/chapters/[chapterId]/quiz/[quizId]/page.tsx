@@ -105,7 +105,7 @@ const ExamIdPage = ({
       console.log(response);
       console.log("====================================");
 
-      if (points != undefined && points > 50) {
+      if (points != undefined) {
         const quizResponse = await axios.put(
           `/api/courses/${params.courseId}/chapters/${params.chapterId}/quiz/${quiz.id}/progress`,
           {
@@ -118,11 +118,17 @@ const ExamIdPage = ({
         console.log("====================================");
 
         sethasSubmitted(true);
+        if(points > 50) {
+          toast.success(`احسنت لقد حصلت على ${points}`, {
+            duration: 4000,
+          });
 
-        toast.success(`احسنت لقد حصلت على ${points}`, {
-          duration: 4000,
-        });
-
+        }
+        else{
+          toast.success(` لقد حصلت على ${points}`, {
+            duration: 4000,
+          });
+        }
         confetti.onOpen();
       } else {
         

@@ -72,7 +72,7 @@ export const CourseSidebarItem = ({
   const hasTakenQuiz =
     quiz &&
     quiz.userQuizPoints?.find(
-      (userQuizPoint) => userQuizPoint.userId === userId && userQuizPoint.points
+      (userQuizPoint) => userQuizPoint.userId === userId
     ) !== undefined;
 
   const handleLessonClick = (lessonId: string) => {
@@ -196,7 +196,7 @@ export const CourseSidebarItem = ({
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
                   {quiz.lock ? <LockIcon size={22} className={cn("text-yellow-600 hover:text-yellow-700")} /> : hasTakenQuiz ? (
-                    <CheckCircle size={22} className={cn("text-emerald-500")} />
+                    <CheckCircle size={22} className={cn("text-sky-500")} />
                   ) : (
                     <PlayCircle
                       size={22}

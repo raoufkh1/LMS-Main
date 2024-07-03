@@ -133,7 +133,8 @@ const ExamIdPage = ({
             const certificateResponse = await axios.post(
               `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
             );
-  
+            router.refresh()
+            
             if (certificateResponse.status === 200) {
   
               toast.success("شهادتك جاهزة!");
