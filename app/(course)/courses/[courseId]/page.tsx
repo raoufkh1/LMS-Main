@@ -79,13 +79,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   let currentQuiz
   for (let i = 0; i < course.chapters.length; i++) {
     const chapter = course.chapters[i];
+    const quiz = await db.quiz.findFirst({
+      where: {
+        chapterId: chapter.id
+      }
+    })
     for (let j = 0; j < chapter.lessons.length; j++) {
       const lesson = chapter.lessons[j];
-      const quiz = await db.quiz.findFirst({
-        where: {
-          chapterId: chapter.id
-        }
-      })
       const progress = await db.userProgress.findFirst({where: {lessonId: lesson.id, userId: userId}})
       if(progress?.isCompleted){
 
@@ -95,26 +95,27 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
         currentChapter = chapter
         break
       }
-      if(quiz){
-        const quizPoints = await db.userQuizPoints.findFirst({
-          where: {
-            userId:userId,
-            quizId: quiz.id
-          }
-        })
-        if(quizPoints){
-
-        }
-        else{
-          currentChapter = chapter
-          currentQuiz = quiz
-          break
-        }
-      }
     }
-    if(currentLesson || currentQuiz){
+    if(currentLesson){
       break
     }
+    if(quiz){
+      const quizPoints = await db.userQuizPoints.findFirst({
+        where: {
+          userId:userId,
+          quizId: quiz.id
+        }
+      })
+      if(quizPoints){
+
+      }
+      else{
+        currentChapter = chapter
+        currentQuiz = quiz
+        break
+      }
+    }
+    
   }
   if(currentChapter && currentLesson){
 
