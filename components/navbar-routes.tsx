@@ -20,6 +20,7 @@ export const NavbarRoutes = () => {
   const isCoursePage = pathname?.startsWith("/courses");
   const isIntroductionCoursePage:boolean = pathname?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!);
   const isSearchPage = pathname === "/search";
+  const isStudentPage = pathname?.includes("/students");
 
   const UserButtonWrapper = dynamic(() => import('@clerk/nextjs').then(module => module.UserButton), {
     ssr: false // Ensure component is not rendered on the server-side
@@ -36,9 +37,23 @@ export const NavbarRoutes = () => {
         </div>
       )}
       <div className="flex gap-x-2 ml-auto">
+        
+
+      </div>
+      <div className="flex gap-x-2 ml-auto">
           <div id="google_translate_element "></div>
 
           <UserButtonWrapper afterSignOutUrl="/" />
+          {
+          isStudentPage && (
+            <Link href="/teacher/analytics">
+              <Button size="sm" variant="ghost">
+                <LogOut className="h-4 w-4 mr-2" />
+                عودة
+              </Button>
+            </Link>
+          )
+        }
         {isCoursePage && !isIntroductionCoursePage ? (
           <Link href="/">
             <Button size="sm" variant="ghost">

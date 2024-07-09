@@ -22,6 +22,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { escape } from "querystring";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 
 type ExamWithQuestionsAndOptions = Prisma.ExamGetPayload<{
   include: {
@@ -331,7 +332,7 @@ const ExamIdPage = ({
                 </h1>
               </div>
               <div className="flex space-x-3 ">
-                <div className="text-md">{exam?.description}</div>
+                <div className="text-md"> <FroalaEditorView model={exam.description} /></div>
                 <div className="text-md">
                   مجموع الأسئلة {exam?.questions.length}
                 </div>
@@ -353,7 +354,7 @@ const ExamIdPage = ({
                         </div>
                         {question.explanation && (
                           <div className="text-slate-700 font-bold -mr-4 -mt-1 mb-4">
-                            <Preview value={question.explanation} />
+                            <FroalaEditorView model={question.explanation} />
                           </div>
                         )}
                         <div className="flex flex-col items-end space-y-2 w-full mb-4 ">

@@ -3,10 +3,10 @@ import { Logo } from "./logo"
 import { SidebarRoutes } from "./sidebar-routes"
 
 export const Sidebar = async () => {
-  const courses = await db.course.findMany()
+  const courses = await db.lesson.findMany()
   const lastCourse = courses.sort((a:any,b:any)=> b.updatedAt-a.updatedAt)[0]
   const lastCourseEditDate = new Date(lastCourse.updatedAt)
-
+  console.log(courses)
   return (
     <div className="h-full border-r custom-scroll-bar relative flex flex-col overflow-y-auto bg-white shadow-sm">
       <div className="flex justify-center">

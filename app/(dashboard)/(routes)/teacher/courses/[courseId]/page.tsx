@@ -30,7 +30,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const course = await db.course.findUnique({
     where: {
       id: params.courseId,
-      userId,
     },
     include: {
       exams: true,

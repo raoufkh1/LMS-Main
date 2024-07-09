@@ -21,6 +21,7 @@ import axios from "axios";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { Banner } from "@/components/banner";
 import Link from "next/link";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 
 type QuizWithQuestionsAndOptions = Prisma.QuizGetPayload<{
   include: {
@@ -275,7 +276,7 @@ const ExamIdPage = ({
                 <div className="text-md">
                   {canSubmit} أسئلة تمت الإجابة عليها {answeredQuestions}
                 </div>
-                <div className="text-md"> {quiz?.description?.includes("</") ? <Preview value={quiz?.description}/> : quiz?.description}</div>
+                <div className="text-md"> { <FroalaEditorView model={quiz?.description}/>}</div>
                 <div className="text-md">
                 مجموع الأسئلة {quiz?.questions.length}
                 </div>
