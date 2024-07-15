@@ -117,14 +117,14 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={ShieldQuestion} />
-                <h2 className="text-xl">امتحان الابتدائي للدورة </h2>
+                <h2 className="text-xl">الاختبار القبلي  </h2>
               </div>
               <StarterExamForm initialData={course} courseId={course.id} />
             </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={ShieldQuestion} />
-                <h2 className="text-xl">امتحان الدورة </h2>
+                <h2 className="text-xl">الاختبار البعدي  </h2>
               </div>
               <ExamForm initialData={course} courseId={course.id} />
             </div>

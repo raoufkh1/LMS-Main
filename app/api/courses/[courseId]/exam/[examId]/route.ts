@@ -132,6 +132,29 @@ export async function PATCH(
         }
       })
     }
+    const userStats = await db.userStats.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (userStats){
+      const editedUserStats = await db.userStats.update({
+        where: {
+          id: userId
+        },
+        data: {
+          examsCompleted: userStats.examsCompleted! + 1 
+        }
+      })
+    }
+    else{
+      const newUserStats = await db.userStats.create({
+        data: {
+          id: userId,
+          examsCompleted: 1
+        }
+      })
+    }
     return NextResponse.json(exam);
   } catch (error) {
     console.log("[EXAM_ID]", error);

@@ -11,6 +11,8 @@ import { VideoPlayer } from "./_components/video-player";
 import { CourseProgressButton } from "./_components/course-progress-button";
 import { CourseEditButton } from "./_components/course-introduction-edit";
 import { isTeacher } from "@/lib/teacher";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
+import { CourseForm } from "./_components/course-form";
 
 const LessonIdPage = async ({
   params,
@@ -64,6 +66,7 @@ const LessonIdPage = async ({
                   nextChapterId={nextChapter?.id}
                   nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
                   isCompleted={!!userProgress?.isCompleted}
+                  userId={userId}
                 />
 
               ) 
@@ -75,7 +78,7 @@ const LessonIdPage = async ({
           {
             !isInroductionCourse && (
             <div dir="rtl">
-              <Preview value={lesson.description!} />
+              <CourseForm defaultContext={lesson.description!} />
             </div>
               
             )

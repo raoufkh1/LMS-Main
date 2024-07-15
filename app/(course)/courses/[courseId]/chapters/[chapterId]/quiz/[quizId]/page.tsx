@@ -293,6 +293,15 @@ const ExamIdPage = ({
                         <div className="font-medium text-slate-500 mb-4 text-right">
                         سؤال {index + 1}
                         </div>
+                        {
+                          hasSubmitted &&
+                            (<div>
+                              تفسير الاجابة: 
+                              <FroalaEditorView model={question.explanation} />
+                            </div>
+                          )
+
+                        }
                         <div className="text-slate-700 font-bold text-lg">
                           {question.prompt}
                         </div>

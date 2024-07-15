@@ -31,6 +31,30 @@ export async function PUT(
         isCompleted,
       },
     });
+    const userStats = await db.userStats.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    console.log(userStats)
+    if (userStats){
+      const editedUserStats = await db.userStats.update({
+        where: {
+          id: userId
+        },
+        data: {
+          lessonsCompleted: isCompleted? userStats.lessonsCompleted! + 1 : userStats.lessonsCompleted! - 1
+        }
+      })
+    }
+    else{
+      const newUserStats = await db.userStats.create({
+        data: {
+          id: userId,
+          lessonsCompleted: 1
+        }
+      })
+    }
     console.log(userProgress)
     return NextResponse.json(userProgress);
   } catch (error) {

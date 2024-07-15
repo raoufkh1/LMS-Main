@@ -118,6 +118,13 @@ const QuestinoIdPage = async ({
                 questionId={params.questionId}
                 optionLength={question.options.length}
               />
+              <QuestionExplanationForm
+                initialData={question}
+                courseId={params.courseId}
+                quizId={params.quizId}
+                chapterId={params.chapterId}
+                questionId={params.questionId}
+              />
               
             </div>
           </div>

@@ -14,6 +14,9 @@ type UserQuizPointsWithUserDetails = UserQuizPoints & {
   numberOfTakenQuizzes: number;
   rank: number;
   imageUrl: string | null;
+  completedLessons: number;
+  completedExams: number;
+  completedQuizs: number;
 };
 
 const Leaderboard = async () => {
@@ -29,6 +32,8 @@ const Leaderboard = async () => {
       quizCount: number;
       uniqueQuizzes: Set<string>;
       totalPoints: number;
+      
+
     };
   } = {};
 
@@ -50,6 +55,7 @@ const Leaderboard = async () => {
           continue
         }
       }
+      const userStats = await db.userStats.findUnique({where:{id:point.userId}})
       const user: User = await clerkClient.users.getUser(point.userId);
       const fullName =
         user.firstName && user.lastName // Check if both firstName and lastName are not null
@@ -60,6 +66,8 @@ const Leaderboard = async () => {
         quizCount: 1,
         uniqueQuizzes: new Set([point.quizId]),
         totalPoints: point.points,
+        
+
       };
       pointsWithUserDetails.push({
         ...point,
@@ -67,6 +75,9 @@ const Leaderboard = async () => {
         rank: currentRank,
         imageUrl: user.imageUrl,
         numberOfTakenQuizzes: 1,
+        completedLessons: userStats?.lessonsCompleted!,
+        completedExams: userStats?.examsCompleted!,
+        completedQuizs: userStats?.quizsCompleted!,
       });
     } else {
       // User already encountered, update quiz count and unique quizzes
@@ -115,7 +126,7 @@ const Leaderboard = async () => {
       user.rank = index + 1;
     }
   });
-
+  console.log(pointsWithUserDetails)
   const firstThreePointsWithUserDetails = pointsWithUserDetails.slice(0, 3);
   const userPoints = pointsWithUserDetails.find(
     (point) => point.userId === userId
@@ -134,6 +145,7 @@ const Leaderboard = async () => {
               imageUrl={pointWithUser.imageUrl}
               points={pointWithUser.points}
               rank={pointWithUser.rank}
+              lessonsCompleted={pointWithUser.completedLessons}
             />
           </div>
         ))}

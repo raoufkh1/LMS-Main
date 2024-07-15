@@ -73,14 +73,14 @@ export const QuestionExplanationForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-      شرح السؤال
+      تفسير السؤال
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>يلغي</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              تحرير الشرح
+              تحرير التفسير
             </>
           )}
         </Button>

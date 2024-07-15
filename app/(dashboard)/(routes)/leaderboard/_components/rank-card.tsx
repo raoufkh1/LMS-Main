@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { BookOpenCheck, FileCheck } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { FaStar } from "react-icons/fa";
@@ -8,15 +9,16 @@ interface RankCardProps {
   imageUrl: string | null;
   points: number;
   rank: number;
+  lessonsCompleted: number;
 }
 
-const RankCard = ({ fullName, imageUrl, points, rank }: RankCardProps) => {
+const RankCard = ({ fullName, imageUrl, points, rank,lessonsCompleted }: RankCardProps) => {
   const image =
     rank === 1
       ? "/gold-medal.png"
       : rank === 2
-      ? "/silver-medal.png"
-      : "/bronze-medal.png";
+        ? "/silver-medal.png"
+        : "/bronze-medal.png";
   const imageAlt =
     rank === 1 ? "/gold-medal" : rank === 2 ? "/silver-medal" : "/bronze-medal";
   return (
@@ -38,12 +40,22 @@ const RankCard = ({ fullName, imageUrl, points, rank }: RankCardProps) => {
           )}
           <h4 className="font-semibold text-lg">{fullName}</h4>
         </div>
-        <div className="rounded-md bg-slate-200 p-2">
-          <div className="flex space-x-1 items-center">
-            <FaStar size={20} className="text-sky-500" />
-            <span className="text-xl font-bold ">{points}</span>
+        <div className="flex gap-2">
+          <div className="rounded-md bg-slate-200 p-2">
+            <div className="flex space-x-1 items-center">
+              <FaStar size={20} className="text-sky-500" />
+              <span className="text-xl font-bold ">{points}</span>
+            </div>
+          </div>
+          
+          <div className="rounded-md bg-slate-200 p-2">
+            <div className="flex space-x-1 items-center">
+              <BookOpenCheck size={20} className="text-sky-500" />
+              <span className="text-xl font-bold ">{lessonsCompleted}</span>
+            </div>
           </div>
         </div>
+
       </div>
       <div className="max-h-full">
         <Image

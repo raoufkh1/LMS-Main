@@ -17,6 +17,7 @@ interface CourseProgressButtonProps {
   nextLessonId?: string;
   nextChapterId?: string;
   nextChapterFirstLessonId?: string;
+  userId: string
 }
 
 export const CourseProgressButton = ({
@@ -27,6 +28,7 @@ export const CourseProgressButton = ({
   nextLessonId,
   nextChapterId,
   nextChapterFirstLessonId,
+  userId
 }: CourseProgressButtonProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -40,6 +42,7 @@ export const CourseProgressButton = ({
         `/api/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}/progress`,
         {
           isCompleted: !isCompleted,
+          userId: userId
         }
       );
 

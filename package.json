@@ -42,7 +42,7 @@
     "embla-carousel-react": "^8.0.0-rc22",
     "eslint": "8.49.0",
     "eslint-config-next": "^14.1.0",
-    "froala-editor": "^4.2.1",
+    "froala-editor": "link:./local_modules/froala-editor/",
     "google-translate-api": "^2.3.0",
     "google-translate-api-next": "^0.1.0",
     "jodit": "^4.2.27",

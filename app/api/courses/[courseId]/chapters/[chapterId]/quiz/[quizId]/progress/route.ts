@@ -31,7 +31,29 @@ export async function PUT(
         points,
       },
     });
-
+    const userStats = await db.userStats.findUnique({
+      where: {
+        id: userId
+      }
+    })
+    if (userStats){
+      const editedUserStats = await db.userStats.update({
+        where: {
+          id: userId
+        },
+        data: {
+          quizsCompleted: userStats.quizsCompleted! + 1
+        }
+      })
+    }
+    else{
+      const newUserStats = await db.userStats.create({
+        data: {
+          id: userId,
+          quizsCompleted: 1
+        }
+      })
+    }
     return NextResponse.json(userQuizPoints);
   } catch (error) {
     console.log("[CHAPTER_ID_POINTS]", error);

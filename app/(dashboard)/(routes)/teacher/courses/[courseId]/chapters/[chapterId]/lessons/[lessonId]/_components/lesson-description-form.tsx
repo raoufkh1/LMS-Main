@@ -21,6 +21,13 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Editor } from "@/components/editor";
 import { Preview } from "@/components/preview";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
+import "froala-editor/js/plugins.pkgd.min.js";
+// import "froala-editor/js/froala_editor.pkgd.min.js";
+
+// Require Editor CSS files.
+// import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
 
 interface LessonDescriptionFormProps {
   initialData: Lesson;
@@ -28,6 +35,7 @@ interface LessonDescriptionFormProps {
   chapterId: string;
   lessonId: string;
 }
+import Froala from "react-froala-wysiwyg";
 
 const formSchema = z.object({
   description: z.string().min(1),
@@ -52,6 +60,136 @@ export const LessonDescriptionForm = ({
     },
   });
 
+  const froalaEditorConfig = {
+    readonly: true,
+    direction: "rtl",
+    attribution: false,
+    height: 400,
+    quickInsertEnabled: false,
+    imageDefaultWidth: 0,
+    imageResizeWithPercent: true,
+    imageMultipleStyles: false,
+    imageOutputSize: true,
+    imageRoundPercent: true,
+    imageMaxSize: 1024 * 1024 * 2.5,
+    imageEditButtons: [
+      "imageReplace",
+      "imageAlign",
+      "imageRemove",
+      "imageSize",
+      "-",
+      "imageLink",
+      "linkOpen",
+      "linkEdit",
+      "linkRemove"
+    ],
+    imageAllowedTypes: ["jpeg", "jpg", "png", "gif"],
+    imageInsertButtons: ["imageBack", "|", "imageUpload"],
+    placeholderText: "Your content goes here!",
+    colorsStep: 5,
+    colorsText: [
+      "#000000",
+      "#2C2E2F",
+      "#6C7378",
+      "#FFFFFF",
+      "#009CDE",
+      "#003087",
+      "#FF9600",
+      "#00CF92",
+      "#DE0063",
+      "#640487",
+      "REMOVE"
+    ],
+    colorsBackground: [
+      "#000000",
+      "#2C2E2F",
+      "#6C7378",
+      "#FFFFFF",
+      "#009CDE",
+      "#003087",
+      "#FF9600",
+      "#00CF92",
+      "#DE0063",
+      "#640487",
+      "REMOVE"
+    ],
+    toolbarButtons: {
+      moreText: {
+        buttons: [
+          "paragraphFormat",
+          "|",
+          "fontSize",
+          "textColor",
+          "backgroundColor",
+          "insertImage",
+          "alignLeft",
+          "alignRight",
+          "alignJustify",
+          "formatOL",
+          "formatUL",
+          "indent",
+          "outdent"
+        ],
+        buttonsVisible: 6
+      },
+      moreRich: {
+        buttons: [
+          "|",
+          "bold",
+          "italic",
+          "underline",
+          "insertHR",
+          "insertLink",
+          "insertTable"
+        ],
+        name: "additionals",
+        buttonsVisible: 3
+      },
+      dummySection: {
+        buttons: ["|"]
+      },
+      moreMisc: {
+        buttons: ["|", "undo", "redo", "help", "|"],
+        align: "right",
+        buttonsVisible: 2
+      }
+    },
+    tableEditButtons: [
+      "tableHeader",
+      "tableRemove",
+      "tableRows",
+      "tableColumns",
+      "tableStyle",
+      "-",
+      "tableCells",
+      "tableCellBackground",
+      "tableCellVerticalAlign",
+      "tableCellHorizontalAlign"
+    ],
+    tableStyles: {
+      grayTableBorder: "Gray Table Border",
+      blackTableBorder: "Black Table Border",
+      noTableBorder: "No Table Border"
+    },
+    toolbarSticky: true,
+    pluginsEnabled: [
+      "align",
+      "colors",
+      "entities",
+      "fontSize",
+      "help",
+      "image",
+      "link",
+      "lists",
+      "paragraphFormat",
+      "paragraphStyle",
+      "save",
+      "table",
+      "wordPaste"
+    ],
+
+  };
+
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -71,7 +209,7 @@ export const LessonDescriptionForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-      وصف الدرس
+        وصف الدرس
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>يلغي</>
@@ -92,7 +230,7 @@ export const LessonDescriptionForm = ({
         >
           {!initialData.description && "بدون وصف"}
           {initialData.description && (
-            <Preview value={initialData.description} />
+            <FroalaEditorView model={form.getValues().description} />
           )}
         </div>
       )}
@@ -108,7 +246,13 @@ export const LessonDescriptionForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Editor {...field} />
+                    <Froala
+                      
+                      model={form.getValues().description}
+                      tag="textarea"
+                      config={froalaEditorConfig}
+                      onModelChange={(e:string) => form.setValue("description", e)}
+                    ></Froala>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
