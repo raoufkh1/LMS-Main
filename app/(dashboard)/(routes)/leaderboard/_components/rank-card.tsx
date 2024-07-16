@@ -48,12 +48,7 @@ const RankCard = ({ fullName, imageUrl, points, rank,lessonsCompleted }: RankCar
             </div>
           </div>
           
-          <div className="rounded-md bg-slate-200 p-2">
-            <div className="flex space-x-1 items-center">
-              <BookOpenCheck size={20} className="text-sky-500" />
-              <span className="text-xl font-bold ">{lessonsCompleted}</span>
-            </div>
-          </div>
+          
         </div>
 
       </div>

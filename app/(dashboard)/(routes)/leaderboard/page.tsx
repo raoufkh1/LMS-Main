@@ -126,6 +126,10 @@ const Leaderboard = async () => {
       user.rank = index + 1;
     }
   });
+  for (let i = 0; i < pointsWithUserDetails.length; i++) {
+    const points = pointsWithUserDetails[i];
+    points.points = points.points + (points.completedLessons * 20)
+  }
   console.log(pointsWithUserDetails)
   const firstThreePointsWithUserDetails = pointsWithUserDetails.slice(0, 3);
   const userPoints = pointsWithUserDetails.find(

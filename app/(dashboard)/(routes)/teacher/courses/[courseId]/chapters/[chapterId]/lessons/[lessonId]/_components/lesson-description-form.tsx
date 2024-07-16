@@ -251,7 +251,7 @@ export const LessonDescriptionForm = ({
                       model={form.getValues().description}
                       tag="textarea"
                       config={froalaEditorConfig}
-                      onModelChange={(e:string) => form.setValue("description", e)}
+                      onModelChange={(e:string) => {form.setValue("description", e)}}
                     ></Froala>
                   </FormControl>
                   <FormMessage />
@@ -259,7 +259,7 @@ export const LessonDescriptionForm = ({
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={!isValid || isSubmitting} type="submit">
+              <Button disabled={ isSubmitting} type="submit">
                 يحفظ
               </Button>
             </div>
