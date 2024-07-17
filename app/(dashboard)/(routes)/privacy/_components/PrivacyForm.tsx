@@ -48,6 +48,37 @@ const defaultContent = `<div>
     </section>
   </div>`;
 
+const froalaEditorConfig2 = {
+  readonly: true,
+  direction: "rtl",
+  attribution: false,
+  height: 400,
+  quickInsertEnabled: false,
+  imageDefaultWidth: 0,
+  
+  imageMaxSize: 1024 * 1024 * 2.5,
+  events: {
+    'image.beforeUpload': function(files:any) {
+      var editor:any = this;
+      if (files.length) {
+        // Create a File Reader.
+        var reader = new FileReader();
+        // Set the reader to insert images when they are loaded.
+        reader.onload = function(e:any) {
+          var result = e.target.result;
+          editor.image.insert(result, null, null, editor.image.get());
+        };
+        // Read image as base64.
+        reader.readAsDataURL(files[0]);
+      }
+      editor.popups.hideAll();
+      // Stop default upload chain.
+      return false;
+     }
+    }
+    
+  }
+
 const froalaEditorConfig = {
   readonly: true,
   direction: "rtl",
@@ -60,6 +91,12 @@ const froalaEditorConfig = {
   imageOutputSize: true,
   imageRoundPercent: true,
   imageMaxSize: 1024 * 1024 * 2.5,
+
+
+  // Set the image upload URL.
+  
+  // Additional upload params.
+  
   imageEditButtons: [
     "imageReplace",
     "imageAlign",
@@ -160,6 +197,26 @@ const froalaEditorConfig = {
     noTableBorder: "No Table Border"
   },
   toolbarSticky: true,
+  events: {
+    'image.beforeUpload': function(files:any) {
+      var editor:any = this;
+      if (files.length) {
+        // Create a File Reader.
+        var reader = new FileReader();
+        // Set the reader to insert images when they are loaded.
+        reader.onload = function(e:any) {
+          var result = e.target.result;
+          editor.image.insert(result, null, null, editor.image.get());
+        };
+        // Read image as base64.
+        reader.readAsDataURL(files[0]);
+      }
+      editor.popups.hideAll();
+      // Stop default upload chain.
+      return false;
+     }
+    },
+
   pluginsEnabled: [
     "align",
     "colors",
