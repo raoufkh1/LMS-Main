@@ -103,7 +103,9 @@ body,
   background: #265fa1;
   border-radius: 5px;
 }
-
+[data-f-id="pbf"] {
+  display: none;
+}
 /* Handle on hover */
 .custom-scroll-bar::-webkit-scrollbar-thumb:hover {
   background: #225794;
