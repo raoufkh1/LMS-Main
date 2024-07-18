@@ -97,7 +97,9 @@ body,
   background: #888;
   border-radius: 5px;
 }
-
+.fr-wrapper:first-child{
+  display: none;
+}
 /* Handle */
 .custom-scroll-bar::-webkit-scrollbar-thumb {
   background: #265fa1;
