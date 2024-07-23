@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FaSpinner } from "react-icons/fa";
+import OpenAI from "openai";
 
 interface Message {
   text: string;
@@ -70,22 +71,23 @@ const ChatGPTTab = () => {
       queryMessages.push({ role: "user", parts: [{ "text": message }] });
 
       // Fetch response from ChatGPT
-    
-      const response = await axios.post(
-        "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent",
-        {
-          contents: queryMessages
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": process.env.NEXT_PUBLIC_CHATGPY_API_KEY
-          },
-        }
-      );
-      console.log(response.data.candidates[0].content.parts[0].text)
+      const apiUrl = 'https://api.openai.com/v1/chat/completions'; // Update with the correct API endpoint
+      const apiKey = process.env.NEXT_PUBLIC_CHATGPY_API_KEY; // Replace with your actual API key
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      };
+
+      const requestBody = {
+        model: "gpt-3.5-turbo",
+        messages: [{ role: 'user', content: message }],
+        
+      };
+      console.log(apiKey)
+      const response = await axios.post(apiUrl, requestBody, { headers });
+
       // Extract the ChatGPT response
-      const chatGPTResponse: string = response.data.candidates[0].content.parts[0].text;
+      const chatGPTResponse: string = response.data.choices[0].message.content
 
       // Update messages array with ChatGPT response
       setMessages((prevMessages) => [

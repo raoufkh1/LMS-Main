@@ -231,7 +231,7 @@ model Message {
   messageId   String? 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  reply   Reply[]
 }
 model GoalsText{
   id         String  @id @default(uuid())
@@ -258,4 +258,16 @@ model UserStats{
   examsCompleted Float? @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+model Reply {
+  id          String  @id @default(uuid())
+  userId      String? @default("nil")
+  context     String  @db.Text
+  replyId   String? 
+  messageId String?
+  message   Message @relation(fields: [id], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  
 }

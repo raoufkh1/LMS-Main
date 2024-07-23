@@ -18,7 +18,162 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import "froala-editor/js/plugins.pkgd.min.js";
+// import "froala-editor/js/froala_editor.pkgd.min.js";
 
+// Require Editor CSS files.
+// import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+
+import Froala from "react-froala-wysiwyg";
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
+const froalaEditorConfig = {
+  readonly: true,
+  direction: "rtl",
+  attribution: false,
+  height: 200,
+  quickInsertEnabled: false,
+  imageDefaultWidth: 0,
+  imageResizeWithPercent: true,
+  imageMultipleStyles: false,
+  imageOutputSize: true,
+  imageRoundPercent: true,
+  imageMaxSize: 1024 * 1024 * 2.5,
+  imageEditButtons: [
+    "imageReplace",
+    "imageAlign",
+    "imageRemove",
+    "imageSize",
+    "-",
+    "imageLink",
+    "linkOpen",
+    "linkEdit",
+    "linkRemove"
+  ],
+  imageAllowedTypes: ["jpeg", "jpg", "png", "gif"],
+  imageInsertButtons: ["imageBack", "|", "imageUpload"],
+  placeholderText: "Your content goes here!",
+  colorsStep: 5,
+  colorsText: [
+    "#000000",
+    "#2C2E2F",
+    "#6C7378",
+    "#FFFFFF",
+    "#009CDE",
+    "#003087",
+    "#FF9600",
+    "#00CF92",
+    "#DE0063",
+    "#640487",
+    "REMOVE"
+  ],
+  colorsBackground: [
+    "#000000",
+    "#2C2E2F",
+    "#6C7378",
+    "#FFFFFF",
+    "#009CDE",
+    "#003087",
+    "#FF9600",
+    "#00CF92",
+    "#DE0063",
+    "#640487",
+    "REMOVE"
+  ],
+  toolbarButtons: {
+    moreText: {
+      buttons: [
+        "paragraphFormat",
+        "|",
+        "fontSize",
+        "textColor",
+        "backgroundColor",
+        "insertImage",
+        "alignLeft",
+        "alignRight",
+        "alignJustify",
+        "formatOL",
+        "formatUL",
+        "indent",
+        "outdent"
+      ],
+      buttonsVisible: 6
+    },
+    moreRich: {
+      buttons: [
+        "|",
+        "bold",
+        "italic",
+        "underline",
+        "insertHR",
+        "insertLink",
+        "insertTable"
+      ],
+      name: "additionals",
+      buttonsVisible: 3
+    },
+    dummySection: {
+      buttons: ["|"]
+    },
+    moreMisc: {
+      buttons: ["|", "undo", "redo", "help", "|"],
+      align: "right",
+      buttonsVisible: 2
+    }
+  },
+  tableEditButtons: [
+    "tableHeader",
+    "tableRemove",
+    "tableRows",
+    "tableColumns",
+    "tableStyle",
+    "-",
+    "tableCells",
+    "tableCellBackground",
+    "tableCellVerticalAlign",
+    "tableCellHorizontalAlign"
+  ],
+  tableStyles: {
+    grayTableBorder: "Gray Table Border",
+    blackTableBorder: "Black Table Border",
+    noTableBorder: "No Table Border"
+  },
+  toolbarSticky: true,
+  pluginsEnabled: [
+    "align",
+    "colors",
+    "entities",
+    "fontSize",
+    "help",
+    "image",
+    "link",
+    "lists",
+    "paragraphFormat",
+    "paragraphStyle",
+    "save",
+    "table",
+    "wordPaste"
+  ],
+  events: {
+    'image.beforeUpload': function(files:any) {
+      var editor:any = this;
+      if (files.length) {
+        // Create a File Reader.
+        var reader = new FileReader();
+        // Set the reader to insert images when they are loaded.
+        reader.onload = function(e:any) {
+          var result = e.target.result;
+          editor.image.insert(result, null, null, editor.image.get());
+        };
+        // Read image as base64.
+        reader.readAsDataURL(files[0]);
+      }
+      editor.popups.hideAll();
+      // Stop default upload chain.
+      return false;
+     }
+    },
+};
 interface QuestionPromptFormProps {
   initialData: {
     prompt: string;
@@ -59,6 +214,7 @@ export const QuestionPromptForm = ({
         `/api/courses/${courseId}/chapters/${chapterId}/quiz/${quizId}/questions/${questionId}`,
         values
       );
+      console.log(values)
       toast.success("تم تحديث السؤال");
       toggleEdit();
       router.refresh();
@@ -82,7 +238,7 @@ export const QuestionPromptForm = ({
           )}
         </Button>
       </div>
-      {!isEditing && <div className="text-sm mt-2">{initialData.prompt}</div>}
+      {!isEditing &&             <FroalaEditorView model={initialData.prompt} />}
       {isEditing && (
         <Form {...form}>
           <form
@@ -95,11 +251,7 @@ export const QuestionPromptForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'ما هو HTML'"
-                      {...field}
-                    />
+                    <Froala config={froalaEditorConfig} model={form.getValues("prompt")} onModelChange={(e:any) => form.setValue("prompt",e)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

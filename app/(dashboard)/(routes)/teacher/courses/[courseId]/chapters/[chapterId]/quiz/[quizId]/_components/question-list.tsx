@@ -12,6 +12,7 @@ import { Grip, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 
 interface QuestionListProps {
   items: QuizQuestion[];
@@ -94,7 +95,8 @@ export const QuestionList = ({
                     >
                       <Grip className="h-5 w-5" />
                     </div>
-                    {question.prompt}
+                    <FroalaEditorView model={question.prompt} />
+                    
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
                       <Badge
                         className={cn(

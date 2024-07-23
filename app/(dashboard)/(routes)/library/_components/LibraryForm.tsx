@@ -209,7 +209,6 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
   };
   const handleSubmit = async () => {
     try {
-      console.log(context)
       await axios.patch(
         `/api/library`,
         {context: context}
@@ -257,7 +256,7 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
             {
               isTeacher && (
                 <div className="flex w-full justify-between mb-4 items-center">
-              <h1 className="text-xl"> يمكنك التعديل على الصفحة</h1>
+              <h1 className="text-xl">    </h1>
               <Button
                 type="button"
                 variant={"success"}

@@ -73,7 +73,7 @@ const ExamIdPage = ({
   const [wrongAnswers, setWrongAnswers] = useState(0);
 
   const [points, setPoints] = useState<number>(0);
-
+  const [wrongAnswersQuiz, setWrongAnswersQuiz] = useState<string[]>([])
   const hasTakenQuiz = quiz && quiz.userId !== "nil";
 
   // Check if userSelections has any members
@@ -103,7 +103,6 @@ const ExamIdPage = ({
 
 
       console.log("====================================");
-      console.log(response);
       console.log("====================================");
 
       if (points != undefined) {
@@ -115,7 +114,6 @@ const ExamIdPage = ({
         );
 
         console.log("====================================");
-        console.log(quizResponse);
         console.log("====================================");
 
         sethasSubmitted(true);
@@ -194,21 +192,22 @@ const ExamIdPage = ({
 
     if (!totalQuestions) return;
 
+    const wrongAnswersQuizTemp:string[] = []
     quiz?.questions.forEach((question) => {
       const questionId = question.id;
       const userSelectedPosition = userSelections[question.id];
       const correctAnswerPosition = parseInt(question.answer) - 1;
-
       if (userSelectedPosition !== undefined) {
         answered++;
         if (userSelectedPosition === correctAnswerPosition) {
           correct++;
         } else {
           wrong++;
+          wrongAnswersQuizTemp.push(questionId)
         }
       }
     });
-
+    setWrongAnswersQuiz(wrongAnswersQuizTemp)
     setAnsweredQuestions(answered);
     setCorrectAnswers(correct);
     setWrongAnswers(wrong);
@@ -294,10 +293,17 @@ const ExamIdPage = ({
                         سؤال {index + 1}
                         </div>
                         {
-                          hasSubmitted &&
-                            (<div>
-                              تفسير الاجابة: 
-                              <FroalaEditorView model={question.explanation} />
+                          hasSubmitted && wrongAnswersQuiz.includes(question.id) &&
+                            (<div className="mb-4">
+                              <p className="text-right">
+                              تفسير الاجابة
+
+                              </p>
+                              {(
+                                question.explanation ? <FroalaEditorView config={{direction: "rtl"}} model={question.explanation} /> : "لا يوجد تفسير"
+                          
+                              )}
+                              
                             </div>
                           )
 

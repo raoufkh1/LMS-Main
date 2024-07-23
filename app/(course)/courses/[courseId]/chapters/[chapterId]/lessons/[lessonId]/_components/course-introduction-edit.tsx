@@ -19,13 +19,13 @@ interface CourseProgressButtonProps {
   nextChapterFirstLessonId?: string;
 }
 
-export const CourseEditButton = () => {
+export const CourseEditButton = ({chapterId, lessonId} : {chapterId:string, lessonId:string}) => {
   const router = useRouter();
   const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
-    router.push(`/teacher/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`)
+    router.push(`/teacher/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}/chapters/${chapterId}/lessons/${lessonId}`)
   };
 
   

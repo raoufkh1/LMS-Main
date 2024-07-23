@@ -8,18 +8,18 @@ import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
 interface Props {
-  msg: {context: string, createdAt: string, id:string},
-  user:{imageUrl: string, lastName: string, firstName: string, id: string}
+  msg: { context: string, createdAt: string, id: string },
+  user: { imageUrl: string, lastName: string, firstName: string, id: string }
 }
 const Message = () => {
   const [messages, setMessages] = useState<Props[]>([])
-  
+  const [replyIs, setReplyIs] = useState<string>('')
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {data} = await axios.get("/api/messages")
+        const { data } = await axios.get("/api/messages")
         setMessages(data)
-        console.log(data)
+
       } catch (error) {
         console.log(error)
       }
@@ -31,43 +31,62 @@ const Message = () => {
   useEffect(() => {
     console.log("ss")
     pusherClient.subscribe("chat-event")
-    pusherClient.bind("update-message", (e: any) =>{
+    pusherClient.bind("update-message", (e: any) => {
       console.log("new msg")
-      let {tempMsg} = e
-      setMessages((prevState:Props[]) => [tempMsg, ...prevState ])
+      let { tempMsg } = e
+      setMessages((prevState: Props[]) => [tempMsg, ...prevState])
     })
-    pusherClient.bind("delete-message", (e: any) =>{
+    pusherClient.bind("delete-message", (e: any) => {
       console.log("delete msg")
-      let {messageId} = e
+      let { messageId } = e
       const tempMsg = messages
-      setMessages((prevState:Props[]) => [...prevState.filter(e => e.msg.id != messageId) ])
+      setMessages((prevState: Props[]) => [...prevState.filter(e => e.msg.id != messageId)])
 
     })
     setTimeout(() => {
-      
+
       return () => {
         pusherClient.unsubscribe("chat-event");
       };
     }, 1000);
   }, [])
+
   return (
     <div>
-    <div className='px-6 pt-6 block'>
-        <MessageInput setMessages={setMessages}/>
-    </div>
-    <div className='mt-6 flex justify-center'>
-      <div>
-      {
-                  messages.map(({msg, user}, index) => {
-                      return (
-                        
-                        <MessageCard key={index} msg={msg} user={user}/>
-                      )
-                  })
-              }
+      <div className='px-6 pt-6 block'>
+        {
+          replyIs ? (
+            <div>
+              <a onClick={async e => {
+                const element = document.getElementById(replyIs);
+                 element?.scrollIntoView({
+                  behavior: 'instant'
+                  
+                });
+                
+                  
+                  window.scrollBy({top:-250})
+                
+              }} className='text-sm text-gray-400 py-5 px-5' dir='rtl'>   تقوم حاليا بالرد على رسالة</a>
 
+            </div>
+          ) : ''
+        }
+        <MessageInput setMessages={setMessages} />
       </div>
-    </div>
+      <div className='mt-6 flex justify-center'>
+        <div>
+          {
+            messages.map(({ msg, user }, index) => {
+              return (
+
+                <MessageCard replyIs={replyIs} setReplyIs={setReplyIs} key={index} msg={msg} user={user} />
+              )
+            })
+          }
+
+        </div>
+      </div>
     </div>
   )
 }

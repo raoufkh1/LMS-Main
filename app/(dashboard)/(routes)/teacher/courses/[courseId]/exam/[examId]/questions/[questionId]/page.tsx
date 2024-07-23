@@ -72,11 +72,11 @@ const QuestinoIdPage = async ({
               className="flex items-center text-sm hover:opacity-75 transition mb-6"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              العودة إلى إعداد الامتحان
+              العودة إلى إعداد الاختبار
             </Link>
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col gap-y-2">
-                <h1 className="text-2xl font-medium">خلق السؤال</h1>
+                <h1 className="text-2xl font-medium">انشاء السؤال</h1>
                 <span className="text-sm text-slate-700">
                 أكمل كافة الحقول {completionText}
                 </span>
@@ -96,7 +96,7 @@ const QuestinoIdPage = async ({
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />
-                <h2 className="text-xl">تخصيص السؤال</h2>
+                <h2 className="text-xl">انشاء السؤال</h2>
               </div>
               <QuestionPromptForm
                 initialData={question}
@@ -111,12 +111,7 @@ const QuestinoIdPage = async ({
                 examId={params.examId}
                 questionId={params.questionId}
               />
-              <QuestionExplanationForm
-                initialData={question}
-                courseId={params.courseId}
-                examId={params.examId}
-                questionId={params.questionId}
-              />
+              
             </div>
           </div>
           <div>

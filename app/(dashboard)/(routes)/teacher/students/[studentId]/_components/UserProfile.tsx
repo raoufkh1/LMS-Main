@@ -41,8 +41,8 @@ const UserProfile = async ({ params}:PageProps) => {
                     <tr className='text-base'>
                         <td className="px-2 py-2 text-gray-600 font-semibold">اسم الكورس</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">التقدم</td>
-                        <td className="px-2 py-2 text-gray-600  font-semibold">الامتحان الابتدائي</td>
-                        <td className="px-2 py-2 text-gray-600  font-semibold">الامتحان النهائي</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold">الاختبار القبلي</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold">الاختبار البعدي</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الدروس المكتملة</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الانشطة المكتملة</td>
                     </tr>

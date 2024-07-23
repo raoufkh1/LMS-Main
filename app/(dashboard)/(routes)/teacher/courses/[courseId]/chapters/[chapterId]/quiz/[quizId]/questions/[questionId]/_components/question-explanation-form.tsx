@@ -21,7 +21,162 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Editor } from "@/components/editor";
 import { Preview } from "@/components/preview";
+import "froala-editor/js/plugins.pkgd.min.js";
+// import "froala-editor/js/froala_editor.pkgd.min.js";
 
+// Require Editor CSS files.
+// import "froala-editor/css/froala_style.min.css";
+import "froala-editor/css/froala_editor.pkgd.min.css";
+
+import Froala from "react-froala-wysiwyg";
+import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
+const froalaEditorConfig = {
+  readonly: true,
+  direction: "rtl",
+  attribution: false,
+  height: 200,
+  quickInsertEnabled: false,
+  imageDefaultWidth: 0,
+  imageResizeWithPercent: true,
+  imageMultipleStyles: false,
+  imageOutputSize: true,
+  imageRoundPercent: true,
+  imageMaxSize: 1024 * 1024 * 2.5,
+  imageEditButtons: [
+    "imageReplace",
+    "imageAlign",
+    "imageRemove",
+    "imageSize",
+    "-",
+    "imageLink",
+    "linkOpen",
+    "linkEdit",
+    "linkRemove"
+  ],
+  imageAllowedTypes: ["jpeg", "jpg", "png", "gif"],
+  imageInsertButtons: ["imageBack", "|", "imageUpload"],
+  placeholderText: "Your content goes here!",
+  colorsStep: 5,
+  colorsText: [
+    "#000000",
+    "#2C2E2F",
+    "#6C7378",
+    "#FFFFFF",
+    "#009CDE",
+    "#003087",
+    "#FF9600",
+    "#00CF92",
+    "#DE0063",
+    "#640487",
+    "REMOVE"
+  ],
+  colorsBackground: [
+    "#000000",
+    "#2C2E2F",
+    "#6C7378",
+    "#FFFFFF",
+    "#009CDE",
+    "#003087",
+    "#FF9600",
+    "#00CF92",
+    "#DE0063",
+    "#640487",
+    "REMOVE"
+  ],
+  toolbarButtons: {
+    moreText: {
+      buttons: [
+        "paragraphFormat",
+        "|",
+        "fontSize",
+        "textColor",
+        "backgroundColor",
+        "insertImage",
+        "alignLeft",
+        "alignRight",
+        "alignJustify",
+        "formatOL",
+        "formatUL",
+        "indent",
+        "outdent"
+      ],
+      buttonsVisible: 6
+    },
+    moreRich: {
+      buttons: [
+        "|",
+        "bold",
+        "italic",
+        "underline",
+        "insertHR",
+        "insertLink",
+        "insertTable"
+      ],
+      name: "additionals",
+      buttonsVisible: 3
+    },
+    dummySection: {
+      buttons: ["|"]
+    },
+    moreMisc: {
+      buttons: ["|", "undo", "redo", "help", "|"],
+      align: "right",
+      buttonsVisible: 2
+    }
+  },
+  tableEditButtons: [
+    "tableHeader",
+    "tableRemove",
+    "tableRows",
+    "tableColumns",
+    "tableStyle",
+    "-",
+    "tableCells",
+    "tableCellBackground",
+    "tableCellVerticalAlign",
+    "tableCellHorizontalAlign"
+  ],
+  tableStyles: {
+    grayTableBorder: "Gray Table Border",
+    blackTableBorder: "Black Table Border",
+    noTableBorder: "No Table Border"
+  },
+  toolbarSticky: true,
+  pluginsEnabled: [
+    "align",
+    "colors",
+    "entities",
+    "fontSize",
+    "help",
+    "image",
+    "link",
+    "lists",
+    "paragraphFormat",
+    "paragraphStyle",
+    "save",
+    "table",
+    "wordPaste"
+  ],
+  events: {
+    'image.beforeUpload': function(files:any) {
+      var editor:any = this;
+      if (files.length) {
+        // Create a File Reader.
+        var reader = new FileReader();
+        // Set the reader to insert images when they are loaded.
+        reader.onload = function(e:any) {
+          var result = e.target.result;
+          editor.image.insert(result, null, null, editor.image.get());
+        };
+        // Read image as base64.
+        reader.readAsDataURL(files[0]);
+      }
+      editor.popups.hideAll();
+      // Stop default upload chain.
+      return false;
+     }
+    },
+};
 interface QuestionExplanationFormProps {
   initialData: QuizQuestion;
   courseId: string;
@@ -94,7 +249,7 @@ export const QuestionExplanationForm = ({
         >
           {!initialData.explanation && "لا يوجد تفسير"}
           {initialData.explanation && (
-            <Preview value={initialData.explanation} />
+            <FroalaEditorView model={form.getValues("explanation")} />
           )}
         </div>
       )}
@@ -110,14 +265,15 @@ export const QuestionExplanationForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Editor {...field} />
+                    <Froala config={froalaEditorConfig} model={form.getValues("explanation")} onModelChange={(e:any) => form.setValue("explanation",e)} />
+
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={!isValid || isSubmitting} type="submit">
+              <Button disabled={isSubmitting} type="submit">
                 يحفظ
               </Button>
             </div>

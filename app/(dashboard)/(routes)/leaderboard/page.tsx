@@ -97,6 +97,10 @@ const Leaderboard = async () => {
     }
     currentRank++;
   }
+  for (let i = 0; i < pointsWithUserDetails.length; i++) {
+    const points = pointsWithUserDetails[i];
+    points.points = points.points + (points.completedLessons * 20)
+  }
 
   // Sort pointsWithUserDetails first by points, then by quiz count, and finally by creation timestamp
   pointsWithUserDetails.sort((a, b) => {
@@ -126,11 +130,7 @@ const Leaderboard = async () => {
       user.rank = index + 1;
     }
   });
-  for (let i = 0; i < pointsWithUserDetails.length; i++) {
-    const points = pointsWithUserDetails[i];
-    points.points = points.points + (points.completedLessons * 20)
-  }
-  console.log(pointsWithUserDetails)
+  
   const firstThreePointsWithUserDetails = pointsWithUserDetails.slice(0, 3);
   const userPoints = pointsWithUserDetails.find(
     (point) => point.userId === userId
@@ -139,7 +139,7 @@ const Leaderboard = async () => {
   return (
     <div className="p-6 flex flex-col">
       <div>
-        <h1 className="text-2xl font-medium text-right">Leaderboard</h1>
+        <h1 className="text-2xl font-medium text-right">المتصدرين</h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
         {firstThreePointsWithUserDetails.map((pointWithUser) => (

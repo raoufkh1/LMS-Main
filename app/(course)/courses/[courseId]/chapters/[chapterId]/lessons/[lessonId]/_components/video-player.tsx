@@ -81,7 +81,6 @@ export const VideoPlayer = ({
       type: 'application/x-mpegURL',
     }
   ];
-  console.log(url)
   return (
     <div className="relative aspect-video h-fit w-full">
       

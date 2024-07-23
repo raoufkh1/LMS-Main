@@ -15,38 +15,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-const defaultContent = `<div>
-<section data-element_type="section" data-id="6dad7bdb">
-  <div data-element_type="column" data-id="2fdea927">
-    <div data-element_type="widget" data-id="1ae5ac6e" data-widget_type="heading.default">
-      <h2>Buy Froala Editor</h2>
-    </div>
-    <div data-element_type="widget" data-id="19f12a3a" data-widget_type="heading.default">
-      <h5>Powering web editing for customers ranging from startups to the world's largest companies.</h5>
-      <p>
-        <br>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section data-element_type="section" data-id="14f81af">
-    <div data-element_type="column" data-id="7cf39a8">
-      <div data-element_type="widget" data-id="1875aae" data-widget_type="html.default">
-        <img src="https://froala.com/wp-content/uploads/2019/10/samsung.svg" alt="Samsung" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="25">
-        <img data-fr-image-pasted="true" src="https://froala.com/wp-content/uploads/2019/10/apple.svg" alt="Apple" height="25" data-lazy-loaded="true" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img data-fr-image-pasted="true" src="https://froala.com/wp-content/uploads/2019/10/ibm.svg" alt="IBM" height="25" data-lazy-loaded="true" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img src="https://froala.com/wp-content/uploads/2019/10/amazon.svg" alt="Amazon" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="124">
-        <img src="https://froala.com/wp-content/uploads/2019/10/ebay.svg" alt="Ebay" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img src="https://froala.com/wp-content/uploads/2019/10/intel.svg" alt="Intel" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="38">
-        <img data-fr-image-pasted="true" alt="Netflix" src="https://froala.com/wp-content/uploads/2020/04/netflix.png" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" style="width: 10%;" width="10%" height="22">
-        <img src="https://froala.com/wp-content/uploads/2019/10/cisco.svg" alt="Cisco" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="107">
-        <img src="https://froala.com/wp-content/uploads/2019/10/thomson.png" alt="Thomson Reuters" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="107">
-      </div>
-      <p><br></p>
-      <div data-element_type="widget" data-id="2f69551" data-widget_type="heading.default">We are proud to announce new flexibility with <strong>perpetual</strong> and <strong>annual</strong> plan options - perfect for any project or team!</div>
-      </div>
-    </section>
-  </div>`;
+
 
 const froalaEditorConfig = {
   readonly: true,
@@ -209,7 +178,6 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
   };
   const handleSubmit = async () => {
     try {
-      console.log(context)
       await axios.patch(
         `/api/goals`,
         {context: context}
@@ -257,7 +225,7 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
             {
               isTeacher && (
                 <div className="flex w-full justify-between mb-4 items-center">
-              <h1 className="text-xl"> يمكنك التعديل على الصفحة</h1>
+              <h1 className="text-xl"></h1>
               <Button
                 type="button"
                 variant={"success"}

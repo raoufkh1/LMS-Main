@@ -59,7 +59,6 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
     
   });
   if(StartExam){
-    console.log(StartExam)
     if(StartExam.isPublished){
       if(StartExamProgress?.isCompleted){
     

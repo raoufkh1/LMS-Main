@@ -57,7 +57,7 @@ const LessonIdPage = async ({
         <div className="p-4 flex flex-col md:flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold">{lesson.title}</h2>
             {
-              isInroductionCourse ?  isTeacher(userId) ?  <CourseEditButton /> : "" : (
+              isInroductionCourse ?  isTeacher(userId) ?  <CourseEditButton chapterId={params.chapterId} lessonId={params.lessonId} /> : "" : (
                 <CourseProgressButton
                   lessonId={params.lessonId}
                   chapterId={params.chapterId}
