@@ -40,7 +40,6 @@ export async function PATCH(
     if (
       !question ||
       !question.prompt ||
-      !question.explanation ||
       !question.options.every((option) => option.text) ||
       !question.answer
     ) {

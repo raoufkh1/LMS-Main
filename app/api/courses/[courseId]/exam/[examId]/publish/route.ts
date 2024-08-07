@@ -31,7 +31,6 @@ export async function PATCH(
         courseId: params.courseId,
       },
     });
-
     if (!exam || !exam.title || !exam.description) {
       return new NextResponse("Missing required fields", { status: 400 });
     }

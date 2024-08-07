@@ -4,19 +4,34 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
-const MessageInput = ({setMessages} : {setMessages: Function}) => {
+const MessageInput = ({setMessages,messageId} : {setMessages: Function,messageId:string}) => {
     
     const [context, setContext] = useState("")
     const onSubmit = async (e:any) => {
         e.preventDefault()
-        try {
-          const {data} = await axios.post("/api/messages", {context: context});
-          
-          toast.success("تم إرسال الرسالة");
-          setContext("")
-        } catch (e){
-          console.log(e)
-          toast.error("هناك شئ غير صحيح");
+        if(messageId){
+          ("reply")
+          try {
+            const {data} = await axios.post("/api/messages/reply", {context: context,messageId});
+            
+            toast.success("تم إرسال الرد");
+            setContext("")
+          } catch (e){
+            (e)
+            toast.error("هناك شئ غير صحيح");
+          }
+        }
+        else{
+          try {
+            const {data} = await axios.post("/api/messages", {context: context});
+            
+            toast.success("تم إرسال الرسالة");
+            setContext("")
+          } catch (e){
+            (e)
+            toast.error("هناك شئ غير صحيح");
+          }
+
         }
       }
   return (

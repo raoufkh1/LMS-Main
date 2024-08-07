@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { useConfettiStore } from "@/hooks/use-confetti-store";
+import { number } from "zod";
 
 interface CourseProgressButtonProps {
   chapterId: string;
@@ -17,7 +18,8 @@ interface CourseProgressButtonProps {
   nextLessonId?: string;
   nextChapterId?: string;
   nextChapterFirstLessonId?: string;
-  userId: string
+  userId: string;
+  startedAt: number
 }
 
 export const CourseProgressButton = ({
@@ -28,7 +30,8 @@ export const CourseProgressButton = ({
   nextLessonId,
   nextChapterId,
   nextChapterFirstLessonId,
-  userId
+  userId,
+  startedAt
 }: CourseProgressButtonProps) => {
   const router = useRouter();
   const confetti = useConfettiStore();
@@ -42,7 +45,8 @@ export const CourseProgressButton = ({
         `/api/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}/progress`,
         {
           isCompleted: !isCompleted,
-          userId: userId
+          userId: userId,
+          startedAt: startedAt
         }
       );
 

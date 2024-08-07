@@ -248,7 +248,7 @@ export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string
   };
   const handleSubmit = async () => {
     try {
-      console.log(context)
+      (context)
       await axios.patch(
         `/api/privacy`,
         {context: context}
@@ -257,7 +257,7 @@ export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string
       setEditing(false)
       
     } catch (e){
-      console.log(e)
+      (e)
       toast.error("هناك شئ غير صحيح");
     }
   }

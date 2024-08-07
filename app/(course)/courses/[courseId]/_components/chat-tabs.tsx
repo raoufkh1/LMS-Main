@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ChatGPTTab from "./chat-gpt-tab";
 import { BotIcon, Headphones } from "lucide-react";
+import ChatAsstTab from "./chat-asst-tab";
 
 export function ChatWidgetTabs() {
   return (
@@ -41,7 +42,7 @@ export function ChatWidgetTabs() {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="chatbot">
-        <ChatGPTTab />
+        <ChatAsstTab />
       </TabsContent>
       <TabsContent value="chatgpt">
         <ChatGPTTab />

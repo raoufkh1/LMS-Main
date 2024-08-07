@@ -8,7 +8,7 @@ import { PrivacyForm } from "./_components/PrivacyForm"
 const Privacy = async () => {
     const {userId} = auth()
     const context = await db.policiesText.findFirst()
-    console.log()
+    ()
     return(
         <div dir="rtl">
 

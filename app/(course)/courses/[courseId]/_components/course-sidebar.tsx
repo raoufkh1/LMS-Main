@@ -41,7 +41,7 @@ export const CourseSidebar = async ({
     return redirect("/");
   }
   const headersList = headers();
-
+  const task = await db.task.findFirst({where: {courseId: course.id}})
   const pathname = headersList.get("referer") || "";
   const takingExamination = pathname?.includes("exam");
   const viewingCertificate = pathname?.includes("certificate");
@@ -95,6 +95,8 @@ export const CourseSidebar = async ({
       {return certificate.userId === userId && certificate.nameOfStudent != null}
   )
   const hasCertificate = certificateId != undefined;
+  const taskProgress = await db.userProgress.findFirst({where: {lessonId : task?.id, userId:userId}})
+  const taskCompleted = taskProgress?.isCompleted
   const examCompleted = await db.userProgress.findFirst({
     where:{
       lessonId:exam?.id,
@@ -224,6 +226,46 @@ export const CourseSidebar = async ({
             />
           )
 })}
+      </div>
+      <div>
+        { task?.id && (
+                <Link
+                type="button"
+                href={(progressCount == 100) ?`/courses/${course.id}/task/${task.id}` : "#"}
+                className={cn(
+                  `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
+                  
+                )}
+              >
+                <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
+                  {!(progressCount == 100) ? (
+                    <LockIcon
+                      size={22}
+                      className={cn(
+                        "text-gray-700",
+                        pathname?.includes(exam.id) && "text-gray-800"
+                      )}
+                    />
+                  ) : !taskCompleted ? <PlayCircle
+                  size={22}
+                  className={cn(
+                    "text-slate-500",
+                    pathname?.includes(exam.id) && "text-slate-700"
+                  )}
+                /> : (
+                    <CheckCircle
+                      size={22}
+                      className={cn(
+                        "text-slate-500",
+                        pathname?.includes(exam.id) && "text-slate-700"
+                      )}
+                    />
+                  )}
+                  <div>مهمة : {task.title}</div>
+                </div>
+              </Link>
+              )}
+
       </div>
       <div>
         { exam?.id && (

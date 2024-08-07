@@ -50,6 +50,18 @@ model Attachment {
 
   @@index([courseId])
 }
+model TaskAttachment {
+  id   String @id @default(uuid())
+  name String?
+  url  String @db.Text
+
+  taskId String
+  userId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([taskId])
+}
 
 model Chapter {
   id          String  @id @default(uuid())
@@ -69,7 +81,21 @@ model Chapter {
 
   @@index([courseId])
 }
+model Task {
+  id          String  @id @default(uuid())
+  title       String
+  content String? @db.Text
+  isPublished Boolean @default(false)
+  
 
+  courseId String
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
 model UserProgress {
   id     String @id @default(uuid())
   userId String
@@ -78,7 +104,7 @@ model UserProgress {
   lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   isCompleted Boolean @default(false)
-
+  startedAt Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   percentage Float? @default(0)
@@ -229,6 +255,7 @@ model Message {
   userId      String? @default("nil")
   context     String  @db.Text
   messageId   String? 
+  repliesCount Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   reply   Reply[]
@@ -265,9 +292,11 @@ model Reply {
   context     String  @db.Text
   replyId   String? 
   messageId String?
-  message   Message @relation(fields: [id], references: [id], onDelete: Cascade)
+  message   Message? @relation(fields: [messageId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   
+
+  @@index([messageId])
 }

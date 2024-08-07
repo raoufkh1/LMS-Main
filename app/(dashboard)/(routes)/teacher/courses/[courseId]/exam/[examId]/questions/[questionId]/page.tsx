@@ -44,7 +44,6 @@ const QuestinoIdPage = async ({
 
   const requiredFields = [
     question.prompt,
-    question.explanation,
     question.answer !== null,
     question.options.length >= 2 && question.options.length <= 4,
   ];

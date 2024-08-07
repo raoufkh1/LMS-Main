@@ -7,9 +7,8 @@ const f = createUploadthing();
 
 const handleAuth = () => {
   const { userId } = auth();
-  const isAuthorized = isTeacher(userId);
 
-  if (!userId || !isAuthorized) throw new Error("Unauthorized");
+  if (!userId) throw new Error("Unauthorized");
   return { userId };
 };
 
@@ -21,6 +20,9 @@ export const ourFileRouter = {
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
   lessonVideo: f({ video: { maxFileCount: 1, maxFileSize: "512GB" } })
+    .middleware(() => handleAuth())
+    .onUploadComplete(() => {}),
+  taskAttachment: f(["text", "image", "video", "audio", "pdf"])
     .middleware(() => handleAuth())
     .onUploadComplete(() => {}),
 } satisfies FileRouter;

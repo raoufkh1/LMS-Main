@@ -8,18 +8,19 @@ import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
 interface Props {
-  msg: { context: string, createdAt: string, id: string },
+  msg: { context: string, createdAt: string, id: string,repliesCount:number },
   user: { imageUrl: string, lastName: string, firstName: string, id: string }
 }
 const Message = () => {
   const [messages, setMessages] = useState<Props[]>([])
+  const [doubleMessage, setDoubleMessages] = useState<Props[]>([])
   const [replyIs, setReplyIs] = useState<string>('')
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get("/api/messages")
         setMessages(data)
-
+        setDoubleMessages(data)
       } catch (error) {
         console.log(error)
       }
@@ -29,9 +30,11 @@ const Message = () => {
   }, []);
 
   useEffect(() => {
+    
     console.log("ss")
     pusherClient.subscribe("chat-event")
     pusherClient.bind("update-message", (e: any) => {
+      console.log(messages)
       console.log("new msg")
       let { tempMsg } = e
       setMessages((prevState: Props[]) => [tempMsg, ...prevState])
@@ -43,6 +46,17 @@ const Message = () => {
       setMessages((prevState: Props[]) => [...prevState.filter(e => e.msg.id != messageId)])
 
     })
+    
+    pusherClient.bind("update-reply", async(e: any) => {
+      try {
+        const { data } = await axios.get("/api/messages")
+        setMessages(data)
+        setDoubleMessages(data)
+      } catch (error) {
+        console.log(error)
+      }
+
+    })
     setTimeout(() => {
 
       return () => {
@@ -50,7 +64,9 @@ const Message = () => {
       };
     }, 1000);
   }, [])
-
+  useEffect(() => {
+    console.log(doubleMessage)
+  }, [doubleMessage])
   return (
     <div>
       <div className='px-6 pt-6 block'>
@@ -72,7 +88,7 @@ const Message = () => {
             </div>
           ) : ''
         }
-        <MessageInput setMessages={setMessages} />
+        <MessageInput messageId={replyIs} setMessages={setMessages} />
       </div>
       <div className='mt-6 flex justify-center'>
         <div>

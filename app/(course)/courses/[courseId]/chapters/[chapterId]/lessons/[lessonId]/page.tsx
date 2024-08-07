@@ -45,6 +45,7 @@ const LessonIdPage = async ({
   }
   const isInroductionCourse = process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID === course.id
   const completeOnEnd = !userProgress?.isCompleted;
+  const startedAt = Date.now()
   return (
     <div>
       {userProgress?.isCompleted && (
@@ -67,6 +68,7 @@ const LessonIdPage = async ({
                   nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
                   isCompleted={!!userProgress?.isCompleted}
                   userId={userId}
+                  startedAt={startedAt}
                 />
 
               ) 

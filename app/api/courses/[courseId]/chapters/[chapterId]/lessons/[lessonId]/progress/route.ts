@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   try {
     const { userId } = auth();
-    const { isCompleted } = await req.json();
+    const { isCompleted,startedAt } = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -29,6 +29,7 @@ export async function PUT(
         userId,
         lessonId: params.lessonId,
         isCompleted,
+        startedAt: startedAt
       },
     });
     const userStats = await db.userStats.findUnique({

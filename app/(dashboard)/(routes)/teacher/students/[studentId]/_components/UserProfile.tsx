@@ -1,6 +1,7 @@
 import { getCourses } from '@/actions/get-courses'
 import { db } from '@/lib/db';
 import { clerkClient } from '@clerk/nextjs'
+import { Course } from '@prisma/client';
 import { Progress } from '@radix-ui/react-progress'
 import React from 'react'
 interface PageProps {
@@ -45,8 +46,11 @@ const UserProfile = async ({ params}:PageProps) => {
                         <td className="px-2 py-2 text-gray-600  font-semibold">الاختبار البعدي</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الدروس المكتملة</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الانشطة المكتملة</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold"> الوقت المتسغرق</td>
                     </tr>
                     {courserWithProgress.map(async (course:any, index:number) => {
+                        let time = 0;
+                        let timeString = ``
                         let lessonsCompleted = 0 
                         let quizsCompleted = 0 
                         let chapters = await db.chapter.findMany({
@@ -75,21 +79,31 @@ const UserProfile = async ({ params}:PageProps) => {
                                         userId: params.studentId
                                     }
                                 })
+                                let lessonTime = Math.floor(((Date.parse(`${isLessonCompleted?.updatedAt}`) - isLessonCompleted?.startedAt!) / 1000) % 60) 
+                                time = (time ? time : 0) + lessonTime
+                                console.log(course.id)
+                                const hours = Math.floor(time / 3600);
+                                time = time - hours * 3600;
+                                const minutes = Math.floor(time / 60);
+                                const seconds = time - minutes * 60;
+                                let timeH = ((time / (1000 * 60 * 60)) % 24 )> 1 ? `ساعة${Math.round(time /3600)}` : ''
+                                let timeM =  minutes >= 1 ? ` ${Math.round(time /60)}  دقيقة  ` : ''
+                                console.log((time / 60) % 60)
+                                let timeS =  seconds ? `${seconds} ثانية  ` : ''
+                                timeString = timeH + " " +timeM + " " + timeS
                                 if(isLessonCompleted?.isCompleted){
                                     lessonsCompleted = lessonsCompleted + 1 
                                 }
                             }
                             for (let k = 0; k < quizs.length; k++) {
                                 const quiz = quizs[k];
-                                console.log(quiz)
                                 const isQuizCompleted = await db.userQuizPoints.findFirst({
                                     where: {
                                         quizId: quiz.id,
                                         userId: params.studentId
                                     }
                                 })
-                                console.log("Quiz" + isQuizCompleted)
-                                if(isQuizCompleted?.points! > 50){
+                                if(isQuizCompleted){
                                     quizsCompleted = quizsCompleted + 1 
                                 }
                             }
@@ -119,6 +133,7 @@ const UserProfile = async ({ params}:PageProps) => {
                                     <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{finalExamsPrgress?.percentage ? finalExamsPrgress?.percentage : 0}</td>
                                     <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{lessonsCompleted}</td>
                                     <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{quizsCompleted}</td>
+                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{timeString}</td>
                                 </tr>
                             )
 

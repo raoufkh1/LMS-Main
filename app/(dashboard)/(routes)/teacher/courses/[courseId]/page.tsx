@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import {
+  ClipboardListIcon,
   File,
   LayoutDashboard,
   ListChecks,
@@ -20,6 +21,7 @@ import { ChaptersForm } from "./_components/chapters-form";
 import { Actions } from "./_components/actions";
 import { ExamForm } from "./_components/exam-form";
 import { StarterExamForm } from "./_components/exam-starter-form";
+import { TaskForm } from "./_components/task-form";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth();
@@ -45,7 +47,11 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
       },
     },
   });
-
+  const task = await db.task.findFirst({
+    where:{
+      courseId: params.courseId
+    }
+  })
   const categories = await db.category.findMany({
     orderBy: {
       name: "asc",
@@ -128,7 +134,13 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
               </div>
               <ExamForm initialData={course} courseId={course.id} />
             </div>
-            
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={ClipboardListIcon} />
+                <h2 className="text-xl"> المهام  </h2>
+              </div>
+              <TaskForm initialData={task} courseId={course.id} />
+            </div>
           </div>
         </div>
       </div>
