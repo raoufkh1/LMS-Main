@@ -4,6 +4,7 @@ import { Noto_Kufi_Arabic } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toaster-provider'
 import { ConfettiProvider } from '@/components/providers/confetti-provider'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Noto_Kufi_Arabic({ subsets: ['arabic'] })
 
@@ -24,6 +25,7 @@ export default function RootLayout({
           <ConfettiProvider />
           <ToastProvider />
           {children}
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>

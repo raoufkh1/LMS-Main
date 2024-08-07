@@ -53,8 +53,8 @@ const TaskTeacherFiles = ({
                     {attachments.length > 0 && (
                         <>
                             <div className="p-4">
-                                {attachments.map(({ attachment, user }) => (
-                                    <div>
+                                {attachments.map(({ attachment, user }, index) => (
+                                    <div key={index}>
                                         <img className="w-8 h-8 rounded-full" src={user.imageUrl} alt="Jese image" />
                                         <div className={`  "bg-sky-700/50" : msg.id == replyIs ? "bg-gray-400" : ''} flex flex-col w-[650px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700`}>
                                             <div className="flex items-center space-x-2 mb-4 rtl:space-x-reverse">
