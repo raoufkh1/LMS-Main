@@ -21,7 +21,7 @@ export const DialogBox = ({ page }: { page?: string }) => {
                     setPopup(!data[page!])
                 }
                 else {
-                    setPopup(false)
+                    setPopup(true)
                 }
             }
             catch (e) {
