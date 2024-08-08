@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
@@ -7,6 +6,7 @@ import { useParams } from 'next/navigation'
 import { ChatWidget } from "../(course)/courses/[courseId]/_components/chatbot-popup";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import { useDisclosure } from "@chakra-ui/react";
 const DashboardLayout = ({ children }: { children: React.ReactNode}) => {
   
   

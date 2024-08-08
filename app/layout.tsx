@@ -5,6 +5,8 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toaster-provider'
 import { ConfettiProvider } from '@/components/providers/confetti-provider'
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Provider } from 'react-redux'
+import { Providers } from './Providers'
 
 const inter = Noto_Kufi_Arabic({ subsets: ['arabic'] })
 
@@ -24,7 +26,10 @@ export default function RootLayout({
         <body className={inter.className}>
           <ConfettiProvider />
           <ToastProvider />
-          {children}
+          <Providers>
+            {children}
+
+          </Providers>
           <SpeedInsights />
         </body>
       </html>

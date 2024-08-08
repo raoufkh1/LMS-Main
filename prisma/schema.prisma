@@ -300,3 +300,21 @@ model Reply {
 
   @@index([messageId])
 }
+model AssistPages {
+  id          String  @id @default(uuid())
+  userId      String? @default("nil")
+  
+  introductionPage Boolean?
+  goalsPage Boolean?
+  contactPage Boolean?
+  coursesPage Boolean?
+  messagesPage Boolean?
+  leaderboardPage Boolean?
+  libraryPage Boolean?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  
+
+}

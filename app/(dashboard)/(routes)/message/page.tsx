@@ -7,6 +7,7 @@ import { clerkClient } from '@clerk/nextjs'
 import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
+import { DialogBox } from '../../_components/dialogueBox'
 interface Props {
   msg: { context: string, createdAt: string, id: string,repliesCount:number },
   user: { imageUrl: string, lastName: string, firstName: string, id: string }
@@ -69,6 +70,8 @@ const Message = () => {
   }, [doubleMessage])
   return (
     <div>
+        <DialogBox page="messagesPage" />
+      
       <div className='px-6 pt-6 block'>
         {
           replyIs ? (

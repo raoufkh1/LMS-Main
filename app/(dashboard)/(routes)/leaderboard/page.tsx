@@ -8,6 +8,7 @@ import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 import RankCard from "./_components/rank-card";
 import { obfuscateEmailMiddleCharacters } from "@/lib/utils";
+import { DialogBox } from "../../_components/dialogueBox";
 
 type UserQuizPointsWithUserDetails = UserQuizPoints & {
   fullName: string;
@@ -137,35 +138,39 @@ const Leaderboard = async () => {
   );
 
   return (
-    <div className="p-6 flex flex-col">
-      <div>
-        <h1 className="text-2xl font-medium text-right">المتصدرين</h1>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
-        {firstThreePointsWithUserDetails.map((pointWithUser) => (
-          <div key={pointWithUser.id}>
-            <RankCard
-              fullName={pointWithUser.fullName}
-              imageUrl={pointWithUser.imageUrl}
-              points={pointWithUser.points}
-              rank={pointWithUser.rank}
-              lessonsCompleted={pointWithUser.completedLessons}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="rounded-md border bg-slate-100 w-fit px-3 py-2 mt-5 mb-1 self-center">
+    <div dir="rtl">
+        <DialogBox page="leaderboardPage" />
+      <div className="p-6 flex flex-col">
         <div>
-        لديك <span className="font-bold">{userPoints?.points}</span> اختبار
-        النقاط ويتم تصنيفها{" "}
-          <span className="font-bold">{userPoints?.rank}</span> اليوم من{" "}
-          <span className="font-bold">{pointsWithUserDetails.length}</span>{" "}
-          .مجموع المتعلمين
+          <h1 className="text-2xl font-medium text-right">المتصدرين</h1>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
+          {firstThreePointsWithUserDetails.map((pointWithUser) => (
+            <div key={pointWithUser.id}>
+              <RankCard
+                fullName={pointWithUser.fullName}
+                imageUrl={pointWithUser.imageUrl}
+                points={pointWithUser.points}
+                rank={pointWithUser.rank}
+                lessonsCompleted={pointWithUser.completedLessons}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="rounded-md border bg-slate-100 w-fit px-3 py-2 mt-5 mb-1 self-center">
+          <div>
+          لديك <span className="font-bold">{userPoints?.points}</span> اختبار
+          النقاط ويتم تصنيفها{" "}
+            <span className="font-bold">{userPoints?.rank}</span> اليوم من{" "}
+            <span className="font-bold">{pointsWithUserDetails.length}</span>{" "}
+            .مجموع المتعلمين
+          </div>
+        </div>
+        <div className="">
+          <DataTable columns={columns} data={pointsWithUserDetails.slice(3)} />
         </div>
       </div>
-      <div className="">
-        <DataTable columns={columns} data={pointsWithUserDetails.slice(3)} />
-      </div>
+
     </div>
   );
 };

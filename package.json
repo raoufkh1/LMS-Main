@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@clerk/nextjs": "^4.23.5",
     "@hello-pangea/dnd": "^16.3.0",
     "@hookform/resolvers": "^3.3.1",
@@ -29,6 +30,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@react-pdf/renderer": "^3.3.4",
+    "@reduxjs/toolkit": "^2.2.7",
     "@tanstack/react-table": "^8.9.11",
     "@types/node": "20.6.0",
     "@types/react": "18.2.21",
@@ -67,6 +69,7 @@
     "react-icons": "^4.11.0",
     "react-player": "^2.14.1",
     "react-quill": "^2.0.0",
+    "react-redux": "^9.1.2",
     "recharts": "^2.8.0",
     "sharp": "^0.33.2",
     "slate": "^0.103.0",
