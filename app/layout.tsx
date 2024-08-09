@@ -7,7 +7,7 @@ import { ConfettiProvider } from '@/components/providers/confetti-provider'
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Provider } from 'react-redux'
 import { Providers } from './Providers'
-
+import { arSA } from "@clerk/localizations";
 const inter = Noto_Kufi_Arabic({ subsets: ['arabic'] })
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={arSA}>
       <html lang="en">
         <body className={inter.className}>
           <ConfettiProvider />

@@ -64,7 +64,7 @@ export const DialogBox = ({ page }: { page?: string }) => {
                 popup &&
                 <div className='z-50 w-full h-full'>
 
-                    <div className='h-[200%] w-full bg-black z-50 opacity-40 visible fixed '>
+                    <div className='h-[200%] w-full top-0 bg-black z-50 opacity-40 visible fixed '>
                     </div>
                     <div id="static-modal" data-modal-backdrop="static" style={{
                         left: "35%",

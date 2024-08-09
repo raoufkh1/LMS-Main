@@ -10,9 +10,13 @@ const Library = async () => {
     const {userId} = auth()
     const context = await db.libraryText.findFirst()
     return(
-        <div dir="rtl" className="h-full">
+        <div>
             <DialogBox page="libraryPage" />
-            <LibraryForm  defaultContext={context?.context!} isTeacher={isTeacher(userId)}/>
+            <div dir="rtl" className="h-full">
+
+                <LibraryForm  defaultContext={context?.context!} isTeacher={isTeacher(userId)}/>
+            </div>
+
         </div>
     )
 }
