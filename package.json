@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
+    "@ckeditor/ckeditor5-react": "^9.0.0",
     "@clerk/localizations": "^2.5.7",
     "@clerk/nextjs": "^4.23.5",
     "@hello-pangea/dnd": "^16.3.0",
@@ -40,6 +41,8 @@
     "@vercel/speed-insights": "^1.0.12",
     "autoprefixer": "10.4.15",
     "axios": "^1.5.0",
+    "ckeditor5": "^43.0.0",
+    "ckeditor5-premium-features": "^43.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",

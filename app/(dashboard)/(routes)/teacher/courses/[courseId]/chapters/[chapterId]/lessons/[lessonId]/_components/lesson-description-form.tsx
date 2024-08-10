@@ -28,7 +28,12 @@ import "froala-editor/js/plugins.pkgd.min.js";
 // Require Editor CSS files.
 // import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor, ImageUpload, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
+import 'ckeditor5/ckeditor5.css';
+import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 interface LessonDescriptionFormProps {
   initialData: Lesson;
   courseId: string;
@@ -188,13 +193,13 @@ export const LessonDescriptionForm = ({
       "wordPaste"
     ],
     events: {
-      'image.beforeUpload': function(files:any) {
-        var editor:any = this;
+      'image.beforeUpload': function (files: any) {
+        var editor: any = this;
         if (files.length) {
           // Create a File Reader.
           var reader = new FileReader();
           // Set the reader to insert images when they are loaded.
-          reader.onload = function(e:any) {
+          reader.onload = function (e: any) {
             var result = e.target.result;
             editor.image.insert(result, null, null, editor.image.get());
           };
@@ -204,8 +209,8 @@ export const LessonDescriptionForm = ({
         editor.popups.hideAll();
         // Stop default upload chain.
         return false;
-       }
-      },
+      }
+    },
   };
 
   const { isSubmitting, isValid } = form.formState;
@@ -264,20 +269,47 @@ export const LessonDescriptionForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Froala
-                      
-                      model={form.getValues().description}
-                      tag="textarea"
-                      config={froalaEditorConfig}
-                      onModelChange={(e:string) => {form.setValue("description", e)}}
-                    ></Froala>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      onChange={(e, editor) => {
+                        const data = editor.data.get()
+                        form.setValue("description",data)
+                      }}
+                      config={{
+                        plugins: [Undo, Heading, FontFamily,
+                          FontSize, FontColor, FontBackgroundColor, Bold, Italic, Strikethrough, Subscript, Superscript,
+                          Link, Image, ImageInsert, ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
+                        toolbar: {
+                          items: [
+                            'undo', 'redo',
+                            '|',
+                            'heading',
+                            '|',
+                            'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                            '|',
+                            'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                            '|',
+                            'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                            '|',
+                            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                          ],
+                          shouldNotGroupWhenFull: false
+                        },
+
+                        licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
+
+
+                        initialData: form.getValues("description"),
+
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex items-center gap-x-2">
-              <Button disabled={ isSubmitting} type="submit">
+              <Button disabled={isSubmitting} type="submit">
                 يحفظ
               </Button>
             </div>

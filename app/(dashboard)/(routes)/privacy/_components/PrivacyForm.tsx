@@ -14,7 +14,12 @@ import { Preview } from "@/components/preview";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor, ImageUpload, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
+import 'ckeditor5/ckeditor5.css';
+import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 const defaultContent = `<div>
 <section data-element_type="section" data-id="6dad7bdb">
   <div data-element_type="column" data-id="2fdea927">
@@ -55,16 +60,16 @@ const froalaEditorConfig2 = {
   height: 400,
   quickInsertEnabled: false,
   imageDefaultWidth: 0,
-  
+
   imageMaxSize: 1024 * 1024 * 2.5,
   events: {
-    'image.beforeUpload': function(files:any) {
-      var editor:any = this;
+    'image.beforeUpload': function (files: any) {
+      var editor: any = this;
       if (files.length) {
         // Create a File Reader.
         var reader = new FileReader();
         // Set the reader to insert images when they are loaded.
-        reader.onload = function(e:any) {
+        reader.onload = function (e: any) {
           var result = e.target.result;
           editor.image.insert(result, null, null, editor.image.get());
         };
@@ -74,10 +79,10 @@ const froalaEditorConfig2 = {
       editor.popups.hideAll();
       // Stop default upload chain.
       return false;
-     }
     }
-    
   }
+
+}
 
 const froalaEditorConfig = {
   readonly: true,
@@ -94,9 +99,9 @@ const froalaEditorConfig = {
 
 
   // Set the image upload URL.
-  
+
   // Additional upload params.
-  
+
   imageEditButtons: [
     "imageReplace",
     "imageAlign",
@@ -198,13 +203,13 @@ const froalaEditorConfig = {
   },
   toolbarSticky: true,
   events: {
-    'image.beforeUpload': function(files:any) {
-      var editor:any = this;
+    'image.beforeUpload': function (files: any) {
+      var editor: any = this;
       if (files.length) {
         // Create a File Reader.
         var reader = new FileReader();
         // Set the reader to insert images when they are loaded.
-        reader.onload = function(e:any) {
+        reader.onload = function (e: any) {
           var result = e.target.result;
           editor.image.insert(result, null, null, editor.image.get());
         };
@@ -214,8 +219,8 @@ const froalaEditorConfig = {
       editor.popups.hideAll();
       // Stop default upload chain.
       return false;
-     }
-    },
+    }
+  },
 
   pluginsEnabled: [
     "align",
@@ -235,7 +240,7 @@ const froalaEditorConfig = {
 
 };
 
-export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string, isTeacher:boolean}) {
+export function PrivacyForm({ defaultContext, isTeacher }: { defaultContext: string, isTeacher: boolean }) {
   const [context, setContext] = React.useState('')
   const [editing, setEditing] = React.useState(false)
   React.useEffect(() => {
@@ -248,16 +253,16 @@ export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string
   };
   const handleSubmit = async () => {
     try {
-      (context)
+      console.log(context)
       await axios.patch(
         `/api/privacy`,
-        {context: context}
+        { context: context }
       );
       toast.success("تم تحديث الدرس");
       setEditing(false)
-      
-    } catch (e){
-      (e)
+
+    } catch (e) {
+      console.log(e)
       toast.error("هناك شئ غير صحيح");
     }
   }
@@ -279,13 +284,40 @@ export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string
 
               </Button>
             </div>
-            <Froala
-              model={context}
-              onModelChange={onModelChange}
-              tag="textarea"
-              config={froalaEditorConfig}
+            <CKEditor
+              editor={ClassicEditor}
+              onChange={(e, editor) => {
+                const data = editor.data.get()
+                onModelChange(data)
+              }}
+              config={{
+                plugins: [Undo, Heading,FontFamily, 
+                  FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
+                Link, Image, ImageInsert,ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                toolbar: {
+                  items: [
+                    'undo', 'redo',
+                    '|',
+                    'heading',
+                    '|',
+                    'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                    '|',
+                    'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                    '|',
+                    'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                    '|',
+                    'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                  ],
+                  shouldNotGroupWhenFull: false
+                },
+                
+                licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
 
-            ></Froala>
+
+                initialData: context,
+
+              }}
+            />
           </div>
         )
       }
@@ -296,21 +328,21 @@ export function PrivacyForm({defaultContext, isTeacher} : {defaultContext:string
             {
               isTeacher && (
                 <div className="flex w-full justify-between mb-4 items-center">
-              <h1 className="text-xl">   </h1>
-              <Button
-                type="button"
-                variant={"success"}
-                className="w-full md:w-auto bg-sky-700 hover:bg-sky-600"
-                onClick={e => { setEditing(true) }}
-              >
-                {" تعديل"}
+                  <h1 className="text-xl">   </h1>
+                  <Button
+                    type="button"
+                    variant={"success"}
+                    className="w-full md:w-auto bg-sky-700 hover:bg-sky-600"
+                    onClick={e => { setEditing(true) }}
+                  >
+                    {" تعديل"}
 
-              </Button>
+                  </Button>
 
-            </div>
+                </div>
               )
             }
-            
+
             <FroalaEditorView model={context} />
           </div>
         )

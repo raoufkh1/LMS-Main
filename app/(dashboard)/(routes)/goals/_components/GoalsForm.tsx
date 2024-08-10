@@ -14,7 +14,12 @@ import { Preview } from "@/components/preview";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { ClassicEditor, ImageUpload, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
+import 'ckeditor5/ckeditor5.css';
+import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 
 
 const froalaEditorConfig = {
@@ -208,13 +213,40 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
 
               </Button>
             </div>
-            <Froala
-              model={context}
-              onModelChange={onModelChange}
-              tag="textarea"
-              config={froalaEditorConfig}
+            <CKEditor
+              editor={ClassicEditor}
+              onChange={(e, editor) => {
+                const data = editor.data.get()
+                onModelChange(data)
+              }}
+              config={{
+                plugins: [Undo, Heading,FontFamily, 
+                  FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
+                Link, Image, ImageInsert,ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                toolbar: {
+                  items: [
+                    'undo', 'redo',
+                    '|',
+                    'heading',
+                    '|',
+                    'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                    '|',
+                    'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                    '|',
+                    'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                    '|',
+                    'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                  ],
+                  shouldNotGroupWhenFull: false
+                },
+                
+                licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
 
-            ></Froala>
+
+                initialData: context,
+
+              }}
+            />
           </div>
         )
       }
