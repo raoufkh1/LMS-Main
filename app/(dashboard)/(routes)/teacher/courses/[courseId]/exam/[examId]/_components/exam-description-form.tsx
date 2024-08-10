@@ -116,6 +116,10 @@ export const ExamDescriptionForm = ({
                         form.setValue("description",data)
                       }}
                       config={{
+                        language: {
+                          content: 'ar',
+                          ui: "ar"
+                        },
                         plugins: [Undo, Heading, FontFamily,
                           FontSize, FontColor, FontBackgroundColor, Bold, Italic, Strikethrough, Subscript, Superscript,
                           Link, Image, ImageInsert, ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
@@ -137,7 +141,7 @@ export const ExamDescriptionForm = ({
                         },
 
                         licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
-
+                        
 
                         initialData: form.getValues("description"),
 

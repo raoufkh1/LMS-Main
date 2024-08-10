@@ -276,6 +276,10 @@ export const TaskContentForm = ({
                         form.setValue("content",data)
                       }}
                       config={{
+                        language: {
+                          content: 'ar',
+                          ui: "ar"
+                        },
                         plugins: [Undo, Heading, FontFamily,
                           FontSize, FontColor, FontBackgroundColor, Bold, Italic, Strikethrough, Subscript, Superscript,
                           Link, Image, ImageInsert, ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
