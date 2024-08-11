@@ -106,7 +106,7 @@ export const ExamForm = ({ initialData, courseId }: ExamFormProps) => {
         {!(FinalExams.length > 0) && (
           <Button onClick={toggleCreating} variant="ghost">
             {isCreating ? (
-              <>يلغي</>
+              <>إلغاء</>
             ) : (
               <>
                 <PlusCircle className="h-4 w-4 mr-2" />
@@ -158,7 +158,7 @@ export const ExamForm = ({ initialData, courseId }: ExamFormProps) => {
               )}
             />
             <Button disabled={!isValid || isSubmitting} type="submit">
-              يخلق
+              إنشاء
             </Button>
           </form>
         </Form>

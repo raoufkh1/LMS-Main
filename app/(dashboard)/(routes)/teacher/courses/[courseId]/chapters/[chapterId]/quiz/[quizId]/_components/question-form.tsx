@@ -108,10 +108,10 @@ export const QuestionForm = ({
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-      سؤال مسابقة الفصل
+      اسئلة النشاط
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
@@ -145,7 +145,7 @@ export const QuestionForm = ({
             />
 
             <Button disabled={!isValid || isSubmitting} type="submit">
-              يخلق
+              إنشاء
             </Button>
           </form>
         </Form>

@@ -11,10 +11,13 @@ const Goals = async () => {
     const {userId} = auth()
     const context = await db.goalsText.findFirst()
     return(
-        <div dir="rtl">
+        <div>
+
         <DialogBox page="goalsPage" />
+        <div dir="rtl">
 
             <GoalsForm  defaultContext={context?.context!} isTeacher={isTeacher(userId)}/>
+        </div>
         </div>
     )
 }

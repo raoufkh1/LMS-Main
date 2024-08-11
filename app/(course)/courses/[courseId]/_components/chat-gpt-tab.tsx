@@ -29,7 +29,7 @@ const ChatGPTTab = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // يحفظ messages to localStorage whenever messages change
+    // حفظ messages to localStorage whenever messages change
     localStorage.setItem("chatMessages", JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
@@ -105,11 +105,11 @@ const ChatGPTTab = () => {
   return (
     <Card className="shadow-none border-none p-0">
       <CardContent className="space-y-2 mt-3.5 pt-9 h-[300px] max-h-[300px] overflow-y-auto">
-        <div className="space-y-4">
+        <div className="space-y-4" dir="rtl">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex text-white text-sm ${msg.isUserMessage ? "justify-end" : "justify-start"
+              className={`flex text-white text-sm ${msg.isUserMessage ? "justify-start" : "justify-end"
                 }`}
             >
               {msg.isUserMessage ? (
@@ -137,6 +137,7 @@ const ChatGPTTab = () => {
           placeholder="...اكتب رسالتك"
           value={inputValue}
           multiple
+          dir='rtl'
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
         />

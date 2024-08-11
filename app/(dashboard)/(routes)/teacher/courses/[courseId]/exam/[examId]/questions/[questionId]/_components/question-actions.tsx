@@ -33,7 +33,7 @@ export const QuestionActions = ({
 
       if (isPublished) {
         await axios.patch(
-          `/api/courses/${courseId}/chapters/${examId}/questions/${questionId}/unpublish`
+          `/api/courses/${courseId}/exam/${examId}/questions/${questionId}/unpublish`
         );
         toast.success("سؤال غير منشور");
       } else {
@@ -44,7 +44,8 @@ export const QuestionActions = ({
       }
 
       router.refresh();
-    } catch {
+    } catch (e){
+      console.log(e)
       toast.error("هناك شئ غير صحيح");
     } finally {
       setIsLoading(false);
@@ -81,7 +82,7 @@ export const QuestionActions = ({
         variant="outline"
         size="sm"
       >
-        {isPublished ? "إلغاء النشر" : "ينشر"}
+        {isPublished ? "إلغاء النشر" : "نشر"}
       </Button>
       <ConfirmModal onConfirm={onDelete}>
         <Button size="sm" disabled={isLoading}>

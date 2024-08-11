@@ -105,13 +105,16 @@ const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
           quizId: quiz.id
         }
       })
-      if(quizPoints){
+      if(quiz.isPublished){
+        if(quizPoints){
+  
+        }
+        else{
+          currentChapter = chapter
+          currentQuiz = quiz
+          break
+        }
 
-      }
-      else{
-        currentChapter = chapter
-        currentQuiz = quiz
-        break
       }
     }
     

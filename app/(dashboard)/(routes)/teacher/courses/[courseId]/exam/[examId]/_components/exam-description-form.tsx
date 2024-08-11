@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Chapter, Exam } from "@prisma/client";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
-import { ClassicEditor, ImageUpload, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
@@ -75,7 +75,7 @@ export const ExamDescriptionForm = ({
       وصف الامتحان
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -122,7 +122,7 @@ export const ExamDescriptionForm = ({
                         },
                         plugins: [Undo, Heading, FontFamily,
                           FontSize, FontColor, FontBackgroundColor, Bold, Italic, Strikethrough, Subscript, Superscript,
-                          Link, Image, ImageInsert, ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
+                          Link, Image, ImageInsert, ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
                         toolbar: {
                           items: [
                             'undo', 'redo',
@@ -135,7 +135,7 @@ export const ExamDescriptionForm = ({
                             '|',
                             'link', 'uploadImage', 'blockQuote', 'codeBlock',
                             '|',
-                            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                            'bulletedList','Alignment', 'numberedList', 'todoList', 'outdent', 'indent'
                           ],
                           shouldNotGroupWhenFull: false
                         },
@@ -154,7 +154,7 @@ export const ExamDescriptionForm = ({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>

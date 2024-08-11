@@ -15,43 +15,12 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment,ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
 import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
-const defaultContent = `<div>
-<section data-element_type="section" data-id="6dad7bdb">
-  <div data-element_type="column" data-id="2fdea927">
-    <div data-element_type="widget" data-id="1ae5ac6e" data-widget_type="heading.default">
-      <h2>Buy Froala Editor</h2>
-    </div>
-    <div data-element_type="widget" data-id="19f12a3a" data-widget_type="heading.default">
-      <h5>Powering web editing for customers ranging from startups to the world's largest companies.</h5>
-      <p>
-        <br>
-        </p>
-      </div>
-    </div>
-  </section>
-  <section data-element_type="section" data-id="14f81af">
-    <div data-element_type="column" data-id="7cf39a8">
-      <div data-element_type="widget" data-id="1875aae" data-widget_type="html.default">
-        <img src="https://froala.com/wp-content/uploads/2019/10/samsung.svg" alt="Samsung" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="25">
-        <img data-fr-image-pasted="true" src="https://froala.com/wp-content/uploads/2019/10/apple.svg" alt="Apple" height="25" data-lazy-loaded="true" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img data-fr-image-pasted="true" src="https://froala.com/wp-content/uploads/2019/10/ibm.svg" alt="IBM" height="25" data-lazy-loaded="true" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img src="https://froala.com/wp-content/uploads/2019/10/amazon.svg" alt="Amazon" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="124">
-        <img src="https://froala.com/wp-content/uploads/2019/10/ebay.svg" alt="Ebay" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="62">
-        <img src="https://froala.com/wp-content/uploads/2019/10/intel.svg" alt="Intel" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="38">
-        <img data-fr-image-pasted="true" alt="Netflix" src="https://froala.com/wp-content/uploads/2020/04/netflix.png" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" style="width: 10%;" width="10%" height="22">
-        <img src="https://froala.com/wp-content/uploads/2019/10/cisco.svg" alt="Cisco" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="107">
-        <img src="https://froala.com/wp-content/uploads/2019/10/thomson.png" alt="Thomson Reuters" height="25" data-ll-status="loaded" class="fr-fic fr-dii fr-draggable" width="107">
-      </div>
-      <p><br></p>
-      <div data-element_type="widget" data-id="2f69551" data-widget_type="heading.default">We are proud to announce new flexibility with <strong>perpetual</strong> and <strong>annual</strong> plan options - perfect for any project or team!</div>
-      </div>
-    </section>
-  </div>`;
+
 
 const froalaEditorConfig2 = {
   readonly: true,
@@ -258,7 +227,7 @@ export function PrivacyForm({ defaultContext, isTeacher }: { defaultContext: str
         `/api/privacy`,
         { context: context }
       );
-      toast.success("تم تحديث الدرس");
+      toast.success("تم تحديث سياسة الخصوصية");
       setEditing(false)
 
     } catch (e) {
@@ -298,7 +267,7 @@ export function PrivacyForm({ defaultContext, isTeacher }: { defaultContext: str
                 },
                 plugins: [Undo, Heading,FontFamily, 
                   FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
-                Link, Image, ImageInsert,ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                Link, Image, ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord,Alignment ],
                 toolbar: {
                   items: [
                     'undo', 'redo',
@@ -311,7 +280,7 @@ export function PrivacyForm({ defaultContext, isTeacher }: { defaultContext: str
                     '|',
                     'link', 'uploadImage', 'blockQuote', 'codeBlock',
                     '|',
-                    'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                    'bulletedList','Alignment', 'numberedList', 'todoList', 'outdent', 'indent'
                   ],
                   shouldNotGroupWhenFull: false
                 },

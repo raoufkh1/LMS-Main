@@ -50,7 +50,7 @@ export const ImageForm = ({
       صورة الدورة
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && (
-            <>يلغي</>
+            <>إلغاء</>
           )}
           {!isEditing && !initialData.imageUrl && (
             <>

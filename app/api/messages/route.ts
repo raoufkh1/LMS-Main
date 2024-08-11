@@ -50,10 +50,15 @@ export async function GET(req: Request) {
       
       messages.map(async (msg:any) => {
           if (msg.userId != "nil") {
-  
+            try{
+
               const response = await clerkClient.users.getUser(msg.userId)
               let tempMsg = { msg, user: response }
               messagesWithUser.push(tempMsg)
+            }
+            catch(e) {
+              console.log(e)
+            }
           }
       })
   )

@@ -8,6 +8,7 @@ import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'
 import { DialogBox } from '../../_components/dialogueBox'
+import { X } from 'lucide-react'
 interface Props {
   msg: { context: string, createdAt: string, id: string,repliesCount:number },
   user: { imageUrl: string, lastName: string, firstName: string, id: string }
@@ -15,7 +16,7 @@ interface Props {
 const Message = () => {
   const [messages, setMessages] = useState<Props[]>([])
   const [doubleMessage, setDoubleMessages] = useState<Props[]>([])
-  const [replyIs, setReplyIs] = useState<string>('')
+  const [replyIs, setReplyIs] = useState<string | null>('')
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,7 +76,7 @@ const Message = () => {
       <div className='px-6 pt-6 block'>
         {
           replyIs ? (
-            <div>
+            <div className='flex justify-between' dir='rtl'>
               <a onClick={async e => {
                 const element = document.getElementById(replyIs);
                  element?.scrollIntoView({
@@ -86,12 +87,12 @@ const Message = () => {
                   
                   window.scrollBy({top:-250})
                 
-              }} className='text-sm text-gray-400 py-5 px-5' dir='rtl'>   تقوم حاليا بالرد على رسالة</a>
-
+              }} className='text-sm text-gray-400 flex justify-start py-5 px-5' dir='rtl'>   تقوم حاليا بالرد على رسالة</a>
+              <button onClick={e => {setReplyIs(null)}} className='text-gray-400'><X/></button>
             </div>
           ) : ''
         }
-        <MessageInput messageId={replyIs} setMessages={setMessages} />
+        <MessageInput messageId={replyIs!} setMessages={setMessages} />
       </div>
       <div className='mt-6 flex justify-center'>
         <div>
@@ -99,7 +100,7 @@ const Message = () => {
             messages.map(({ msg, user }, index) => {
               return (
 
-                <MessageCard replyIs={replyIs} setReplyIs={setReplyIs} key={index} msg={msg} user={user} />
+                <MessageCard replyIs={replyIs!} setReplyIs={setReplyIs} key={index} msg={msg} user={user} />
               )
             })
           }

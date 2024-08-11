@@ -57,7 +57,7 @@ export const QuizTitleForm = ({
         `/api/courses/${courseId}/chapters/${chapterId}/quiz/${quizId}`,
         values
       );
-      toast.success("Quiz updated");
+      toast.success("تم تحديث النشاط");
       toggleEdit();
       router.refresh();
     } catch {
@@ -68,10 +68,10 @@ export const QuizTitleForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-      عنوان الإختبار
+      عنوان النشاط
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -105,7 +105,7 @@ export const QuizTitleForm = ({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>

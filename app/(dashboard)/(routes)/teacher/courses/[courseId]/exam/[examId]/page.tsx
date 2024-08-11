@@ -90,7 +90,7 @@ const ChapterIdPage = async ({
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />
-                <h2 className="text-xl">تخصيص الفصل الخاص بك</h2>
+                <h2 className="text-xl">تخصيص الامتحان الخاص بك</h2>
               </div>
               <ExamTitleForm
                 initialData={exam}

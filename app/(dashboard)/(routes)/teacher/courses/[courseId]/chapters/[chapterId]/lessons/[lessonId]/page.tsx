@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 
@@ -11,6 +11,7 @@ import { LessonTitleForm } from "./_components/lesson-title-form";
 import { LessonDescriptionForm } from "./_components/lesson-description-form";
 import { LessonVideoForm } from "./_components/lesson-video-form";
 import { LessonActions } from "./_components/lesson-actions";
+import { headers } from "next/headers";
 
 const LessonIdPage = async ({
   params,
@@ -22,6 +23,10 @@ const LessonIdPage = async ({
   if (!userId) {
     return redirect("/");
   }
+  const headersList = headers();
+  const domain = headersList.get('host') || "";
+  const fullUrl = headersList.get('referer') || "";
+  const isIntroductionCoursePage:boolean = fullUrl?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!);
 
   const lesson = await db.lesson.findUnique({
     where: {
@@ -80,26 +85,31 @@ const LessonIdPage = async ({
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-          <div className="space-y-4">
-            <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={LayoutDashboard} />
-                <h2 className="text-xl">تخصيص الدرس الخاص بك</h2>
+          {
+            !isIntroductionCoursePage && (
+
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center gap-x-2">
+                  <IconBadge icon={LayoutDashboard} />
+                  <h2 className="text-xl">تخصيص الدرس الخاص بك</h2>
+                </div>
+                <LessonTitleForm
+                  initialData={lesson}
+                  courseId={params.courseId}
+                  chapterId={params.chapterId}
+                  lessonId={params.lessonId}
+                />
+                <LessonDescriptionForm
+                  initialData={lesson}
+                  courseId={params.courseId}
+                  chapterId={params.chapterId}
+                  lessonId={params.lessonId}
+                />
               </div>
-              <LessonTitleForm
-                initialData={lesson}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
-                lessonId={params.lessonId}
-              />
-              <LessonDescriptionForm
-                initialData={lesson}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
-                lessonId={params.lessonId}
-              />
             </div>
-          </div>
+            )
+          }
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={Video} />

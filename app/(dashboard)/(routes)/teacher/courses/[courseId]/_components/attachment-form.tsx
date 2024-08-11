@@ -62,7 +62,7 @@ export const AttachmentForm = ({
       مرفقات الدورة
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && (
-            <>يلغي</>
+            <>إلغاء</>
           )}
           {!isEditing && (
             <>

@@ -100,8 +100,8 @@ export const DialogBox = ({ page }: { page?: string }) => {
                                     <p> الرجاء عدم اظهار الرسالة مرة أخرى</p>
                                 </div>
                                 <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                    <button onClick={e => handleClick(true)} data-modal-hide="static-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">نعم</button>
-                                    <button onClick={e => handleClick(false)} data-modal-hide="static-modal" type="button" className="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-white dark:hover:bg-blue-700 dark:focus:ring-blue-800">لا</button>
+                                    <button onClick={e => handleClick(true)} data-modal-hide="static-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-4">نعم</button>
+                                    <button onClick={e => handleClick(false)} data-modal-hide="static-modal" type="button" className="text-black bg-white hover:bg-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-white border-gray-400 border dark:hover:bg-blue-700 dark:focus:ring-blue-800">لا</button>
                                 </div>
                             </div>
                         </div>

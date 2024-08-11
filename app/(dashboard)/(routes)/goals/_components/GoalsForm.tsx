@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
@@ -187,7 +187,7 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
         `/api/goals`,
         {context: context}
       );
-      toast.success("تم تحديث الدرس");
+      toast.success("تم تحديث الاهداف العامة");
       setEditing(false)
       
     } catch (e){
@@ -226,7 +226,7 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
                 },
                 plugins: [Undo, Heading,FontFamily, 
                   FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
-                Link, Image, ImageInsert,ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                Link, Image, ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
                 toolbar: {
                   items: [
                     'undo', 'redo',
@@ -239,7 +239,7 @@ export function GoalsForm({defaultContext, isTeacher} : {defaultContext:string, 
                     '|',
                     'link', 'uploadImage', 'blockQuote', 'codeBlock',
                     '|',
-                    'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                    'bulletedList','Alignment', 'numberedList', 'todoList', 'outdent', 'indent'
                   ],
                   shouldNotGroupWhenFull: false
                 },

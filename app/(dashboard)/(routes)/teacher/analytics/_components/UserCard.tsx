@@ -32,12 +32,12 @@ const UserCard = async () => {
                             const completedCourses = courses.filter((e) => e.progress == 100)
                             console.log(completedCourses)
                             return (
-                                <tr key={index} className="py-3 w-full sm:py-4">
-                                        <td className='flex'>
+                                <tr key={index} className="py-16 leading-[55px]  justify-center items-center w-full sm:py-4">
+                                        <td className='flex h-[55px] items-center'>
                                             <div className="flex-shrink-0">
                                                 <img className="w-8 h-8 rounded-full" src={user.imageUrl} alt="Neil image" />
                                             </div>
-                                            <div className="flex-1 min-w-0 ms-4">
+                                            <div className="flex flex-col justify-center min-w-0 ms-4">
                                                 <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
                                                     {`${user.firstName} ${user.lastName ? user.lastName : ""}`}
                                                 </p>
@@ -48,9 +48,9 @@ const UserCard = async () => {
 
                                         </td>
                                         <td className='text-center'> {completedCourses.length} </td>
-                                        <td className='flex justify-center'>
+                                        <td className='text-center'>
                                             
-                                            <Link className='text-white font-normal text-xl transition-all shadow-3xl rounded-md hover:bg-[rgba(0,118,255,0.9)] bg-[#2655a3] py-0 px-14 inline-block outline-0 cursor-pointer border-none leading-[45px] h-[45px]' href={`/teacher/students/${user.id}`}>تقرير</Link>
+                                            <Link className='text-white font-normal text-xl transition-all shadow-3xl rounded-md hover:bg-[rgba(0,118,255,0.9)] bg-[#2655a3] px-6 py-[2px] outline-0 cursor-pointer border-none ' href={`/teacher/students/${user.id}`}>تقرير</Link>
                                         </td>
                                 </tr>
                 )

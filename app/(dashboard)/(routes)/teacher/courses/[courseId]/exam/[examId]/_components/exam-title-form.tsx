@@ -66,7 +66,7 @@ export const ExamTitleForm = ({
       عنوان الامتحان
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -100,7 +100,7 @@ export const ExamTitleForm = ({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>

@@ -198,7 +198,9 @@ export const OptionList = ({
                                       <FormControl>
                                         <Input
                                           disabled={isSubmitting}
+                                          defaultValue={option.text}
                                           placeholder={option.text}
+                                          dir="rtl"
                                           {...field}
                                         />
                                       </FormControl>

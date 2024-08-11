@@ -68,7 +68,7 @@ export const DescriptionForm = ({
       وصف الدورة التدريبية
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -112,7 +112,7 @@ export const DescriptionForm = ({
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>

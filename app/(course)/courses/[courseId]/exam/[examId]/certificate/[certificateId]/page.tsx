@@ -5,7 +5,7 @@ import { htmlToPdf } from "@/lib/html-to-pdf";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
 import { Certificate } from "@prisma/client";
 
@@ -17,7 +17,7 @@ const CertificatePage = ({
   const htmlRef = useRef<HTMLDivElement>(null);
 
   const { userId } = useAuth();
-
+  const router = useRouter()
   const [certificate, setCertificate] = useState<Certificate>();
 
   const [isGettingCertificate, setisGettingCertificate] = useState(false);
@@ -25,6 +25,7 @@ const CertificatePage = ({
   useEffect(() => {
     (async () => {
       setisGettingCertificate(true);
+      
       try {
         const response = await axios.get(
           `/api/courses/${params.courseId}/exam//${params.examId}/certificate/${params.certificateId}`
@@ -35,6 +36,7 @@ const CertificatePage = ({
         if (!response.data) {
           redirect(`/courses/${params.courseId}`);
         }
+        return router.refresh()
 
         console.log("====================================");
         console.log("====================================");

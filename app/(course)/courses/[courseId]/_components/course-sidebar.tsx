@@ -103,6 +103,18 @@ export const CourseSidebar = async ({
       userId:userId
     }
   })
+  const certificate1 = await db.certificate.findMany({
+    where: {
+      userId: userId,
+      examId: exam.id,
+      NOT: {
+        nameOfStudent: undefined
+      }
+    },
+    
+  })
+  const certificate = certificate1.filter(e => e.nameOfStudent)
+  console.log("Certificate" + certificate)
   const handleLessonClick = (examId: string) => {
   
       redirect(`/courses/${course.id}/exam/${examId}`)
@@ -307,6 +319,12 @@ export const CourseSidebar = async ({
               )}
 
       </div>
+      {
+        certificate[0]?.nameOfStudent != null && 
+        <div className="relative h-full ">
+                <Link href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificate[0].id}`} className="absolute bottom-8 right-16 bg-sky-700 py-4 px-8 text-white"> انظر شهادتك</Link>
+        </div>
+      }
     </div>
   );
 };

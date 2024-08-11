@@ -23,7 +23,7 @@ import { Editor } from "@/components/editor";
 import { Preview } from "@/components/preview";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
-import { ClassicEditor, ImageUpload, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
@@ -66,7 +66,7 @@ export const QuizDescriptionForm = ({
         `/api/courses/${courseId}/chapters/${chapterId}/quiz/${quizId}`,
         values
       );
-      toast.success("تم تحديث الاختبار");
+      toast.success("تم تحديث النشاط");
       toggleEdit();
       router.refresh();
     } catch {
@@ -77,10 +77,10 @@ export const QuizDescriptionForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-      وصف المسابقة
+      وصف النشاط
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>يلغي</>
+            <>إلغاء</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
@@ -127,7 +127,7 @@ export const QuizDescriptionForm = ({
                         },
                         plugins: [Undo, Heading, FontFamily,
                           FontSize, FontColor, FontBackgroundColor, Bold, Italic, Strikethrough, Subscript, Superscript,
-                          Link, Image, ImageInsert, ImageUpload, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
+                          Link, Image, ImageInsert, ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord],
                         toolbar: {
                           items: [
                             'undo', 'redo',
@@ -140,7 +140,7 @@ export const QuizDescriptionForm = ({
                             '|',
                             'link', 'uploadImage', 'blockQuote', 'codeBlock',
                             '|',
-                            'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+                            'bulletedList','Alignment', 'numberedList', 'todoList', 'outdent', 'indent'
                           ],
                           shouldNotGroupWhenFull: false
                         },
@@ -159,7 +159,7 @@ export const QuizDescriptionForm = ({
             />
             <div className="flex items-center gap-x-2">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>

@@ -58,11 +58,13 @@ export const PrepareCertificateModal = ({
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
+      router.refresh()
+
       await axios.patch(
         `/api/courses/${courseId}/exam/${examId}/certificate/${certificateId}`,
         value
       );
-      toast.success("Ceritifate update successful");
+      toast.success("تم تحديث شهادتك  ");
       router.push(
         `/courses/${courseId}/exam/${examId}/certificate/${certificateId}`
       );
@@ -71,7 +73,7 @@ export const PrepareCertificateModal = ({
     }
   };
   return (
-    <AlertDialog>
+    <AlertDialog >
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -94,6 +96,7 @@ export const PrepareCertificateModal = ({
                     <Input
                       disabled={isSubmitting}
                       placeholder="أدخل اسمك الكامل"
+                      dir="rtl"
                       {...field}
                     />
                   </FormControl>
@@ -101,15 +104,15 @@ export const PrepareCertificateModal = ({
                 </FormItem>
               )}
             />
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2" dir="rtl">
               <Button disabled={!isValid || isSubmitting} type="submit">
-                يحفظ
+                حفظ
               </Button>
             </div>
           </form>
         </Form>
         <AlertDialogFooter>
-          <AlertDialogCancel>يلغي</AlertDialogCancel>
+          <AlertDialogCancel>إلغاء</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

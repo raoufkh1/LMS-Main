@@ -54,7 +54,7 @@ export const LessonVideoForm = ({
       <div className="font-medium flex items-center justify-between">
       فيديو الدرس
         <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && <>يلغي</>}
+          {isEditing && <>إلغاء</>}
           {!isEditing && !initialData.videoUrl && (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />

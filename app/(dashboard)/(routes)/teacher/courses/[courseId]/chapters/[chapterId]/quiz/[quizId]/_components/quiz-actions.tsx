@@ -35,12 +35,12 @@ export const QuizActions = ({
         await axios.patch(
           `/api/courses/${courseId}/chapters/${chapterId}/quiz/${quizId}/unpublish`
         );
-        toast.success("تم إلغاء نشر الاختبار");
+        toast.success("تم إلغاء نشر النشاط");
       } else {
         await axios.patch(
           `/api/courses/${courseId}/chapters/${chapterId}/quiz/${quizId}/publish`
         );
-        toast.success("تم نشر الاختبار");
+        toast.success("تم نشر النشاط");
       }
 
       router.refresh();
@@ -75,7 +75,7 @@ export const QuizActions = ({
         variant="outline"
         size="sm"
       >
-        {isPublished ? "إلغاء النشر" : "ينشر"}
+        {isPublished ? "إلغاء النشر" : "نشر"}
       </Button>
       <ConfirmModal onConfirm={onDelete}>
         <Button size="sm" disabled={isLoading}>
