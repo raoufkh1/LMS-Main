@@ -106,7 +106,7 @@ export const CourseSidebar = async ({
   const certificate1 = await db.certificate.findMany({
     where: {
       userId: userId,
-      examId: exam.id,
+      examId: exam?.id,
       NOT: {
         nameOfStudent: undefined
       }
@@ -120,7 +120,7 @@ export const CourseSidebar = async ({
       redirect(`/courses/${course.id}/exam/${examId}`)
     };
   // if (progressCount === 100 && exam) {
-  //   redirect(`/courses/${course.id}/exam/${exam.id}`);
+  //   redirect(`/courses/${course.id}/exam/${exam?.id}`);
   // }
 
   return (
@@ -255,21 +255,21 @@ export const CourseSidebar = async ({
                       size={22}
                       className={cn(
                         "text-gray-700",
-                        pathname?.includes(exam.id) && "text-gray-800"
+                        pathname?.includes(exam?.id) && "text-gray-800"
                       )}
                     />
                   ) : !taskCompleted ? <PlayCircle
                   size={22}
                   className={cn(
                     "text-slate-500",
-                    pathname?.includes(exam.id) && "text-slate-700"
+                    pathname?.includes(exam?.id) && "text-slate-700"
                   )}
                 /> : (
                     <CheckCircle
                       size={22}
                       className={cn(
                         "text-slate-500",
-                        pathname?.includes(exam.id) && "text-slate-700"
+                        pathname?.includes(exam?.id) && "text-slate-700"
                       )}
                     />
                   )}
@@ -283,7 +283,7 @@ export const CourseSidebar = async ({
         { exam?.id && (
                 <Link
                 type="button"
-                href={(progressCount == 100) ?`/courses/${course.id}/exam/${exam.id}` : "#"}
+                href={(progressCount == 100) ?`/courses/${course.id}/exam/${exam?.id}` : "#"}
                 className={cn(
                   `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
                   
@@ -295,21 +295,21 @@ export const CourseSidebar = async ({
                       size={22}
                       className={cn(
                         "text-gray-700",
-                        pathname?.includes(exam.id) && "text-gray-800"
+                        pathname?.includes(exam?.id) && "text-gray-800"
                       )}
                     />
                   ) : !examCompleted?.isCompleted ? <PlayCircle
                   size={22}
                   className={cn(
                     "text-slate-500",
-                    pathname?.includes(exam.id) && "text-slate-700"
+                    pathname?.includes(exam?.id) && "text-slate-700"
                   )}
                 /> : (
                     <CheckCircle
                       size={22}
                       className={cn(
                         "text-slate-500",
-                        pathname?.includes(exam.id) && "text-slate-700"
+                        pathname?.includes(exam?.id) && "text-slate-700"
                       )}
                     />
                   )}
@@ -320,9 +320,10 @@ export const CourseSidebar = async ({
 
       </div>
       {
+        exam?.id &&
         certificate[0]?.nameOfStudent != null && 
         <div className="relative h-full ">
-                <Link href={`/courses/${course.id}/exam/${exam.id}/certificate/${certificate[0].id}`} className="absolute bottom-8 right-16 bg-sky-700 py-4 px-8 text-white"> انظر شهادتك</Link>
+                <Link href={`/courses/${course.id}/exam/${exam?.id}/certificate/${certificate[0].id}`} className="absolute bottom-8 right-16 bg-sky-700 py-4 px-8 text-white"> انظر شهادتك</Link>
         </div>
       }
     </div>

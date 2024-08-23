@@ -33,7 +33,7 @@ const Leaderboard = async () => {
       quizCount: number;
       uniqueQuizzes: Set<string>;
       totalPoints: number;
-      
+
 
     };
   } = {};
@@ -49,14 +49,14 @@ const Leaderboard = async () => {
     const userEntry = usersQuizCounts[point.userId];
     if (!userEntry) {
       // First time encountering this user
-      try{
+      try {
         const user: User = await clerkClient.users.getUser(point.userId);
-      }catch(err) {
-        if(err){
+      } catch (err) {
+        if (err) {
           continue
         }
       }
-      const userStats = await db.userStats.findUnique({where:{id:point.userId}})
+      const userStats = await db.userStats.findUnique({ where: { id: point.userId } })
       const user: User = await clerkClient.users.getUser(point.userId);
       const fullName =
         user.firstName && user.lastName // Check if both firstName and lastName are not null
@@ -67,7 +67,7 @@ const Leaderboard = async () => {
         quizCount: 1,
         uniqueQuizzes: new Set([point.quizId]),
         totalPoints: point.points,
-        
+
 
       };
       pointsWithUserDetails.push({
@@ -122,53 +122,56 @@ const Leaderboard = async () => {
       index > 0 &&
       user.points === pointsWithUserDetails[index - 1].points &&
       user.numberOfTakenQuizzes ===
-        pointsWithUserDetails[index - 1].numberOfTakenQuizzes &&
+      pointsWithUserDetails[index - 1].numberOfTakenQuizzes &&
       user.createdAt.getTime() ===
-        pointsWithUserDetails[index - 1].createdAt.getTime()
+      pointsWithUserDetails[index - 1].createdAt.getTime()
     ) {
       user.rank = pointsWithUserDetails[index - 1].rank;
     } else {
       user.rank = index + 1;
     }
   });
-  
+
   const firstThreePointsWithUserDetails = pointsWithUserDetails.slice(0, 3);
   const userPoints = pointsWithUserDetails.find(
     (point) => point.userId === userId
   );
 
   return (
-    <div dir="rtl">
-        <DialogBox page="leaderboardPage" />
-      <div className="p-6 flex flex-col">
-        <div>
-          <h1 className="text-2xl font-medium text-right">المتصدرين</h1>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
-          {firstThreePointsWithUserDetails.map((pointWithUser) => (
-            <div key={pointWithUser.id}>
-              <RankCard
-                fullName={pointWithUser.fullName}
-                imageUrl={pointWithUser.imageUrl}
-                points={pointWithUser.points}
-                rank={pointWithUser.rank}
-                lessonsCompleted={pointWithUser.completedLessons}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="rounded-md border bg-slate-100 w-fit px-3 py-2 mt-5 mb-1 self-center">
+    <div>
+      <DialogBox page="leaderboardPage" />
+      <div dir="rtl">
+        <div className="p-6 flex flex-col">
           <div>
-          لديك <span className="font-bold">{userPoints?.points}</span> اختبار
-          النقاط ويتم تصنيفها{" "}
-            <span className="font-bold">{userPoints?.rank}</span> اليوم من{" "}
-            <span className="font-bold">{pointsWithUserDetails.length}</span>{" "}
-            .مجموع المتعلمين
+            <h1 className="text-2xl font-medium text-right">المتصدرين</h1>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
+            {firstThreePointsWithUserDetails.map((pointWithUser) => (
+              <div key={pointWithUser.id}>
+                <RankCard
+                  fullName={pointWithUser.fullName}
+                  imageUrl={pointWithUser.imageUrl}
+                  points={pointWithUser.points}
+                  rank={pointWithUser.rank}
+                  lessonsCompleted={pointWithUser.completedLessons}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="rounded-md border bg-slate-100 w-fit px-3 py-2 mt-5 mb-1 self-center">
+            <div>
+              لديك <span className="font-bold">{userPoints?.points}</span> اختبار
+              النقاط ويتم تصنيفها{" "}
+              <span className="font-bold">{userPoints?.rank}</span> اليوم من{" "}
+              <span className="font-bold">{pointsWithUserDetails.length}</span>{" "}
+              .مجموع المتعلمين
+            </div>
+          </div>
+          <div className="">
+            <DataTable columns={columns} data={pointsWithUserDetails.slice(3)} />
           </div>
         </div>
-        <div className="">
-          <DataTable columns={columns} data={pointsWithUserDetails.slice(3)} />
-        </div>
+
       </div>
 
     </div>

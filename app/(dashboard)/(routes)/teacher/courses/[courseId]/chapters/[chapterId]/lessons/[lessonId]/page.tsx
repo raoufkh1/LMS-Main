@@ -39,13 +39,13 @@ const LessonIdPage = async ({
     return redirect("/");
   }
 
-  const requiredFields = [lesson.title, lesson.description || lesson.videoUrl];
+  const requiredFields = !isIntroductionCoursePage ? [lesson.title, lesson.description || lesson.videoUrl] : [lesson.videoUrl];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
 
   const completionText = `(${completedFields}/${totalFields})`;
-
+      
   const isComplete = requiredFields.every(Boolean);
 
   return (
@@ -70,8 +70,12 @@ const LessonIdPage = async ({
               <div className="flex flex-col gap-y-2">
                 <h1 className="text-2xl font-medium">إنشاء الدرس</h1>
                 <span className="text-sm text-slate-700">
-                أكمل كافة الحقول {completionText} - يجب أن يكون لديك
-                  وصف أو فيديو
+                  {
+                    isIntroductionCoursePage ? `أكمل كافة الحقول ${completionText} - يجب أن يكون لديك
+                      فيديو` : `أكمل كافة الحقول ${completionText} - يجب أن يكون لديك
+                    وصف أو فيديو`
+                  }
+                
                 </span>
               </div>
               <LessonActions

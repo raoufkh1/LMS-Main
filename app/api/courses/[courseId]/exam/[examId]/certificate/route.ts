@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { sendMail } from "@/actions/set-emails";
 
 export async function POST(
   req: Request,
@@ -13,7 +14,6 @@ export async function POST(
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
     const exam = await db.exam.findUnique({
       where: {
         id: params.examId,

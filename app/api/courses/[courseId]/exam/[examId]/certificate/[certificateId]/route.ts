@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { sendMail } from "@/actions/set-emails";
 
 export async function GET(
   req: Request,
@@ -88,6 +89,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const { ...values } = await req.json();
+    sendMail({to: "raoufg716@gmail.com", from:'sender19321232@gmail.com', body: "<h1>HELLO WORLD</h1>", subject: "the most importance subjecct in the wooorld"})
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });

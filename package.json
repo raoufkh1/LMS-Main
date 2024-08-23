@@ -50,6 +50,7 @@
     "eslint": "8.49.0",
     "eslint-config-next": "^14.1.0",
     "froala-editor": "^4.2.1",
+    "fs": "^0.0.1-security",
     "google-translate-api": "^2.3.0",
     "google-translate-api-next": "^0.1.0",
     "jodit": "^4.2.27",
@@ -58,6 +59,7 @@
     "lion-player": "^1.2.3",
     "lucide-react": "^0.276.0",
     "next": "^14.1.0",
+    "nodemailer": "^6.9.14",
     "openai": "^4.53.0",
     "postcss": "8.4.29",
     "pusher": "^5.2.0",
@@ -89,6 +91,7 @@
   },
   "devDependencies": {
     "@types/google-translate-api": "^2.3.5",
+    "@types/nodemailer": "^6.4.15",
     "prisma": "^5.3.0"
   }
 }

@@ -19,6 +19,7 @@ export const NavbarRoutes = () => {
   const isTeacherPage = pathname?.startsWith("/teacher");
   const isCoursePage = pathname?.startsWith("/courses");
   const isIntroductionCoursePage:boolean = pathname?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!);
+  const isIntroductionCourseEditPage:boolean = pathname?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!) && pathname?.includes('teacher');
   const isSearchPage = pathname === "/search";
   const isStudentPage = pathname?.includes("/students");
   const isReplyPage = pathname?.includes("/message/");
@@ -57,6 +58,14 @@ export const NavbarRoutes = () => {
         }
         {isCoursePage && !isIntroductionCoursePage ? (
           <Link href="/">
+            <Button size="sm" variant="ghost">
+              <LogOut className="h-4 w-4 mr-2" />
+              عودة
+            </Button>
+          </Link>
+        )  : null}
+        {isIntroductionCourseEditPage ? (
+          <Link href={`/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`}>
             <Button size="sm" variant="ghost">
               <LogOut className="h-4 w-4 mr-2" />
               عودة
