@@ -78,13 +78,16 @@ const LessonIdPage = async ({
                 
                 </span>
               </div>
-              <LessonActions
-                disabled={!isComplete}
-                courseId={params.courseId}
-                chapterId={params.chapterId}
-                lessonId={params.lessonId}
-                isPublished={lesson.isPublished}
-              />
+              {
+                !isIntroductionCoursePage &&
+                  <LessonActions
+                    disabled={!isComplete}
+                    courseId={params.courseId}
+                    chapterId={params.chapterId}
+                    lessonId={params.lessonId}
+                    isPublished={lesson.isPublished}
+                  />
+              }
             </div>
           </div>
         </div>
