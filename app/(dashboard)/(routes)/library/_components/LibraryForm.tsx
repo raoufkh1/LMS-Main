@@ -16,10 +16,12 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, ImageUpload, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
-import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
+import { ImportWord,ImportWordEditing } from 'ckeditor5-premium-features';
+
 
 import 'ckeditor5/ckeditor5.css';
 import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
+import MyUploadAdapter from "@/lib/upload_adapter";
 const defaultContent = `<div>
 <section data-element_type="section" data-id="6dad7bdb">
   <div data-element_type="column" data-id="2fdea927">
@@ -279,7 +281,7 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
 
 
                 initialData: context,
-
+                extraPlugins: [MyUploadAdapter]
               }}
             />
           </div>
