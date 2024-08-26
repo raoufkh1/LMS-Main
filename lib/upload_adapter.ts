@@ -1,4 +1,5 @@
 export default class MyUploadAdapter {
+    loader: any;
     constructor(loader:any) {
       this.loader = loader;
     }
