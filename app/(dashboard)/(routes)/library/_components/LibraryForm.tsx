@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload,ImageResizeEditing, ImageResizeHandles, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload,ImageResizeEditing, ImageResizeHandles, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageToolbar, ImageStyle, ImageStyleEditing } from 'ckeditor5';
 import { ImportWord,ImportWordEditing } from 'ckeditor5-premium-features';
 
 
@@ -259,7 +259,7 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
                 },
                 plugins: [Undo, Heading,FontFamily, 
                   FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
-                Link, Image, ImageResizeEditing,ImageResizeHandles,ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                Link, Image,ImageToolbar,ImageStyle,ImageStyleEditing, ImageResizeEditing,ImageResizeHandles,ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
                 toolbar: {
                   items: [
                     'undo', 'redo',
