@@ -45,7 +45,7 @@ export const NavbarRoutes = () => {
       <div className="flex gap-x-2 ml-auto">
           <div id="google_translate_element "></div>
 
-          <UserButtonWrapper afterSignOutUrl="/" />
+          <UserButtonWrapper signInUrl="/sign-in" />
           {
           isStudentPage && (
             <Link href="/teacher/analytics">

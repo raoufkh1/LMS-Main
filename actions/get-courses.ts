@@ -78,7 +78,7 @@ export const getCourses = async ({
             courseProgressPercentage < 100
           ) {
             courseProgressPercentage = Math.min(
-              courseProgressPercentage + 10,
+              courseProgressPercentage,
               100
             );
           }

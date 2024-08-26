@@ -34,7 +34,20 @@ export const getProgress = async (
     const publishedLessonIds = publishedChapters.flatMap((chapter) =>
       chapter.lessons.map((lesson) => lesson.id)
     );
-    
+    const exams = await db.exam.findMany({
+      where: {
+        courseId
+      }
+    })
+    const examsIds = exams.map((exam) => exam.id)
+    const examsCompeleted = await db.userProgress.count({
+      where:{
+        userId,
+        lessonId: {
+          in:examsIds
+        }
+      }
+    })
     const publishedQuizIds = publishedChapters.filter(
       chapter => chapter.quiz?.userId != 'nil' && chapter.quiz != null
     )
@@ -62,10 +75,10 @@ export const getProgress = async (
         },
       },
     });
-    
+    const examsProgress = examsCompeleted * 10
     const completedItems = validCompletedLessons + validCompletedQuizes;
     const totalItems = publishedLessonIds.length + publishedQuizIds.length;
-    const progressPercentage = (completedItems / totalItems) * 100;
+    const progressPercentage = (completedItems / totalItems) * (100 - exams.length * 10) + examsProgress;
     
     return progressPercentage;
   } catch (error) {

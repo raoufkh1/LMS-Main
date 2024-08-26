@@ -1,5 +1,5 @@
 "use client"
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { File } from "lucide-react";
 

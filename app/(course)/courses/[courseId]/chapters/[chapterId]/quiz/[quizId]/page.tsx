@@ -91,7 +91,7 @@ const ExamIdPage = ({
     if (!quiz || !hasUserSelections) return;
 
     setIsSubmitting(true);
-        sethasSubmitted(true);
+    sethasSubmitted(true);
 
     try {
       const response = await axios.patch(
@@ -117,20 +117,20 @@ const ExamIdPage = ({
         console.log("====================================");
 
         sethasSubmitted(true);
-        if(points > 50) {
+        if (points > 50) {
           toast.success(`احسنت لقد حصلت على ${points}`, {
             duration: 4000,
           });
 
         }
-        else{
+        else {
           toast.success(` لقد حصلت على ${points}`, {
             duration: 4000,
           });
         }
         confetti.onOpen();
       } else {
-        
+
 
         toast.success(
           `لقد حصلت على ${points}`,
@@ -170,11 +170,11 @@ const ExamIdPage = ({
   }, [TIME_PER_QUESTION_MS, quiz]);
 
   // Function to decrement the time remaining every second
-  
 
-  
 
-  
+
+
+
 
   useEffect(() => {
     if (hasTakenQuiz && hasSubmitted) {
@@ -192,7 +192,7 @@ const ExamIdPage = ({
 
     if (!totalQuestions) return;
 
-    const wrongAnswersQuizTemp:string[] = []
+    const wrongAnswersQuizTemp: string[] = []
     quiz?.questions.forEach((question) => {
       const questionId = question.id;
       const userSelectedPosition = userSelections[question.id];
@@ -258,9 +258,12 @@ const ExamIdPage = ({
             />
           ) : (
             <div className="w-full flex flex-col justify-center items-end h-12 pt-12 px-6">
-              <div className="flex space-x-4 items-center">
-                
+              <div className="flex space-x-4 items-center" dir="rtl">
 
+
+                <h1 className="text-lg md:text-2xl font-medium capitalize">
+                  {course?.title}
+                </h1>
                 <span className="mx-4">|</span>
 
                 <h1 className="text-lg md:text-2xl font-medium capitalize">
@@ -268,102 +271,102 @@ const ExamIdPage = ({
                 </h1>
                 <span className="mx-4">|</span>
                 <h1 className="text-lg md:text-2xl font-medium capitalize">
-                  {course?.title}
+                  مجموع الأسئلة {quiz?.questions.length}
                 </h1>
               </div>
               <div className="flex space-x-3 ">
                 <div className="text-md">
                   {canSubmit} أسئلة تمت الإجابة عليها {answeredQuestions}
                 </div>
-                <div className="text-md"> { <FroalaEditorView model={quiz?.description}/>}</div>
-                <div className="text-md">
-                مجموع الأسئلة {quiz?.questions.length}
-                </div>
+                <div className="text-md"> {<FroalaEditorView model={quiz?.description} />}</div>
+                
               </div>
             </div>
           )}
 
           <div className="flex flex-col px-10 mt-10  items-center relative">
-            
-                {quiz?.questions.map((question, index) => (
-                  <CarouselItem key={index} className="w-full mb-4">
-                    <div className="bg-sky-100 border border-slate-200 rounded-lg p-4 max-w-full ">
-                      <div className="w-full flex h-fit flex-col items-end">
-                        <div className="font-medium text-slate-500 mb-4 text-right">
-                        سؤال {index + 1}
-                        </div>
-                        {
-                          hasSubmitted && wrongAnswersQuiz.includes(question.id) &&
-                            (<div className="mb-4">
-                              <p className="text-right">
-                              تفسير الاجابة
 
-                              </p>
-                              {(
-                                question.explanation ? <FroalaEditorView config={{direction: "rtl"}} model={question.explanation} /> : "لا يوجد تفسير"
-                          
-                              )}
-                              
+            {quiz?.questions.map((question, index) => (
+              <CarouselItem key={index} className="w-full mb-4">
+                <div className="bg-sky-100 border border-slate-200 rounded-lg p-4 max-w-full ">
+                  <div className="w-full flex h-fit flex-col items-end">
+                    <div className="font-medium text-slate-500 mb-4 text-right">
+                      سؤال {index + 1}
+                    </div>
+                    
+                    <div className="text-slate-700 font-bold text-lg" dir="rtl">
+                      <FroalaEditorView model={question.prompt} />
+                    </div>
+
+                    <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
+                      {question.options.map((option, index) => (
+                        <div key={option.id}>
+                          {hasSubmitted ? (
+                            <div className={`flex space-x-2 ${index + 1 == parseInt(question.answer) ? "text-sky-600" : "text-red-500"}`}>
+                              <label className="capitalize text-sm">
+                                {option.text}
+                              </label>
+                              <input
+                                className="mr-2"
+                                type="radio"
+                                name={question.id}
+                                value={index + 1}
+                                onChange={() =>
+                                  handleOptionChange(
+                                    question.id,
+                                    index
+
+                                  )
+                                }
+                              />
                             </div>
-                          )
+                          ) : (
+                            <div className="flex space-x-2">
+                              <label className="block capitalize text-sm">
+                                {option.text}
+                              </label>
 
-                        }
-                        <div className="text-slate-700 font-bold text-lg">
-                          {question.prompt}
+                              <input
+                                className="mr-2"
+                                type="radio"
+                                name={question.id}
+                                value={index + 1}
+                                onChange={() =>
+                                  handleOptionChange(
+                                    question.id,
+                                    index
+
+                                  )
+                                }
+                              />
+                            </div>
+                          )}
                         </div>
                         
-                        <div className="flex flex-col items-end space-y-2 w-full mb-4 ">
-                          {question.options.map((option, index) => (
-                            <div key={option.id}>
-                              {hasSubmitted ? (
-                                <div className={`flex space-x-2 ${index + 1 == parseInt(question.answer) ? "text-sky-600" : "text-red-500"}`}>
-                                  <label className="capitalize text-sm">
-                                    {option.text}
-                                  </label>
-                                  <input
-                                    className="mr-2"
-                                    type="radio"
-                                    name={question.id}
-                                    value={index + 1}
-                                    onChange={() =>
-                                      handleOptionChange(
-                                        question.id,
-                                        index
-                                        
-                                      )
-                                    }
-                                  />
-                                </div>
-                              ) : (
-                                <div className="flex space-x-2">
-                                  <label className="block capitalize text-sm">
-                                    {option.text}
-                                  </label>
+                      ))}
+                      {
+                      hasSubmitted && wrongAnswersQuiz.includes(question.id) &&
+                      (<div className="mb-4">
+                        <p className="text-right">
+                          تفسير الاجابة
 
-                                  <input
-                                    className="mr-2"
-                                    type="radio"
-                                    name={question.id}
-                                    value={index + 1}
-                                    onChange={() =>
-                                      handleOptionChange(
-                                        question.id,
-                                        index
-                                        
-                                      )
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                        </p>
+                        {(
+                          question.explanation ? <FroalaEditorView config={{ direction: "rtl" }} model={question.explanation} /> : "لا يوجد تفسير"
+
+                        )}
+
                       </div>
+                      )
+
+                    }
                     </div>
-                  </CarouselItem>
-                ))}
-              
-              
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+
+
             <div className="flex flex-col justify-end items-end w-full space-y-3 mr-12 md:mr-20">
               {hasSubmitted && points != undefined ? (
                 <div>
@@ -373,7 +376,7 @@ const ExamIdPage = ({
               ) : (""
               )}
               <div className="flex flex-row space-x-4 items-center">
-                { hasSubmitted ? (
+                {hasSubmitted ? (
                   <Link
                     href={`/courses/${params.courseId}`}
                     className={cn(
@@ -389,7 +392,7 @@ const ExamIdPage = ({
                     className={cn(
                       "bg-sky-700 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
                       (!canSubmit || isSubmitting || hasSubmitted) &&
-                        "bg-slate-400 cursor-not-allowed pointer-events-none"
+                      "bg-slate-400 cursor-not-allowed pointer-events-none"
                     )}
                   >
                     يُقدِّم
@@ -402,7 +405,7 @@ const ExamIdPage = ({
       ) : (
         <div className="flex items-center justify-center h-full w-full">
           <div className="font-bold text-2xl text-slate-500 animate-pulse">
-          ...جارٍ تحميل الأسئلة 
+            ...جارٍ تحميل الأسئلة
           </div>
         </div>
       )}

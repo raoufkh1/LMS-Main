@@ -1,7 +1,7 @@
 import { Preview } from "@/components/preview"
 import { db } from "@/lib/db"
 import { isTeacher } from "@/lib/teacher"
-import { auth } from "@clerk/nextjs"
+import { auth } from "@clerk/nextjs/server"
 import { PrivacyForm } from "./_components/PrivacyForm"
 import { DialogBox } from "../../_components/dialogueBox"
 

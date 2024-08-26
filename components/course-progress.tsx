@@ -28,6 +28,7 @@ export const CourseProgress = ({
         className="h-2"
         value={value}
         variant={variant}
+        style={{transform: "rotateY(180deg)"}}
       />
       <div className={cn(
         "font-medium mt-2 text-sky-700",

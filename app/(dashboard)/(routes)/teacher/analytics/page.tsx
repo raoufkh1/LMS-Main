@@ -1,4 +1,4 @@
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient } from '@clerk/nextjs/server'
 import React from 'react'
 import UserCard from './_components/UserCard'
 

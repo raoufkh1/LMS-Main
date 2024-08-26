@@ -1,10 +1,11 @@
 import { getCourses } from '@/actions/get-courses'
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient } from '@clerk/nextjs/server'
 import Link from 'next/link'
 import React from 'react'
 
 const UserCard = async () => {
-    const users = await clerkClient.users.getUserList()
+    const {data} = await clerkClient.users.getUserList()
+    const users = data
     return (
 
 

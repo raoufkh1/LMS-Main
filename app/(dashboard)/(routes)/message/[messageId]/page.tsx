@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { db } from '@/lib/db'
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient } from '@clerk/nextjs/server'
 import { getMessages } from '@/actions/get-messages'
 import axios from 'axios'
 import { pusherClient } from '@/lib/pusher'

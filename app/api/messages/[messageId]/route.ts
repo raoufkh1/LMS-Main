@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { User } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 

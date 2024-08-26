@@ -1,6 +1,6 @@
 import { getCourses } from '@/actions/get-courses'
 import { db } from '@/lib/db';
-import { clerkClient } from '@clerk/nextjs'
+import { clerkClient } from '@clerk/nextjs/server'
 import { Course } from '@prisma/client';
 import { Progress } from '@radix-ui/react-progress'
 import React from 'react'
