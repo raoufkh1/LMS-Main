@@ -243,14 +243,14 @@ export const CourseSidebar = async ({
         { task?.id && (
                 <Link
                 type="button"
-                href={(progressCount == 90) ?`/courses/${course.id}/task/${task.id}` : "#"}
+                href={(progressCount >= 90) ?`/courses/${course.id}/task/${task.id}` : "#"}
                 className={cn(
                   `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
                   
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
-                  {!(progressCount == 90) ? (
+                  {!(progressCount >= 90) ? (
                     <LockIcon
                       size={22}
                       className={cn(
@@ -283,14 +283,14 @@ export const CourseSidebar = async ({
         { exam?.id && (
                 <Link
                 type="button"
-                href={(progressCount == 90) ?`/courses/${course.id}/exam/${exam?.id}` : "#"}
+                href={(progressCount >= 90) ?`/courses/${course.id}/exam/${exam?.id}` : "#"}
                 className={cn(
                   `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
                   
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
-                  {!(progressCount == 90) ? (
+                  {!(progressCount >= 90) ? (
                     <LockIcon
                       size={22}
                       className={cn(

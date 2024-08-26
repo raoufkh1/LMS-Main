@@ -40,7 +40,6 @@ const QuizIdPage = async ({
 
   const requiredFields = [
     quiz.title,
-    quiz.description,
     quiz.questions.some((question) => question.isPublished),
   ];
 
@@ -99,12 +98,7 @@ const QuizIdPage = async ({
                 courseId={params.courseId}
                 quizId={params.quizId}
               />
-              <QuizDescriptionForm
-                initialData={quiz}
-                chapterId={params.chapterId}
-                courseId={params.courseId}
-                quizId={params.quizId}
-              />
+              
             </div>
           </div>
           <div>

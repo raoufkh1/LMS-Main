@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload, Alignment,ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageCaption, ImageResize, ImageStyle, ImageToolbar, IndentBlock, MediaEmbed, List, PasteFromOffice, PictureEditing, TableColumnResize, Table, TextTransformation, TableToolbar, Underline, Autoformat, CKFinder, CKFinderUploadAdapter } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
@@ -260,36 +260,184 @@ export function PrivacyForm({ defaultContext, isTeacher }: { defaultContext: str
                 onModelChange(data)
               }}
               config={{
-                
+                fontColor: {
+                  colors: [
+                      {
+                          color: 'hsl(0, 0%, 0%)',
+                          label: 'Black'
+                      },
+                      {
+                          color: 'hsl(0, 0%, 30%)',
+                          label: 'Dim grey'
+                      },
+                      {
+                          color: 'hsl(0, 0%, 60%)',
+                          label: 'Grey'
+                      },
+                      {
+                          color: 'hsl(0, 0%, 90%)',
+                          label: 'Light grey'
+                      },
+                      {
+                          color: 'hsl(0, 0%, 100%)',
+                          label: 'White',
+                          hasBorder: true
+                      },
+                      // More colors.
+                      // ...
+                  ]
+              },
+              fontBackgroundColor: {
+                  colors: [
+                      {
+                          color: 'hsl(0, 75%, 60%)',
+                          label: 'Red'
+                      },
+                      {
+                          color: 'hsl(30, 75%, 60%)',
+                          label: 'Orange'
+                      },
+                      {
+                          color: 'hsl(60, 75%, 60%)',
+                          label: 'Yellow'
+                      },
+                      {
+                          color: 'hsl(90, 75%, 60%)',
+                          label: 'Light green'
+                      },
+                      {
+                          color: 'hsl(120, 75%, 60%)',
+                          label: 'Green'
+                      },
+                      // More colors.
+                      // ...
+                  ]
+              },
                 language: {
                   content: 'ar',
-                  ui: "ar"
                 },
-                plugins: [Undo, Heading,FontFamily, 
-                  FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
-                Link, Image, ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord,Alignment ],
-                toolbar: {
-                  items: [
-                    'undo', 'redo',
+                plugins: [Autoformat,
+                  BlockQuote,
+                  Bold,
+                  CKFinder,
+                  CKFinderUploadAdapter,
+                  CloudServices,
+                  Essentials,
+                  Heading,
+                  Image,
+                  ImageCaption,
+                  ImageResize,
+                  ImageStyle,
+                  ImageToolbar,
+                  ImageUpload,
+                  Base64UploadAdapter,
+                  Indent,
+                  IndentBlock,
+                  Italic,
+                  Link,
+                  List,
+                  MediaEmbed,
+                  Mention,
+                  Paragraph,
+                  PasteFromOffice,
+                  PictureEditing,
+                  Table,
+                  TableColumnResize,
+                  TableToolbar,
+                  TextTransformation,
+                  Underline,
+                  Alignment ],
+                  toolbar: [
+                    'undo',
+                    'redo',
                     '|',
                     'heading',
                     '|',
-                    'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+                    'bold',
+                    'italic',
+                    'underline',
                     '|',
-                    'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+                    'link',
+                    'uploadImage',
+                    'ckbox',
+                    'insertTable',
+                    'blockQuote',
+                    'mediaEmbed',
                     '|',
-                    'link', 'uploadImage', 'blockQuote', 'codeBlock',
+                    'bulletedList',
+                    'numberedList',
                     '|',
-                    'bulletedList','Alignment', 'numberedList', 'todoList', 'outdent', 'indent'
+                    'outdent',
+                    'indent',
+                    'alignment'
                   ],
-                  shouldNotGroupWhenFull: false
-                },
+                  heading: {
+                    options: [
+                      {
+                        model: 'paragraph',
+                        title: 'Paragraph',
+                        class: 'ck-heading_paragraph',
+                      },
+                      {
+                        model: 'heading1',
+                        view: 'h1',
+                        title: 'Heading 1',
+                        class: 'ck-heading_heading1',
+                      },
+                      {
+                        model: 'heading2',
+                        view: 'h2',
+                        title: 'Heading 2',
+                        class: 'ck-heading_heading2',
+                      },
+                      {
+                        model: 'heading3',
+                        view: 'h3',
+                        title: 'Heading 3',
+                        class: 'ck-heading_heading3',
+                      },
+                      {
+                        model: 'heading4',
+                        view: 'h4',
+                        title: 'Heading 4',
+                        class: 'ck-heading_heading4',
+                      },
+                    ],
+                  },
                 
                 licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
 
 
                 initialData: context,
-
+                image: {
+                  resizeOptions: [
+                    {
+                      name: 'resizeImage:original',
+                      label: 'Default image width',
+                      value: null,
+                    },
+                    {
+                      name: 'resizeImage:50',
+                      label: '50% page width',
+                      value: '50',
+                    },
+                    {
+                      name: 'resizeImage:75',
+                      label: '75% page width',
+                      value: '75',
+                    },
+                  ],
+                  toolbar: [
+                    'imageTextAlternative',
+                    'toggleImageCaption',
+                    '|',
+                    'imageStyle:inline',
+                    'imageStyle:wrapText',
+                    'imageStyle:breakText',
+                    '|',
+                    'resizeImage',
+                  ],
+                },
               }}
             />
           </div>

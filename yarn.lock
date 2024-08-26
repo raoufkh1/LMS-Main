@@ -5160,15 +5160,45 @@ dom-helpers@^5.0.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
+dom-serializer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-2.0.0.tgz#e41b802e1eedf9f6cae183ce5e622d789d7d8e53"
+  integrity sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==
+  dependencies:
+    domelementtype "^2.3.0"
+    domhandler "^5.0.2"
+    entities "^4.2.0"
+
 dom-walk@^0.1.0:
   version "0.1.2"
   resolved "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"
   integrity sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==
 
+domelementtype@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-2.3.0.tgz#5c45e8e869952626331d7aab326d01daf65d589d"
+  integrity sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==
+
+domhandler@5.0.3, domhandler@^5.0.2, domhandler@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-5.0.3.tgz#cc385f7f751f1d1fc650c21374804254538c7d31"
+  integrity sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==
+  dependencies:
+    domelementtype "^2.3.0"
+
 dompurify@^2.2.0:
   version "2.4.7"
   resolved "https://registry.npmjs.org/dompurify/-/dompurify-2.4.7.tgz"
   integrity sha512-kxxKlPEDa6Nc5WJi+qRgPbOAbgTpSULL+vI3NUXsZMlkJxTqYI9wg5ZTay2sFrdZRWHPWNi+EdAhcJf81WtoMQ==
+
+domutils@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/domutils/-/domutils-3.1.0.tgz#c47f551278d3dc4b0b1ab8cbb42d751a6f0d824e"
+  integrity sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==
+  dependencies:
+    dom-serializer "^2.0.0"
+    domelementtype "^2.3.0"
+    domhandler "^5.0.3"
 
 dot-case@^3.0.4:
   version "3.0.4"
@@ -5263,6 +5293,11 @@ enhanced-resolve@^5.12.0:
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
+
+entities@^4.2.0, entities@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-4.5.0.tgz#5d268ea5e7113ec74c4d033b79ea5a35a488fb48"
+  integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
 
 es-abstract@^1.22.1, es-abstract@^1.22.3, es-abstract@^1.22.4:
   version "1.22.4"
@@ -6110,6 +6145,24 @@ hsl-to-rgb-for-reals@^1.1.0:
   resolved "https://registry.npmjs.org/hsl-to-rgb-for-reals/-/hsl-to-rgb-for-reals-1.1.1.tgz"
   integrity sha512-LgOWAkrN0rFaQpfdWBQlv/VhkOxb5AsBjk6NQVx4yEzWS923T07X0M1Y0VNko2H52HeSpZrZNNMJ0aFqsdVzQg==
 
+html-dom-parser@5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-5.0.9.tgz#8c600e3407340c9a148cc8b3bf9bc390948cd9c1"
+  integrity sha512-QGeoFYwgQ582EDvrBx0+ejIz76/LuQcwwkmSR4ueKncjl2yWbciA45Kfz/LrHvWR3CgtKnxKFkr4Mpq2Sh1QNg==
+  dependencies:
+    domhandler "5.0.3"
+    htmlparser2 "9.1.0"
+
+html-react-parser@^5.1.13:
+  version "5.1.13"
+  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-5.1.13.tgz#3e5804a2873cd4ba9b848a7de52b4945c44ce690"
+  integrity sha512-XTG2lbn9JDHc3DqGLpHkoArvptXMPl+Ckk5/cqRhdUmrhcPNZ5MPDrwd2PU3BePl2QmkLOb3WsWdjAotznMdUw==
+  dependencies:
+    domhandler "5.0.3"
+    html-dom-parser "5.0.9"
+    react-property "2.0.2"
+    style-to-js "1.1.12"
+
 html2canvas@^1.0.0-rc.5:
   version "1.4.1"
   resolved "https://registry.npmjs.org/html2canvas/-/html2canvas-1.4.1.tgz"
@@ -6117,6 +6170,16 @@ html2canvas@^1.0.0-rc.5:
   dependencies:
     css-line-break "^2.1.0"
     text-segmentation "^1.0.3"
+
+htmlparser2@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-9.1.0.tgz#cdb498d8a75a51f739b61d3f718136c369bc8c23"
+  integrity sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==
+  dependencies:
+    domelementtype "^2.3.0"
+    domhandler "^5.0.3"
+    domutils "^3.1.0"
+    entities "^4.5.0"
 
 humanize-ms@^1.2.1:
   version "1.2.1"
@@ -6170,6 +6233,11 @@ inherits@2, inherits@^2.0.3, inherits@~2.0.3:
   version "2.0.4"
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+inline-style-parser@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/inline-style-parser/-/inline-style-parser-0.2.3.tgz#e35c5fb45f3a83ed7849fe487336eb7efa25971c"
+  integrity sha512-qlD8YNDqyTKTyuITrDOffsl6Tdhv+UC4hcdAVuQsK4IMQ99nSgd1MIA/Q+jQYoh9r3hVUXhYh7urSRmXPkW04g==
 
 internal-slot@^1.0.5, internal-slot@^1.0.7:
   version "1.0.7"
@@ -7557,6 +7625,11 @@ react-player@^2.14.1:
     prop-types "^15.7.2"
     react-fast-compare "^3.0.1"
 
+react-property@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-property/-/react-property-2.0.2.tgz#d5ac9e244cef564880a610bc8d868bd6f60fdda6"
+  integrity sha512-+PbtI3VuDV0l6CleQMsx2gtK0JZbZKbpdu5ynr+lbsuvtmgbNcS3VM0tuY2QjFNOcWxvXeHjDpy42RO+4U2rug==
+
 react-quill@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/react-quill/-/react-quill-2.0.0.tgz"
@@ -8205,6 +8278,20 @@ strnum@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/strnum/-/strnum-1.0.5.tgz"
   integrity sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==
+
+style-to-js@1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/style-to-js/-/style-to-js-1.1.12.tgz#112dd054231e71643514013a4475d4649bb2b581"
+  integrity sha512-tv+/FkgNYHI2fvCoBMsqPHh5xovwiw+C3X0Gfnss/Syau0Nr3IqGOJ9XiOYXoPnToHVbllKFf5qCNFJGwFg5mg==
+  dependencies:
+    style-to-object "1.0.6"
+
+style-to-object@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/style-to-object/-/style-to-object-1.0.6.tgz#0c28aed8be1813d166c60d962719b2907c26547b"
+  integrity sha512-khxq+Qm3xEyZfKd/y9L3oIWQimxuc4STrQKtQn8aSDRHb8mFgpukgX1hdzfrMEW6JCjyJ8p89x+IUMVnCBI1PA==
+  dependencies:
+    inline-style-parser "0.2.3"
 
 styled-jsx@5.1.1:
   version "5.1.1"

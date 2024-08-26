@@ -22,7 +22,7 @@ interface Message {
 const ChatGPTTab = () => {
   const [messages, setMessages] = useState<Message[]>(() => {
     // Load messages from localStorage on initial render
-    const storedMessages = localStorage.getItem("chatMessages");
+    const storedMessages = localStorage.getItem("chatMessages1");
     return storedMessages ? JSON.parse(storedMessages) : [];
   });
   const [inputValue, setInputValue] = useState("");
@@ -30,7 +30,7 @@ const ChatGPTTab = () => {
 
   useEffect(() => {
     // حفظ messages to localStorage whenever messages change
-    localStorage.setItem("chatMessages", JSON.stringify(messages));
+    localStorage.setItem("chatMessages1", JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
 

@@ -204,7 +204,7 @@ export const CourseSidebarItem = ({
                     />
                   )}
                   <div>
-                    <span>نشاط: </span>
+                    <span></span>
                     {quiz.title}
                   </div>
                 </div>

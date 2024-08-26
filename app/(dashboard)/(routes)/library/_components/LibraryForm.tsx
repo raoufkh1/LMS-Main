@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload,ImageResizeEditing, ImageResizeHandles, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageToolbar, ImageStyle, ImageStyleEditing, icons } from 'ckeditor5';
+import { ClassicEditor, ImageUpload,ImageResizeEditing, ImageResizeHandles, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageToolbar, ImageStyle, ImageStyleEditing, icons, ImageStyleUI } from 'ckeditor5';
 import { ImportWord,ImportWordEditing } from 'ckeditor5-premium-features';
 
 
@@ -253,27 +253,14 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
                 onModelChange(data)
               }}
               config={{
-                image: {
-                  //@ts-ignore
-                  styles: [
-                      // The predefined style "full" is no longer the default one.
-                    { name: 'full', isDefault: false, className: 'image-style-full' },
-                    // Create the custom "sideStyle" style.
-                    { name: 'sideStyle', title: 'Custom side style.', icon: icons.objectRight, className: 'side-class' },
-                    // Create "dummyStyle" style which will be the default one.
-                    { name: 'dummyStyle', title: 'Custom dummy style.', icon: icons.threeVerticalDots, isDefault: true }
-                  ],
-                  toolbar: [
-                    'imageStyle:full', 'imageStyle:sideStyle', 'imageStyle:dummyStyle',
-                  ]
-                },
+                
                 language: {
                   content: 'ar',
                   ui: "ar"
                 },
                 plugins: [Undo, Heading,FontFamily, 
                   FontSize,FontColor, FontBackgroundColor,Bold,Italic,Strikethrough,Subscript,Superscript,
-                Link, Image,ImageToolbar,ImageStyle,ImageStyleEditing, ImageResizeEditing,ImageResizeHandles,ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
+                Link, Image,ImageToolbar,ImageStyle,ImageStyleUI,ImageResizeEditing,ImageResizeHandles,ImageInsert,ImageUpload, Alignment, BlockQuote, CloudServices, Base64UploadAdapter, CodeBlock, TodoList, Indent, ImportWord ],
                 toolbar: {
                   items: [
                     'undo', 'redo',
@@ -295,7 +282,36 @@ export function LibraryForm({defaultContext, isTeacher} : {defaultContext:string
 
 
                 initialData: context,
-                extraPlugins: [MyUploadAdapter]
+                extraPlugins: [MyUploadAdapter],
+                image: {
+                  resizeOptions: [
+                    {
+                      name: 'resizeImage:original',
+                      label: 'Default image width',
+                      value: null,
+                    },
+                    {
+                      name: 'resizeImage:50',
+                      label: '50% page width',
+                      value: '50',
+                    },
+                    {
+                      name: 'resizeImage:75',
+                      label: '75% page width',
+                      value: '75',
+                    },
+                  ],
+                  toolbar: [
+                    'imageTextAlternative',
+                    'toggleImageCaption',
+                    '|',
+                    'imageStyle:inline',
+                    'imageStyle:wrapText',
+                    'imageStyle:breakText',
+                    '|',
+                    'resizeImage',
+                  ],
+                },
               }}
             />
           </div>

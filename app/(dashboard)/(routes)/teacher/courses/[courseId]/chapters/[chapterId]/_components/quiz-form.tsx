@@ -52,7 +52,6 @@ export const QuizForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: "",
     },
   });
 
@@ -127,22 +126,7 @@ export const QuizForm = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea
-                      disabled={isSubmitting}
-                      placeholder="e.g. '...هذا سيساعدك'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            
             <Button disabled={!isValid || isSubmitting} type="submit">
               إنشاء
             </Button>

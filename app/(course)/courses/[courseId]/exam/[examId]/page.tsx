@@ -504,6 +504,7 @@ const ExamIdPage = ({
                           <button
                             type="button"
                             onClick={handleSubmit}
+                            disabled={(!canSubmit || isSubmitting || hasSubmitted)}
                             className={cn(
                               "bg-sky-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
                               (!canSubmit || isSubmitting || hasSubmitted) &&

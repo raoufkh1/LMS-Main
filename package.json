@@ -53,6 +53,7 @@
     "fs": "^0.0.1-security",
     "google-translate-api": "^2.3.0",
     "google-translate-api-next": "^0.1.0",
+    "html-react-parser": "^5.1.13",
     "jodit": "^4.2.27",
     "jodit-react": "^4.1.2",
     "jspdf": "^2.5.1",

@@ -8,9 +8,11 @@ import { onClose, onOpen } from "@/lib/trigger"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { data } from "@/lib/page";
+import { useUser } from "@clerk/nextjs";
 export const DialogBox = ({ page }: { page?: string }) => {
     const [popup, setPopup] = useState<boolean>(false)
     const [showAgain,setShowAgain] = useState(false)
+    const {user} = useUser()
     useEffect(() => {
         async function getStatus() {
             try {
@@ -30,7 +32,7 @@ export const DialogBox = ({ page }: { page?: string }) => {
         }
         getStatus()
     }, [])
-    const trigger = useSelector((state: RootState) => state.trigger.value);
+    const status = useSelector((state: RootState) => state.status.value);
     const dispatch = useDispatch();
     const router = useRouter()
     const handleClick = async (open:boolean) => {
@@ -61,7 +63,7 @@ export const DialogBox = ({ page }: { page?: string }) => {
     return (
         <div>
             {
-                popup &&
+                popup && !status &&
                 <div className='z-50 w-full h-full'>
 
                     <div className='h-[200%] w-full top-0 bg-black z-50 opacity-40 visible fixed '>
@@ -88,10 +90,13 @@ export const DialogBox = ({ page }: { page?: string }) => {
                                 </div>
 
                                 <div className="px-4  md:px-5 space-y-4">
-                                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                        {data[page!]}
+                                <p className="text-base leading-relaxed text-gray-700 dark:text-gray-400" dir="rtl">
+                                مرحبا بك {`${user?.firstName} ${user?.lastName ? user?.lastName : ''}`} 
                                     </p>
                                     <p className="text-base leading-relaxed text-gray-700 dark:text-gray-400">
+                                        {data[page!]}
+                                    </p>
+                                    <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                     هل تحتاج المزيد من التوضيح؟
                                     </p>
                                 </div>

@@ -131,6 +131,7 @@ export const QuestionExplanationForm = ({
                         form.setValue("explanation",data)
                       }}
                       config={{
+                        
                         language: {
                           content: 'ar',
                           ui: "ar"

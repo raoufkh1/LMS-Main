@@ -2,10 +2,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import triggerReducer from './trigger';
+import statusReducer from './status';
 
 export const store = configureStore({
     reducer: {
-        trigger: triggerReducer
+        trigger: triggerReducer,
+        status: statusReducer
     }
 })
 

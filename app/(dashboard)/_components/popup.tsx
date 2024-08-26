@@ -1,17 +1,24 @@
 "use client"
 
+import { setClose, setOpen } from "@/lib/status"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 
 export const Popup = () => {
     const [popup,setPopup] = useState(false)
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const res = localStorage.getItem("welcome")
         if(res){
             setPopup(false)
+            dispatch(setClose())
         }
         else{
             setPopup(true)
+            dispatch(setOpen())
+
         }
     },[])
     const handleClick = () => {

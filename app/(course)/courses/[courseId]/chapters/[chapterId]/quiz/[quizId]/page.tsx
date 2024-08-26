@@ -128,7 +128,6 @@ const ExamIdPage = ({
             duration: 4000,
           });
         }
-        confetti.onOpen();
       } else {
 
 
@@ -258,7 +257,7 @@ const ExamIdPage = ({
             />
           ) : (
             <div className="w-full flex flex-col justify-center items-end h-12 pt-12 px-6">
-              <div className="flex space-x-4 items-center" dir="rtl">
+              <div className="flex space-x-4 items-center mb-2" dir="rtl">
 
 
                 <h1 className="text-lg md:text-2xl font-medium capitalize">
@@ -267,7 +266,7 @@ const ExamIdPage = ({
                 <span className="mx-4">|</span>
 
                 <h1 className="text-lg md:text-2xl font-medium capitalize">
-                  {quiz?.title} <span>نشاط</span>
+                  {quiz?.title} 
                 </h1>
                 <span className="mx-4">|</span>
                 <h1 className="text-lg md:text-2xl font-medium capitalize">
@@ -278,7 +277,6 @@ const ExamIdPage = ({
                 <div className="text-md">
                   {canSubmit} أسئلة تمت الإجابة عليها {answeredQuestions}
                 </div>
-                <div className="text-md"> {<FroalaEditorView model={quiz?.description} />}</div>
                 
               </div>
             </div>
@@ -294,7 +292,7 @@ const ExamIdPage = ({
                       سؤال {index + 1}
                     </div>
                     
-                    <div className="text-slate-700 font-bold text-lg" dir="rtl">
+                    <div className="text-slate-700 font-bold text-lg mb-2" dir="rtl">
                       <FroalaEditorView model={question.prompt} />
                     </div>
 
@@ -346,11 +344,12 @@ const ExamIdPage = ({
                       ))}
                       {
                       hasSubmitted && wrongAnswersQuiz.includes(question.id) &&
-                      (<div className="mb-4">
+                      (<div className="mb-4" dir="rtl">
                         <p className="text-right">
                           تفسير الاجابة
 
                         </p>
+                        
                         {(
                           question.explanation ? <FroalaEditorView config={{ direction: "rtl" }} model={question.explanation} /> : "لا يوجد تفسير"
 
@@ -368,13 +367,7 @@ const ExamIdPage = ({
 
 
             <div className="flex flex-col justify-end items-end w-full space-y-3 mr-12 md:mr-20">
-              {hasSubmitted && points != undefined ? (
-                <div>
-                  {`You scored ${points.toFixed(2)} points
-              `}
-                </div>
-              ) : (""
-              )}
+              
               <div className="flex flex-row space-x-4 items-center">
                 {hasSubmitted ? (
                   <Link

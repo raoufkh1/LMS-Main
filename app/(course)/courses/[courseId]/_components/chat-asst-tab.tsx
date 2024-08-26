@@ -25,7 +25,7 @@ const ChatAsstTab = () => {
     
   const [messages, setMessages] = useState<Message[]>(() => {
     // Load messages from localStorage on initial render
-    const storedMessages = localStorage.getItem("assistantMessages");
+    const storedMessages = localStorage.getItem("assistantMessages2");
     return storedMessages ? JSON.parse(storedMessages) : [];
   });
   const [inputValue, setInputValue] = useState("");
@@ -36,7 +36,7 @@ const ChatAsstTab = () => {
   
   useEffect(() => {
     // حفظ messages to localStorage whenever messages change
-    localStorage.setItem("assistantMessages", JSON.stringify(messages));
+    localStorage.setItem("assistantMessages2", JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
 
