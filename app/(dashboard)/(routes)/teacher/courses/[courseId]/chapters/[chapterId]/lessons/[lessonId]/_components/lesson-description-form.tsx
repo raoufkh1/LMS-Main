@@ -29,7 +29,7 @@ import "froala-editor/js/plugins.pkgd.min.js";
 // import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, ImageUpload, Alignment, ImageInsert,Bold, Essentials, Italic, Mention,CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageCaption, ImageResize, ImageStyle, ImageToolbar, IndentBlock, MediaEmbed, List, PasteFromOffice, PictureEditing, TableColumnResize, Table, TextTransformation, TableToolbar, Underline, Autoformat, CKFinder, CKFinderUploadAdapter } from 'ckeditor5';
+import { ClassicEditor, ImageUpload, Alignment, ImageInsert, Bold, Essentials, Italic, Mention, CloudServices, Paragraph, TextPartLanguage, Undo, Base64UploadAdapter, Heading, FontFamily, FontSize, FontColor, FontBackgroundColor, Strikethrough, Subscript, Superscript, Link, UploadImageCommand, Image, BlockQuote, CodeBlock, TodoList, OutdentCodeBlockCommand, Indent, ImageCaption, ImageResize, ImageStyle, ImageToolbar, IndentBlock, MediaEmbed, List, PasteFromOffice, PictureEditing, TableColumnResize, Table, TextTransformation, TableToolbar, Underline, Autoformat, CKFinder, CKFinderUploadAdapter } from 'ckeditor5';
 import { ImportWord, ImportWordEditing } from 'ckeditor5-premium-features';
 
 import 'ckeditor5/ckeditor5.css';
@@ -253,7 +253,15 @@ export const LessonDescriptionForm = ({
         >
           {!initialData.description && "بدون وصف"}
           {initialData.description && (
-            <FroalaEditorView model={form.getValues().description} />
+            <div className="ck ck-reset ck-editor ck-rounded-corners" role="application" dir="rtl" lang="ar" aria-labelledby="ck-editor__label_e5ec4d5affe02b22e9b21b94cdac3388f">
+              <div className="ck ck-editor__main" role="presentation">
+                <div style={{ border: "none" }} className="ck-blurred ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" lang="ar" dir="rtl" role="textbox" aria-label="Editor editing area: main" contentEditable="false">
+
+                  <FroalaEditorView model={form.getValues().description} />
+
+                </div>
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -273,62 +281,62 @@ export const LessonDescriptionForm = ({
                       editor={ClassicEditor}
                       onChange={(e, editor) => {
                         const data = editor.data.get()
-                        form.setValue("description",data)
+                        form.setValue("description", data)
                       }}
                       config={{
                         fontColor: {
                           colors: [
-                              {
-                                  color: 'hsl(0, 0%, 0%)',
-                                  label: 'Black'
-                              },
-                              {
-                                  color: 'hsl(0, 0%, 30%)',
-                                  label: 'Dim grey'
-                              },
-                              {
-                                  color: 'hsl(0, 0%, 60%)',
-                                  label: 'Grey'
-                              },
-                              {
-                                  color: 'hsl(0, 0%, 90%)',
-                                  label: 'Light grey'
-                              },
-                              {
-                                  color: 'hsl(0, 0%, 100%)',
-                                  label: 'White',
-                                  hasBorder: true
-                              },
-                              // More colors.
-                              // ...
+                            {
+                              color: 'hsl(0, 0%, 0%)',
+                              label: 'Black'
+                            },
+                            {
+                              color: 'hsl(0, 0%, 30%)',
+                              label: 'Dim grey'
+                            },
+                            {
+                              color: 'hsl(0, 0%, 60%)',
+                              label: 'Grey'
+                            },
+                            {
+                              color: 'hsl(0, 0%, 90%)',
+                              label: 'Light grey'
+                            },
+                            {
+                              color: 'hsl(0, 0%, 100%)',
+                              label: 'White',
+                              hasBorder: true
+                            },
+                            // More colors.
+                            // ...
                           ]
-                      },
-                      fontBackgroundColor: {
+                        },
+                        fontBackgroundColor: {
                           colors: [
-                              {
-                                  color: 'hsl(0, 75%, 60%)',
-                                  label: 'Red'
-                              },
-                              {
-                                  color: 'hsl(30, 75%, 60%)',
-                                  label: 'Orange'
-                              },
-                              {
-                                  color: 'hsl(60, 75%, 60%)',
-                                  label: 'Yellow'
-                              },
-                              {
-                                  color: 'hsl(90, 75%, 60%)',
-                                  label: 'Light green'
-                              },
-                              {
-                                  color: 'hsl(120, 75%, 60%)',
-                                  label: 'Green'
-                              },
-                              // More colors.
-                              // ...
+                            {
+                              color: 'hsl(0, 75%, 60%)',
+                              label: 'Red'
+                            },
+                            {
+                              color: 'hsl(30, 75%, 60%)',
+                              label: 'Orange'
+                            },
+                            {
+                              color: 'hsl(60, 75%, 60%)',
+                              label: 'Yellow'
+                            },
+                            {
+                              color: 'hsl(90, 75%, 60%)',
+                              label: 'Light green'
+                            },
+                            {
+                              color: 'hsl(120, 75%, 60%)',
+                              label: 'Green'
+                            },
+                            // More colors.
+                            // ...
                           ]
-                      },
+                        },
                         language: {
                           content: 'ar',
                         },
@@ -362,68 +370,68 @@ export const LessonDescriptionForm = ({
                           TableToolbar,
                           TextTransformation,
                           Underline,
-                          Alignment ],
-                          toolbar: [
-                            'undo',
-                            'redo',
-                            '|',
-                            'heading',
-                            '|',
-                            'bold',
-                            'italic',
-                            'underline',
-                            '|',
-                            'link',
-                            'uploadImage',
-                            'ckbox',
-                            'insertTable',
-                            'blockQuote',
-                            'mediaEmbed',
-                            '|',
-                            'bulletedList',
-                            'numberedList',
-                            '|',
-                            'outdent',
-                            'indent',
-                            'alignment'
+                          Alignment],
+                        toolbar: [
+                          'undo',
+                          'redo',
+                          '|',
+                          'heading',
+                          '|',
+                          'bold',
+                          'italic',
+                          'underline',
+                          '|',
+                          'link',
+                          'uploadImage',
+                          'ckbox',
+                          'insertTable',
+                          'blockQuote',
+                          'mediaEmbed',
+                          '|',
+                          'bulletedList',
+                          'numberedList',
+                          '|',
+                          'outdent',
+                          'indent',
+                          'alignment'
+                        ],
+                        heading: {
+                          options: [
+                            {
+                              model: 'paragraph',
+                              title: 'Paragraph',
+                              class: 'ck-heading_paragraph',
+                            },
+                            {
+                              model: 'heading1',
+                              view: 'h1',
+                              title: 'Heading 1',
+                              class: 'ck-heading_heading1',
+                            },
+                            {
+                              model: 'heading2',
+                              view: 'h2',
+                              title: 'Heading 2',
+                              class: 'ck-heading_heading2',
+                            },
+                            {
+                              model: 'heading3',
+                              view: 'h3',
+                              title: 'Heading 3',
+                              class: 'ck-heading_heading3',
+                            },
+                            {
+                              model: 'heading4',
+                              view: 'h4',
+                              title: 'Heading 4',
+                              class: 'ck-heading_heading4',
+                            },
                           ],
-                          heading: {
-                            options: [
-                              {
-                                model: 'paragraph',
-                                title: 'Paragraph',
-                                class: 'ck-heading_paragraph',
-                              },
-                              {
-                                model: 'heading1',
-                                view: 'h1',
-                                title: 'Heading 1',
-                                class: 'ck-heading_heading1',
-                              },
-                              {
-                                model: 'heading2',
-                                view: 'h2',
-                                title: 'Heading 2',
-                                class: 'ck-heading_heading2',
-                              },
-                              {
-                                model: 'heading3',
-                                view: 'h3',
-                                title: 'Heading 3',
-                                class: 'ck-heading_heading3',
-                              },
-                              {
-                                model: 'heading4',
-                                view: 'h4',
-                                title: 'Heading 4',
-                                class: 'ck-heading_heading4',
-                              },
-                            ],
-                          },
-                        
+                        },
+
                         licenseKey: 'bE0wYlJQa085OGNKM002ZlliYW9WUjVaOWptVXpadWJHaUJ1WThxUmFlZVoyS0JTb2cwNXhQMUw4YSs3TlE9PS1NakF5TkRBNU1Eaz0=',
-        
-        
+
+
                         initialData: form.getValues("description"),
                         image: {
                           resizeOptions: [

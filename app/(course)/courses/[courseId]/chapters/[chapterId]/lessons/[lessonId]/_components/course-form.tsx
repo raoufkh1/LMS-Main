@@ -15,7 +15,14 @@ export function CourseForm({ defaultContext }: { defaultContext: string}) {
 
     return (
         <div className="App p-12">
-            <FroalaEditorView model={defaultContext} />
+            <div className="ck ck-reset ck-editor ck-rounded-corners" role="application" dir="rtl" lang="ar" aria-labelledby="ck-editor__label_e5ec4d5affe02b22e9b21b94cdac3388f">
+              <div className="ck ck-editor__main" role="presentation">
+                <div style={{border:"none"}} className="ck-blurred ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" lang="ar" dir="rtl" role="textbox" aria-label="Editor editing area: main" contentEditable="false">
+
+                  <FroalaEditorView model={defaultContext} />
+                </div>
+              </div>
+            </div>
         </div>
     );
 
