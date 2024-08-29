@@ -7,6 +7,7 @@ import { useAuth } from '@clerk/nextjs'
 import axios from 'axios'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 interface Props {
     msg: {context: string, createdAt: string,id:string,repliesCount:number},
     user:{imageUrl: string, lastName: string, firstName: string, id:string}
@@ -17,7 +18,7 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
    (msg)
    const {userId} = useAuth()
    const [isPopup, setIsPopup] = useState<Boolean>(false)
-
+   const router = useRouter()
    const handleDelete = async () => {
       (msg.id)
       setIsPopup(false)
@@ -29,6 +30,9 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
          console.log(e)
          toast.error("هناك شئ غير صحيح");
        }
+    }
+    const handleClick = () => {
+      return router.push(`/message/${msg.id}`)
     }
     const today = new Date()
     const date = new Date(msg.createdAt)
@@ -71,7 +75,7 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
             </li>
          }
          <li>
-            <a onClick={e => {setReplyIs(msg.id);setIsPopup(false)}} href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد</a>
+            <a onClick={handleClick} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد</a>
          </li>
       </ul>
    </div>)

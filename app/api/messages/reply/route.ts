@@ -39,9 +39,13 @@ export async function POST(req: Request) {
         }
     })
     
-    await pusherServer.trigger("chat-event", "update-reply", {
-      messageId : messageId
-    })
+    
+    const user = await clerkClient.users.getUser(userId)
+    let tempMsg = { msg:reply, user: user }
+
+      await pusherServer.trigger("chat-event", "update-reply", {
+        tempMsg
+      })
 
     return NextResponse.json(message);
   } catch (error) {
