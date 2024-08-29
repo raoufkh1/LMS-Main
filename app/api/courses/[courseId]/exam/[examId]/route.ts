@@ -75,7 +75,7 @@ export async function PATCH(
   try {
     const { userId } = auth();
     const { ...values } = await req.json();
-    
+    console.log(values)
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -152,6 +152,31 @@ export async function PATCH(
         data: {
           id: userId,
           examsCompleted: 1
+        }
+      })
+    }
+    const oldSelection = await db.examOptions.findFirst({
+      where: {
+        examId: params.examId,
+        userId
+      }
+    })
+    if(oldSelection){
+      await db.examOptions.update({
+        where: {
+          id:oldSelection.id
+        },
+        data: {
+          options: JSON.stringify(values.userSelections)
+        }
+      })
+    }
+    else{
+      await db.examOptions.create({
+        data: {
+          examId: params.examId,
+          userId: userId,
+          options: JSON.stringify(values.userSelections)
         }
       })
     }

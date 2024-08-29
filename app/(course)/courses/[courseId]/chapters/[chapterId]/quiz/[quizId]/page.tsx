@@ -40,7 +40,7 @@ type QuizWithQuestionsAndOptions = Prisma.QuizGetPayload<{
 const ExamIdPage = ({
   params,
 }: {
-  params: { courseId: string; examId: string; chapterId: string };
+  params: { courseId: string; quizId: string; chapterId: string };
 }) => {
   const { userId } = useAuth();
 
@@ -71,14 +71,26 @@ const ExamIdPage = ({
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-
+  const [disableSelect,setDisableSelect] = useState(false)
   const [points, setPoints] = useState<number>(0);
   const [wrongAnswersQuiz, setWrongAnswersQuiz] = useState<string[]>([])
   const hasTakenQuiz = quiz && quiz.userId !== "nil";
 
   // Check if userSelections has any members
   const hasUserSelections = Object.keys(userSelections).length > 0;
-
+  useEffect(() => {
+    async function get() {
+      const {data} = await axios.get(
+        `/api/courses/${params.courseId}/chapters/${params.chapterId}/quiz/${params.quizId}/progress`
+      );
+      console.log(data)
+      if(data){
+        setUserSelections(JSON.parse(data.options))
+        setDisableSelect(true)
+      }
+    }
+    get()
+  },[])
   const handleOptionChange = (questionId: string, optionPosition: number) => {
     sethasSubmitted(false)
     setUserSelections((prevSelections) => ({
@@ -89,7 +101,7 @@ const ExamIdPage = ({
 
   const handleSubmit = useCallback(async () => {
     if (!quiz || !hasUserSelections) return;
-
+    setDisableSelect(true)
     setIsSubmitting(true);
     sethasSubmitted(true);
 
@@ -106,10 +118,12 @@ const ExamIdPage = ({
       console.log("====================================");
 
       if (points != undefined) {
+        console.log( userSelections)
         const quizResponse = await axios.put(
           `/api/courses/${params.courseId}/chapters/${params.chapterId}/quiz/${quiz.id}/progress`,
           {
             points,
+            userSelections
           }
         );
 
@@ -118,13 +132,13 @@ const ExamIdPage = ({
 
         sethasSubmitted(true);
         if (points > 50) {
-          toast.success(`احسنت لقد حصلت على ${points}`, {
+          toast.success(`احسنت لقد حصلت على ${points.toFixed(1)}`, {
             duration: 4000,
           });
 
         }
         else {
-          toast.success(` لقد حصلت على ${points}`, {
+          toast.success(` لقد حصلت على ${points.toFixed(1)}`, {
             duration: 4000,
           });
         }
@@ -252,7 +266,7 @@ const ExamIdPage = ({
         <div>
           {hasSubmitted ? (
             <Banner
-              variant={wrongAnswers > correctAnswers ? "warning" : "success"}
+              variant={"success"}
               label={`:الأسئلة التي تمت الإجابة عليها ${answeredQuestions}    |    الإجابات الصحيحة: ${correctAnswers}    |    إجابات خاطئة: ${wrongAnswers} `}
             />
           ) : (
@@ -308,6 +322,7 @@ const ExamIdPage = ({
                                 className="mr-2"
                                 type="radio"
                                 name={question.id}
+                                disabled={disableSelect}
                                 value={index + 1}
                                 onChange={() =>
                                   handleOptionChange(
@@ -327,8 +342,10 @@ const ExamIdPage = ({
                               <input
                                 className="mr-2"
                                 type="radio"
+                                disabled={disableSelect}
                                 name={question.id}
                                 value={index + 1}
+                                checked={userSelections[question.id] == index}
                                 onChange={() =>
                                   handleOptionChange(
                                     question.id,
@@ -373,24 +390,35 @@ const ExamIdPage = ({
                   <Link
                     href={`/courses/${params.courseId}`}
                     className={cn(
-                      "bg-sky-600 text-white w-fit font-bold text-sm px-4 py-2 rounded-md"
+                      "bg-sky-600 mb-6 text-white w-fit font-bold text-sm px-4 py-2 rounded-md"
                     )}
                   >
                     اكمال الدورة التدريبية
                   </Link>
-                ) : (
+                ) : !disableSelect ? (
                   <button
                     type="button"
                     onClick={handleSubmit}
                     className={cn(
-                      "bg-sky-700 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                      "bg-sky-700 mb-6 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
                       (!canSubmit || isSubmitting || hasSubmitted) &&
                       "bg-slate-400 cursor-not-allowed pointer-events-none"
                     )}
                   >
-                    يُقدِّم
+                    تقدم
                   </button>
-                )}
+                ): ''}
+                {disableSelect ? 
+                <button
+                    type="button"
+                    onClick={e => setDisableSelect(false)}
+                    className={cn(
+                      "bg-sky-600 mb-6 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                      
+                    )}
+                  >
+                    اعادة الاختبار
+                  </button> : ""}
               </div>
             </div>
           </div>

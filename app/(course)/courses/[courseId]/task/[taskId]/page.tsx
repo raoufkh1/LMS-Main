@@ -12,6 +12,7 @@ import { FileUpload } from "@/components/file-upload";
 import { TaskFileForm } from "./_components/task-file-form";
 import { isTeacher } from "@/lib/teacher";
 import TaskTeacherFiles from "./_components/task-files-teacher";
+import { TaskCompeleteButton } from "./_components/task-complete-button";
 
 
 
@@ -51,7 +52,7 @@ const LessonIdPage = async ({
         </div>
         <div className="p-4 flex flex-col md:flex-row items-center justify-between">
               <h2 className="text-2xl font-semibold">{task?.title}</h2>
-            
+              <TaskCompeleteButton taskId={task.id} isCompleted={taskProgress?.isCompleted} courseId={params.courseId}/>
           </div>
         <div className="space-y-4">
           
@@ -61,7 +62,6 @@ const LessonIdPage = async ({
               <TaskForm defaultContext={task?.content!} />
             </div>
               
-          <Separator />
            {
             isTeacher(userId) ? (<TaskTeacherFiles taskId={params.taskId} courseId={params.courseId}/>) : (<TaskFileForm taskId={params.taskId} courseId={params.courseId} attachment={attachmentTask!}/>)
            }

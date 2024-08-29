@@ -95,9 +95,7 @@ export const TaskFileForm = ({
               }
             }}
           />
-          <div className="text-xs text-muted-foreground mt-4">
-            Add anything your students might need to complete the course.
-          </div>
+          
         </div>)
       }
         

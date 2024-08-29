@@ -77,8 +77,22 @@ const ExamIdPage = ({
   const [answeredQuestions, setAnswersQuestions] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
-  const [scorePercentage, setScorePercentage] = useState(0);
+  const [disableSelect,setDisableSelect] = useState(false)
 
+  const [scorePercentage, setScorePercentage] = useState(0);
+  useEffect(() => {
+    async function get() {
+      const {data} = await axios.get(
+        `/api/courses/${params.courseId}/exam/${params.examId}/progress`
+      );
+      console.log(data)
+      if(data){
+        setUserSelections(JSON.parse(data.options))
+        setDisableSelect(true)
+      }
+    }
+    get()
+  },[])
   const hasTakenTheExamBefore =
     exam && exam.userId !== "nil" && exam.beforeScore;
 
@@ -118,21 +132,22 @@ const ExamIdPage = ({
       }
 
       const response = await axios.patch(
-        `/api/courses/${params.courseId}/exam/${exam.id}`,
+        `/api/courses/${params.courseId}/exam/${params.examId}/progress`,
         {
-          [fieldToUpdate]: scorePercentage,
+          percentage: scorePercentage,
           userId: userId,
+          userSelections
         }
       );
       if (!isFirstExam) {
         if (scorePercentage < 50) {
           setFailedInExam(true)
-          toast.error(`لقد احرزت علامة ${scorePercentage} يمكنك اعادة الاختبار بعد مراجعة الدورة التدريبية مرة أخرى`);
+          toast.error(`لقد احرزت علامة ${scorePercentage.toFixed(1)} يمكنك اعادة الاختبار بعد مراجعة الدورة التدريبية مرة أخرى`);
         }
         else {
-          toast.success(`احسنت لقد احرزت علامة ${scorePercentage}  `);
+          toast.success(`احسنت لقد احرزت علامة ${scorePercentage.toFixed(1)}  `);
           const certificateResponse = await axios.post(
-            `/api/courses/${params.courseId}/exam/${response.data.id}/certificate`
+            `/api/courses/${params.courseId}/exam/${params.examId}/certificate`
           );
           router.refresh()
 
@@ -213,12 +228,7 @@ const ExamIdPage = ({
     // Clear the interval when the component unmounts
     return () => clearInterval(timerId);
   }, []);
-  useEffect(() => {
-    // If time is up, set isSubmitting to true
-    if (timeRemaining === 0 && !hasSubmitted) {
-      handleSubmit();
-    }
-  }, [handleSubmit, hasSubmitted, timeRemaining]);
+  
 
   // useEffect(() => {
   //   if (
@@ -319,14 +329,14 @@ const ExamIdPage = ({
           isFirstExam ?
             (<div dir="rtl" className="w-full p-20 flex h-full flex-col  gap-4   ">
               <div className="flex flex-col space-x-4 ">
-                <h1 className="text-lg md:text-xl font-medium capitalize" > عزيزتي المتدربة انتهى الاختبار القبلي وحصلتي على نسبة {"%" + scorePercentage} </h1>
+                <h1 className="text-lg md:text-xl font-medium capitalize" > عزيزتي المتدربة انتهى الاختبار القبلي وحصلتي على نسبة {"%" + scorePercentage.toFixed(1)} </h1>
                 <h1 className="text-base md:text-xl font-medium capitalize" > وأتمنى لك المتعة والفائدة من دراسة هذه الدورة. </h1>
               </div>
               <div className="flex flex-col space-y-4 ">
                 <p>مجموع الاسئلة: {exam?.questions.length}</p>
                 <p>عدد الآسئلة  الصحيحة: {correctAnswers}</p>
                 <p>عدد الآسئلة الخاطئة: {wrongAnswers}</p>
-                <p>النسبة المئوية: {scorePercentage}</p>
+                <p>النسبة المئوية: {scorePercentage.toFixed(1)}</p>
               </div>
               <button
                 type="button"
@@ -346,7 +356,7 @@ const ExamIdPage = ({
                   <p>مجموع الاسئلة: {exam?.questions.length}</p>
                   <p>عدد الآسئلة  الصحيحة: {correctAnswers}</p>
                   <p>عدد الآسئلة الخاطئة: {wrongAnswers}</p>
-                  <p>النسبة المئوية: {scorePercentage}</p>
+                  <p>النسبة المئوية: {scorePercentage.toFixed(1)}</p>
                 </div>
                 <div>
                   <PrepareCertificateModal
@@ -372,7 +382,7 @@ const ExamIdPage = ({
                   <p>مجموع الاسئلة: {exam?.questions.length}</p>
                   <p>عدد الآسئلة  الصحيحة: {correctAnswers}</p>
                   <p>عدد الآسئلة الخاطئة: {wrongAnswers}</p>
-                  <p>النسبة المئوية: {scorePercentage}</p>
+                  <p>النسبة المئوية: {scorePercentage.toFixed(1)}</p>
                 </div>
                 <button
                   type="button"
@@ -389,7 +399,7 @@ const ExamIdPage = ({
             <div className="pb-10">
               {hasSubmitted ? (
                 <Banner
-                  variant={wrongAnswers > correctAnswers ? "warning" : "success"}
+                  variant={ "success"}
                   label={`الأسئلة التي تمت الإجابة عليها: ${answeredQuestions}    |    الإجابات الصحيحة: ${correctAnswers}    |    إجابات خاطئة: ${wrongAnswers} `}
                 />
               ) : (
@@ -450,9 +460,10 @@ const ExamIdPage = ({
                                   <input
                                     className="mr-2"
                                     type="radio"
+                                    
                                     name={question.id}
                                     value={index + 1}
-                                    disabled
+                                    disabled={disableSelect}
                                   />
                                 </div>
                               ) : (
@@ -466,6 +477,7 @@ const ExamIdPage = ({
                                     type="radio"
                                     name={question.id}
                                     value={index + 1}
+                                    disabled={disableSelect}
                                     checked={(userSelections[question.id]) == index + 1}
                                     onChange={() =>
                                       handleOptionChange(
@@ -489,7 +501,7 @@ const ExamIdPage = ({
                 <div className="flex flex-col justify-end items-end w-full space-y-3 mr-12 md:mr-20">
                   {hasSubmitted && scorePercentage != undefined ? (
                     <div className="text-right w-1/2">
-                      {`لقد سجلت النسبة المئوية ${scorePercentage.toFixed(2)}% ${hasTakenTheExamBefore
+                      {`لقد سجلت النسبة المئوية ${scorePercentage.toFixed(1)}% ${hasTakenTheExamBefore
                         ? "ستتم إضافة درجاتك وتجميعها مع النتيجة التي تحصل عليها عند إجراء الاختبار بعد تعلم الدورة"
                         : "تهانينا!"
                         } `}
@@ -498,56 +510,46 @@ const ExamIdPage = ({
                     ""
                   )}
                   <div className="flex flex-row space-x-4 items-center">
-                    <div className="flex flex-row-reverse gap-4 space-x-4 items-center">
-                      {
-                        (hasSubmitted && !isFirstExam) ? "" :
-                          <button
-                            type="button"
-                            onClick={handleSubmit}
-                            disabled={(!canSubmit || isSubmitting || hasSubmitted)}
-                            className={cn(
-                              "bg-sky-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
-                              (!canSubmit || isSubmitting || hasSubmitted) &&
-                              "bg-slate-400 cursor-not-allowed"
-                            )}
-                          >
-                            تقدم
-                          </button>
-                      }
-                      {
-                        failedInExam && (
-                          <button
-                            type="button"
-                            onClick={handleRepeat}
-                            className={cn(
-                              "bg-teal-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                    {!disableSelect && (
 
-                            )}
-                          >
-                            إعادة الاختبار
-                          </button>
-                        )
-                      }
-
-                      {certificateId !== "" &&
-                        certificateId !== undefined &&
-                        hasSubmitted &&
-                        !isFirstExam &&
-                        scorePercentage >= 50 && (
-                          <PrepareCertificateModal
-                            courseId={params.courseId}
-                            examId={params.examId}
-                            certificateId={certificateId}
-                          >
-                            <Button
-                              size="sm"
-                              className="bg-sky-500 text-white hover:bg-sky-400"
+                      <div className="flex flex-row-reverse gap-4 space-x-4 items-center">
+                        {
+                          (hasSubmitted && !isFirstExam) ? "" :
+                            <button
+                              type="button"
+                              onClick={handleSubmit}
+                              disabled={(!canSubmit || isSubmitting || hasSubmitted)}
+                              className={cn(
+                                "bg-sky-500 text-white w-fit font-bold text-sm px-4 py-2 rounded-md",
+                                (!canSubmit || isSubmitting || hasSubmitted) &&
+                                "bg-slate-400 cursor-not-allowed"
+                              )}
                             >
-                              احصل على شهادتك
-                            </Button>
-                          </PrepareCertificateModal>
-                        )}
-                    </div>
+                              تقدم
+                            </button>
+                        }
+                        
+
+                        {certificateId !== "" &&
+                          certificateId !== undefined &&
+                          hasSubmitted &&
+                          !isFirstExam &&
+                          scorePercentage >= 50 && (
+                            <PrepareCertificateModal
+                              courseId={params.courseId}
+                              examId={params.examId}
+                              certificateId={certificateId}
+                            >
+                              <Button
+                                size="sm"
+                                className="bg-sky-500 text-white hover:bg-sky-400"
+                              >
+                                احصل على شهادتك
+                              </Button>
+                            </PrepareCertificateModal>
+                          )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -7,66 +7,38 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
-import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { number } from "zod";
 
-interface CourseProgressButtonProps {
-  chapterId: string;
+interface TaskCompeleteButtonProps {
+
   courseId: string;
-  lessonId: string;
+  taskId: string;
   isCompleted?: boolean;
-  nextLessonId?: string;
-  nextChapterId?: string;
-  nextChapterFirstLessonId?: string;
-  userId: string;
-  startedAt: number
+
 }
 
-export const CourseProgressButton = ({
-  chapterId,
+export const TaskCompeleteButton = ({
   courseId,
-  lessonId,
+  taskId,
   isCompleted,
-  nextLessonId,
-  nextChapterId,
-  nextChapterFirstLessonId,
-  userId,
-  startedAt
-}: CourseProgressButtonProps) => {
+  
+}: TaskCompeleteButtonProps) => {
   const router = useRouter();
-  const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onClick = async () => {
     try {
       setIsLoading(true);
 
-      await axios.put(
-        `/api/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}/progress`,
+      await axios.patch(
+        `/api/courses/${courseId}/task/${taskId}/progress`,
         {
           isCompleted: !isCompleted,
-          userId: userId,
-          startedAt: startedAt
+          
         }
       );
 
-      if (!isCompleted && !nextLessonId && !nextChapterId) {
-        router.push(
-          `/courses/${courseId}`
-        );
-      }
-
-      if (!isCompleted && nextLessonId) {
-        router.push(
-          `/courses/${courseId}`
-        );
-      }
-
-      if (!isCompleted && !nextLessonId && nextChapterId) {
-        router.push(
-          `/courses/${courseId}/`
-        );
-      }
+      
 
       toast.success("تم تحديث التقدم");
       router.refresh();

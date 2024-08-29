@@ -41,7 +41,7 @@ export const CourseSidebar = async ({
     return redirect("/");
   }
   const headersList = headers();
-  const task = await db.task.findFirst({where: {courseId: course.id}})
+  const task = await db.task.findFirst({where: {courseId: course.id,isPublished:true}})
   const pathname = headersList.get("referer") || "";
   const takingExamination = pathname?.includes("exam");
   const viewingCertificate = pathname?.includes("certificate");
@@ -137,7 +137,7 @@ export const CourseSidebar = async ({
               type="button"
               disabled={true}
               className={cn(
-                `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
+                `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 ${starterExamProgress?.isCompleted ? 'text-sky-700' : 'text-slate-600'}  text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
                 
               )}
             >
@@ -146,7 +146,7 @@ export const CourseSidebar = async ({
                   <CheckCircle
                     size={22}
                     className={cn(
-                      "text-gray-700",
+                      "text-sky-500",
                       pathname?.includes(starterExam.id) && "text-gray-800"
                     )}
                   />
@@ -273,7 +273,7 @@ export const CourseSidebar = async ({
                       )}
                     />
                   )}
-                  <div>مهمة : {task.title}</div>
+                  <div> {task.title}</div>
                 </div>
               </Link>
               )}
@@ -283,14 +283,14 @@ export const CourseSidebar = async ({
         { exam?.id && (
                 <Link
                 type="button"
-                href={(progressCount >= 90) ?`/courses/${course.id}/exam/${exam?.id}` : "#"}
+                href={((progressCount >= 90) && taskCompleted) ?`/courses/${course.id}/exam/${exam?.id}` : "#"}
                 className={cn(
-                  `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 text-slate-600 text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
+                  `flex items-center ${pathname.includes(starterExamProgress?.lessonId || "") ? "text-red-700" : ""} justify-end w-full gap-x-2 ${examCompleted?.isCompleted ? "text-sky-700" : 'text-slate-600'} text-sm font-[500] transition-all px-4 hover:text-slate-700 hover:bg-gray-300 border-r-4 border-opacity-0 hover:border-opacity-95 border-gray-600 h-full`,
                   
                 )}
               >
                 <div className="flex items-center justify-between text-right w-full gap-x-2 py-4">
-                  {!(progressCount >= 90) ? (
+                  { (!(progressCount >= 90) || !taskCompleted) ? (
                     <LockIcon
                       size={22}
                       className={cn(
@@ -308,8 +308,8 @@ export const CourseSidebar = async ({
                     <CheckCircle
                       size={22}
                       className={cn(
-                        "text-slate-500",
-                        pathname?.includes(exam?.id) && "text-slate-700"
+                        "text-sky-500",
+                        pathname?.includes(exam?.id) && "text-sky-700"
                       )}
                     />
                   )}

@@ -9,8 +9,8 @@ export async function PUT(
 ) {
   try {
     const { userId } = auth();
-    const { points } = await req.json();
-
+    const { points,userSelections } = await req.json();
+    console.log(userSelections)
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -54,7 +54,57 @@ export async function PUT(
         }
       })
     }
+    const oldSelection = await db.examOptions.findFirst({
+      where: {
+        examId: params.quizId,
+        userId
+      }
+    })
+    if(oldSelection){
+      await db.examOptions.update({
+        where: {
+          id:oldSelection.id
+        },
+        data: {
+          options: JSON.stringify(userSelections)
+        }
+      })
+    }
+    else{
+      await db.examOptions.create({
+        data: {
+          examId: params.quizId,
+          userId: userId,
+          options: JSON.stringify(userSelections)
+        }
+      })
+    }
     return NextResponse.json(userQuizPoints);
+  } catch (error) {
+    console.log("[CHAPTER_ID_POINTS]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function GET(
+  req: Request,
+  { params }: { params: { chapterId: string; quizId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const selections = await db.examOptions.findFirst({
+      where:{
+        userId,
+        examId: params.quizId
+      }
+    })
+    
+    return NextResponse.json(selections);
   } catch (error) {
     console.log("[CHAPTER_ID_POINTS]", error);
     return new NextResponse("Internal Error", { status: 500 });

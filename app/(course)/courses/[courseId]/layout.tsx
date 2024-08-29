@@ -94,17 +94,12 @@ const CourseLayout = async ({
   const isIntroductionCoursePage = course.id == process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID
   
   let progressCount = await getProgress(userId, course.id);
+  console.log(progressCount)
   const headersList = headers();
   const fullUrl = headersList.get('referer') || "";
   const isInExam = fullUrl.includes("exam") == true
-  const totalExamScore =
-    exam[0]?.afterScore && exam[0].beforeScore
-      ? (exam[0]?.beforeScore + exam[0]?.afterScore) / 2
-      : null;
-
-  if (totalExamScore && totalExamScore >= 50 && progressCount < 100) {
-    progressCount = Math.min(progressCount + 10, 100);
-  }
+  
+  
 
   return (
     <div className="h-full">

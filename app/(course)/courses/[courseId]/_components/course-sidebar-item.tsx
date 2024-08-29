@@ -188,7 +188,7 @@ export const CourseSidebarItem = ({
                 disabled={quiz.lock ? true : false}
                 type="button"
                 className={cn(
-                  "flex mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-sky-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full",
+                  `flex ${pathname?.includes(quiz.id) ? 'bg-emerald-200/20 hover:bg-emerald-200/20 hover:text-emerald-700' : ''} mt-auto items-center justify-end w-full gap-x-2 text-yellow-600 text-sm font-[500] transition-all px-4 hover:text-yellow-700 hover:bg-sky-300/20 border-r-4 border-opacity-0 hover:border-opacity-100  border-orange-600 h-full`,
 
                   hasTakenQuiz &&
                     ` ${quiz.lock ? "text-yellow-600 hover:text-yellow-700" : "text-sky-600 hover:text-sky-700"} hover:bg-yellow-200/20  border-yellow-700`

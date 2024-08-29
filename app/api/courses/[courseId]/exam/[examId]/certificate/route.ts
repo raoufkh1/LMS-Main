@@ -24,7 +24,7 @@ export async function POST(
     });
 
     if (!exam) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 503 });
     }
 
     const certificate = await db.certificate.create({

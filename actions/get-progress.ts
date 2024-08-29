@@ -36,7 +36,8 @@ export const getProgress = async (
     );
     const exams = await db.exam.findMany({
       where: {
-        courseId
+        courseId,
+        isPublished: true
       }
     })
     const examsIds = exams.map((exam) => exam.id)
@@ -79,6 +80,7 @@ export const getProgress = async (
     const completedItems = validCompletedLessons + validCompletedQuizes;
     const totalItems = publishedLessonIds.length + publishedQuizIds.length;
     const progressPercentage = (completedItems / totalItems) * (100 - exams.length * 10) + examsProgress;
+    console.log(progressPercentage + " %")
     
     return progressPercentage;
   } catch (error) {
