@@ -10,7 +10,8 @@ import { isTeacher } from "@/lib/teacher";
 
 import { SearchInput } from "./search-input";
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+
 
 
 export const NavbarRoutes = () => {
@@ -22,8 +23,9 @@ export const NavbarRoutes = () => {
   const isIntroductionCourseEditPage:boolean = pathname?.includes(process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID!) && pathname?.includes('teacher');
   const isSearchPage = pathname === "/search";
   const isStudentPage = pathname?.includes("/students");
+  const isTaskPage = pathname?.includes("/students") && pathname?.includes("/course");
   const isReplyPage = pathname?.includes("/message/");
-
+  const router = useRouter()
   const UserButtonWrapper = dynamic(() => import('@clerk/nextjs').then(module => module.UserButton), {
     ssr: false // Ensure component is not rendered on the server-side
   });
@@ -47,7 +49,7 @@ export const NavbarRoutes = () => {
 
           <UserButtonWrapper signInUrl="/sign-in" />
           {
-          isStudentPage && (
+          isStudentPage && !isTaskPage && (
             <Link href="/teacher/analytics">
               <Button size="sm" variant="ghost">
                 <LogOut className="h-4 w-4 mr-2" />
@@ -55,7 +57,17 @@ export const NavbarRoutes = () => {
               </Button>
             </Link>
           )
-        }
+          }
+          {
+          isTaskPage && (
+            <Link  href='' onClick={e=> { router.refresh();router.back()}}>
+              <Button size="sm" variant="ghost">
+                <LogOut className="h-4 w-4 mr-2" />
+                عودة
+              </Button>
+            </Link>
+          )
+          }
         {isCoursePage && !isIntroductionCoursePage ? (
           <Link href="/">
             <Button size="sm" variant="ghost">

@@ -1,9 +1,11 @@
 import { getCourses } from '@/actions/get-courses'
 import { db } from '@/lib/db';
 import { clerkClient } from '@clerk/nextjs/server'
-import { Course } from '@prisma/client';
+import { Course, Exam } from '@prisma/client';
 import { Progress } from '@radix-ui/react-progress'
+import { redirect } from 'next/navigation';
 import React from 'react'
+import UserStats from './userStats';
 interface PageProps {
     params: { studentId: string };
   }
@@ -47,8 +49,9 @@ const UserProfile = async ({ params}:PageProps) => {
                         <td className="px-2 py-2 text-gray-600  font-semibold">الدروس المكتملة</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold">الانشطة المكتملة</td>
                         <td className="px-2 py-2 text-gray-600  font-semibold"> الوقت المتسغرق</td>
+                        <td className="px-2 py-2 text-gray-600  font-semibold"> المهام</td>
                     </tr>
-                    {courserWithProgress.map(async (course:any, index:number) => {
+                    {courserWithProgress.map(async (course:Course & {exams : Exam[], progress: number}, index:number) => {
                         let time = 0;
                         let timeString = ``
                         let lessonsCompleted = 0 
@@ -80,17 +83,7 @@ const UserProfile = async ({ params}:PageProps) => {
                                     }
                                 })
                                 let lessonTime = Math.floor(((Date.parse(`${isLessonCompleted?.updatedAt}`) - isLessonCompleted?.startedAt!) / 1000) % 60) 
-                                time = (time ? time : 0) + lessonTime
-                                console.log(course.id)
-                                const hours = Math.floor(time / 3600);
-                                time = time - hours * 3600;
-                                const minutes = Math.floor(time / 60);
-                                const seconds = time - minutes * 60;
-                                let timeH = ((time / (1000 * 60 * 60)) % 24 )> 1 ? `ساعة${Math.round(time /3600)}` : ''
-                                let timeM =  minutes >= 1 ? ` ${Math.round(time /60)}  دقيقة  ` : ''
-                                console.log((time / 60) % 60)
-                                let timeS =  seconds ? `${seconds} ثانية  ` : ''
-                                timeString = timeH + " " +timeM + " " + timeS
+                                time = (time ? time : 0) + (lessonTime ? lessonTime : 0)
                                 if(isLessonCompleted?.isCompleted){
                                     lessonsCompleted = lessonsCompleted + 1 
                                 }
@@ -108,6 +101,18 @@ const UserProfile = async ({ params}:PageProps) => {
                                 }
                             }
                         }
+                        
+                        console.log("time" + time)
+                                const hours = Math.floor(time / 3600);
+                                time = time - hours * 3600;
+                                const minutes = Math.floor(time / 60);
+                                const seconds = time - minutes * 60;
+                                let timeH = ((time / (1000 * 60 * 60)) % 24 )> 1 ? `ساعة${Math.round(time /3600)}` : ''
+                                let timeM =  minutes >= 1 ? ` ${Math.round(time /60)}  دقيقة  ` : ''
+                                
+                                let timeS =  seconds ? `${seconds} ثانية  ` : ''
+                                timeString = timeH + " " +timeM + " " + timeS
+                                
                         const exams = course?.exams
                         const startCourse = exams.find((e:any) => {return e.starterExam})
                         const finalCourse = exams.find((e:any) => {return !e.starterExam})
@@ -124,17 +129,10 @@ const UserProfile = async ({ params}:PageProps) => {
                                 userId: params.studentId
                             }
                         }) : null
+                        
                         if(course.id != process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID){
                             return(
-                                <tr key={index} className='text-base'>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{course.title}</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{Math.round(course.progress) }</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{firstExamsPrgress?.percentage ? firstExamsPrgress?.percentage : 0}</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">%{finalExamsPrgress?.percentage ? finalExamsPrgress?.percentage : 0}</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{lessonsCompleted}</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{quizsCompleted}</td>
-                                    <td className="px-2 py-2 cursor-pointer hover:text-gray-800 font-semibold">{timeString}</td>
-                                </tr>
+                                <UserStats studentId={params.studentId} course={course} key={index} quizsCompleted={quizsCompleted} lessonsCompleted={lessonsCompleted} timeString={timeString} firstExamsPrgress={firstExamsPrgress?.percentage!} finalExamsPrgress={finalExamsPrgress?.percentage!}/>
                             )
 
                         }

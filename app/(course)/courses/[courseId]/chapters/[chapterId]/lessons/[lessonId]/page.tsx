@@ -13,6 +13,7 @@ import { CourseEditButton } from "./_components/course-introduction-edit";
 import { isTeacher } from "@/lib/teacher";
 import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
 import { CourseForm } from "./_components/course-form";
+import { HelpBox } from "./_components/help-box";
 
 const LessonIdPage = async ({
   params,
@@ -48,9 +49,11 @@ const LessonIdPage = async ({
   const startedAt = Date.now()
   return (
     <div>
+      <HelpBox  />
       {userProgress?.isCompleted && (
         <Banner variant="success" label=".لقد أكملت هذا الدرس بالفعل" />
       )}
+
       <div className="flex flex-col max-w-4xl mx-auto pb-20 pt-10" dir="rtl">
       <div className="flex ">
               
