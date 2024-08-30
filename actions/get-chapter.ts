@@ -20,21 +20,27 @@ export const getChapter = async ({
         isPublished: true,
         id: courseId,
       },
+      include: {
+        chapters: {
+          where: {
+            id: chapterId,
+            isPublished: true
+          },
+          include: {
+            lessons: {
+              where: {
+                id: lessonId,
+                isPublished:true
+              }
+            }
+          }
+        }
+      }
     });
+    console.log(course?.chapters)
+    const chapter = course?.chapters[0]
 
-    const chapter = await db.chapter.findUnique({
-      where: {
-        id: chapterId,
-        isPublished: true,
-      },
-    });
-
-    const lesson = await db.lesson.findUnique({
-      where: {
-        id: lessonId,
-        isPublished: true,
-      },
-    });
+    const lesson = chapter?.lessons[0]
 
     if (!chapter || !course || !lesson) {
       throw new Error("Chapter or course not found");
