@@ -31,8 +31,6 @@ const LessonIdPage = async ({
     chapter,
     course,
     attachments,
-    nextLesson,
-    nextChapter,
     userProgress,
   } = await getChapter({
     userId,
@@ -66,9 +64,6 @@ const LessonIdPage = async ({
                   lessonId={params.lessonId}
                   chapterId={params.chapterId}
                   courseId={params.courseId}
-                  nextLessonId={nextLesson?.id}
-                  nextChapterId={nextChapter?.id}
-                  nextChapterFirstLessonId={nextChapter?.lessons.sort((a, b) => (a.position > b.position) ? 1 : ((b.position > a.position) ? -1 : 0))[0].id}
                   isCompleted={!!userProgress?.isCompleted}
                   userId={userId}
                   startedAt={startedAt}
@@ -113,9 +108,6 @@ const LessonIdPage = async ({
               title={chapter.title}
               lessonId={lesson.id}
               courseId={params.courseId}
-              nextLessonId={nextLesson?.id}
-              nextChapterId={nextChapter?.id}
-              nextChapterFirstLessonId={nextChapter?.lessons[0].id}
               completeOnEnd={completeOnEnd}
               url={lesson.videoUrl}
             />

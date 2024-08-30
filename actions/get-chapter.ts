@@ -34,6 +34,11 @@ export const getChapter = async ({
               }
             }
           }
+        },
+        attachments: {
+          where: {
+            courseId
+          }
         }
       }
     });
@@ -50,40 +55,11 @@ export const getChapter = async ({
     let nextLesson: Lesson | null = null;
     let nextChapter: (Chapter & { lessons: Lesson[] }) | null = null;
 
-    attachments = await db.attachment.findMany({
-      where: {
-        courseId: courseId,
-      },
-    });
+    attachments = course.attachments
 
-    nextLesson = await db.lesson.findFirst({
-      where: {
-        chapterId: chapterId,
-        isPublished: true,
-        position: {
-          gt: lesson?.position,
-        },
-      },
-      orderBy: {
-        position: "asc",
-      },
-    });
+    
 
-    nextChapter = await db.chapter.findFirst({
-      where: {
-        courseId: courseId,
-        isPublished: true,
-        position: {
-          gt: chapter?.position,
-        },
-      },
-      include: {
-        lessons: true,
-      },
-      orderBy: {
-        position: "asc",
-      },
-    });
+    
 
     const userProgress = await db.userProgress.findUnique({
       where: {
@@ -99,8 +75,7 @@ export const getChapter = async ({
       lesson,
       course,
       attachments,
-      nextLesson,
-      nextChapter,
+      
       userProgress,
     };
   } catch (error) {

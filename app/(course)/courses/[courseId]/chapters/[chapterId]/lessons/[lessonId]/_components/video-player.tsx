@@ -18,9 +18,6 @@ interface VideoPlayerProps {
   courseId: string;
   chapterId: string;
   lessonId: string;
-  nextLessonId?: string;
-  nextChapterId?: string;
-  nextChapterFirstLessonId?: string;
   completeOnEnd: boolean;
   title: string;
   url: string | null;
@@ -30,9 +27,6 @@ export const VideoPlayer = ({
   courseId,
   chapterId,
   lessonId,
-  nextLessonId,
-  nextChapterId,
-  nextChapterFirstLessonId,
   completeOnEnd,
   title,
   url,
@@ -51,25 +45,17 @@ export const VideoPlayer = ({
           }
         );
 
-        if (!nextLessonId && !nextChapterId) {
-          confetti.onOpen();
-          toast.success("لقد انتهيت من الدورة، وإجراء الامتحانات");
-        }
-
+        
         toast.success("تم تحديث التقدم");
         router.refresh();
 
-        if (nextLessonId) {
+        
           router.push(
-            `/courses/${courseId}/chapters/${chapterId}/lessons/${nextLessonId}`
+            `/courses/${courseId}`
           );
-        }
+        
 
-        if (!nextLessonId && nextChapterId) {
-          router.push(
-            `/courses/${courseId}/chapters/${nextChapterId}/lessons/${nextChapterFirstLessonId}`
-          );
-        }
+        
       }
     } catch {
       toast.error("هناك شئ غير صحيح");

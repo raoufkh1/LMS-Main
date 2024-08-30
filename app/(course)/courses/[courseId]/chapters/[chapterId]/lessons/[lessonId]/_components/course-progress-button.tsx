@@ -15,9 +15,6 @@ interface CourseProgressButtonProps {
   courseId: string;
   lessonId: string;
   isCompleted?: boolean;
-  nextLessonId?: string;
-  nextChapterId?: string;
-  nextChapterFirstLessonId?: string;
   userId: string;
   startedAt: number
 }
@@ -27,9 +24,6 @@ export const CourseProgressButton = ({
   courseId,
   lessonId,
   isCompleted,
-  nextLessonId,
-  nextChapterId,
-  nextChapterFirstLessonId,
   userId,
   startedAt
 }: CourseProgressButtonProps) => {
@@ -50,19 +44,19 @@ export const CourseProgressButton = ({
         }
       );
 
-      if (!isCompleted && !nextLessonId && !nextChapterId) {
+      if (!isCompleted) {
         router.push(
           `/courses/${courseId}`
         );
       }
 
-      if (!isCompleted && nextLessonId) {
+      if (!isCompleted) {
         router.push(
           `/courses/${courseId}`
         );
       }
 
-      if (!isCompleted && !nextLessonId && nextChapterId) {
+      if (!isCompleted) {
         router.push(
           `/courses/${courseId}/`
         );
