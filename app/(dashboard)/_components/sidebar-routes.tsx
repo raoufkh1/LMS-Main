@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact,GraduationCap, BookLockIcon, ShieldMinus, LibraryIcon } from "lucide-react";
+import { BarChart, Compass, Layout, List, Goal, MessageCircle, Contact,GraduationCap, BookLockIcon, ShieldMinus, LibraryIcon, Globe } from "lucide-react";
 import { GiPodiumWinner } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
@@ -12,7 +12,7 @@ import { FcStatistics } from "react-icons/fc";
 const guestRoutes = [
   
   {
-    icon: GraduationCap,
+    icon: Globe,
     label: " مقدمة",
     href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
   },
@@ -65,7 +65,7 @@ const teacherRoutes = [
     href: "/teacher/analytics",
   },
   {
-    icon: GraduationCap,
+    icon: Globe,
     label: " مقدمة",
     href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
   },
