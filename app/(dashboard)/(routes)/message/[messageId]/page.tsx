@@ -35,6 +35,13 @@ const Reply = ({ params }: { params: { messageId: string } }) => {
       }
 
     })
+    pusherClient.bind("delete-reply", (e: any) => {
+      console.log("delete msg")
+      let { messageId } = e
+      
+      setReplies((prevState: Props[]) => [...prevState.filter(e => e.msg.id != messageId)])
+
+    })
     setTimeout(() => {
 
       return () => {
@@ -80,7 +87,7 @@ const Reply = ({ params }: { params: { messageId: string } }) => {
             replies.map((reply: any, index) => {
               console.log("s")
               return (
-                reply && <ReplyCard msg={reply.msg} user={reply.user} />
+                reply && <ReplyCard messageId={params.messageId} msg={reply.msg} user={reply.user} />
               )
             })
           }

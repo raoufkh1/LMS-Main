@@ -80,14 +80,13 @@ const LessonIdPage = async ({
         <div className="space-y-4">
           
           <Separator />
-          {
-            !isInroductionCourse && (
+          
             <div dir="rtl">
               <CourseForm defaultContext={lesson.description!} />
             </div>
               
-            )
-          }
+            
+          
           {!!attachments.length && (
             <>
               <Separator />

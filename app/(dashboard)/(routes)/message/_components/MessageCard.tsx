@@ -32,7 +32,7 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
        }
     }
     const handleClick = () => {
-      return router.push(`/message/${msg.id}`)
+      router.push(`/message/${msg.id}`)
     }
     const today = new Date()
     const date = new Date(msg.createdAt)
@@ -53,7 +53,7 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
       </div>
       <p className="text-base font-medium py-2.5 text-gray-900 dark:text-white">{msg?.context!}</p>
       <ul className='flex gap-[1px]'>
-         <a href={`/message/${msg.id}`} className='text-[11px] text-gray-600'>لديه {Math.floor(msg.repliesCount)} رد</a>
+         <a onClick={handleClick} className='text-[11px] text-gray-600'>لديه {Math.floor(msg.repliesCount)} رد</a>
          
       </ul>
    </div>
@@ -75,7 +75,7 @@ const MessageCard = ({replyIs,msg, user, setReplyIs}:Props) => {
             </li>
          }
          <li>
-            <a onClick={handleClick} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد</a>
+            <a href='#' onClick={handleClick} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد</a>
          </li>
       </ul>
    </div>)

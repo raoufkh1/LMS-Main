@@ -13,12 +13,12 @@ const guestRoutes = [
   
   {
     icon: GraduationCap,
-    label: "التعريف بالموقع",
+    label: " مقدمة",
     href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
   },
   {
     icon: Goal,
-    label: "اهداف عامة",
+    label: "الاهداف ",
     href: "/goals",
   },
   {
@@ -66,12 +66,12 @@ const teacherRoutes = [
   },
   {
     icon: GraduationCap,
-    label: "التعريف بالموقع",
+    label: " مقدمة",
     href: `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`
   },
   {
     icon: Goal,
-    label: "اهداف عامة",
+    label: "الاهداف ",
     href: "/goals",
   },
   {

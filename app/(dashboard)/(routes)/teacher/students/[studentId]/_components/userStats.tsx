@@ -12,7 +12,7 @@ interface PageProps {
     course: Course & {exams : Exam[], progress: number};
     timeString: string
   }
-const UserStats = async ({ timeString,studentId,course,finalExamsPrgress,firstExamsPrgress,lessonsCompleted,quizsCompleted}:PageProps) => {
+const UserStats = ({ timeString,studentId,course,finalExamsPrgress,firstExamsPrgress,lessonsCompleted,quizsCompleted}:PageProps) => {
     const router = useRouter()
     const handleNavigate = () => {
         

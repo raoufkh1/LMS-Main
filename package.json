@@ -59,7 +59,7 @@
     "jspdf": "^2.5.1",
     "lion-player": "^1.2.3",
     "lucide-react": "^0.276.0",
-    "next": "^14.1.0",
+    "next": "^14.2.7",
     "nodemailer": "^6.9.14",
     "openai": "^4.53.0",
     "postcss": "8.4.29",

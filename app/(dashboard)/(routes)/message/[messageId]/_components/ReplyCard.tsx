@@ -12,9 +12,9 @@ import toast from 'react-hot-toast'
 interface Props {
     msg: Reply,
     user:User
-    
+    messageId:string
 }
-const ReplyCard = ({msg, user}:Props) => {
+const ReplyCard = ({msg, user,messageId}:Props) => {
    (msg)
    const {userId} = useAuth()
    const [isPopup, setIsPopup] = useState<Boolean>(false)
@@ -23,7 +23,7 @@ const ReplyCard = ({msg, user}:Props) => {
       (msg.id)
       setIsPopup(false)
       try {
-         const {data} = await axios.delete(`/api/messages/${msg.id}`);
+         const {data} = await axios.delete(`/api/messages/${messageId}/reply/${msg.id}`);
          
          toast.success("تم حذف الرسالة");
        } catch (e){
@@ -51,27 +51,25 @@ const ReplyCard = ({msg, user}:Props) => {
       <p className="text-base font-medium py-2.5 text-gray-900 dark:text-white">{msg?.context!}</p>
       
    </div>
-   {/* {
+   {
       (userId == user.id || isTeacher(userId)) && (<button onClick={e => setIsPopup(!isPopup)} id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
          <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
             <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
          </svg>
       </button>)
-   } */}
+   }
    
-   {/* {
+   {
       isPopup && (<div id="dropdownDots" className="absolute -left-40 z-10  bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
       <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
          
          <li>
             <a onClick={handleDelete} href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">حذف</a>
          </li>
-         <li>
-            <a onClick={e => {setReplyIs(msg.id);setIsPopup(false)}} href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">رد</a>
-         </li>
+         
       </ul>
    </div>)
-   } */}
+   }
   
    
 </div>

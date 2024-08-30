@@ -59,6 +59,16 @@ const Message = () => {
       }
 
     })
+    pusherClient.bind("delete-reply", async(e: any) => {
+      try {
+        const { data } = await axios.get("/api/messages")
+        setMessages(data)
+        setDoubleMessages(data)
+      } catch (error) {
+        console.log(error)
+      }
+
+    })
     setTimeout(() => {
 
       return () => {

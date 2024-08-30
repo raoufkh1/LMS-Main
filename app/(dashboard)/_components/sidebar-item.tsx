@@ -18,7 +18,10 @@ export const SidebarItem = ({
 }: SidebarItemProps) => {
   const pathname = usePathname();
   const router = useRouter();
-
+  const isIntroductionCourseRoute = href.includes(`/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`)
+  const isIntroductionCoursePage = pathname.includes(`/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}`)
+  console.log(href)
+  console.log(isIntroductionCourseRoute)
   const isActive =
     (pathname === "/" && href === "/") ||
     pathname === href ||
@@ -32,26 +35,25 @@ export const SidebarItem = ({
     <button
       onClick={onClick}
       type="button"
-      className={cn(
-        "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
-        isActive && "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700"
-      )}
+      className={
+        `${isIntroductionCourseRoute ? isIntroductionCoursePage ? "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700" : "hover:text-slate-600 hover:bg-slate-300/20" : (isActive && !isIntroductionCoursePage) ? "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700": 'hover:text-slate-600 hover:bg-slate-300/20'} flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all `
+        }
     >
       <div className="flex items-center gap-x-2 py-4">
         <Icon
           size={22}
           className={cn(
-            "text-slate-500",
-            isActive && "text-sky-700"
+            `${isIntroductionCourseRoute ? isIntroductionCoursePage ? "opacity-100" : "text-slate-500" : (isActive && !isIntroductionCoursePage) ? "opacity-100" : 'text-slate-500'} `,
+            
           )}
         />
         {label}
       </div>
       <div
-        className={cn(
-          "ml-auto opacity-0 border-2 border-sky-700 h-full transition-all",
-          isActive && "opacity-100"
-        )}
+        className={
+          `${isIntroductionCourseRoute ? isIntroductionCoursePage ? "opacity-100" : "text-slate-500" : (isActive && !isIntroductionCoursePage) ? "opacity-100" : 'text-slate-500'} ml-auto opacity-0 border-2 border-sky-700 h-full transition-all` 
+          
+        }
       />
     </button>
   )

@@ -60,11 +60,12 @@ const LessonIdPage = async ({
         <div className="flex items-center justify-between">
           <div className="w-full">
             <Link
-              href={`/teacher/courses/${params.courseId}/chapters/${params.chapterId}`}
+              href={`${isIntroductionCoursePage ? `/courses/${process.env.NEXT_PUBLIC_INTRODUTION_COURSE_ID}` : `/teacher/courses/${params.courseId}/chapters/${params.chapterId}`} `}
               className="flex items-center text-sm hover:opacity-75 transition mb-6"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              العودة إلى إعداد الفصل
+              {isIntroductionCoursePage ? "العودة الى التعريف بالموقع" : `              العودة إلى إعداد الفصل
+`}
             </Link>
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col gap-y-2">
@@ -93,20 +94,26 @@ const LessonIdPage = async ({
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           {
-            !isIntroductionCoursePage && (
+            
 
             <div className="space-y-4">
               <div>
-                <div className="flex items-center gap-x-2">
-                  <IconBadge icon={LayoutDashboard} />
-                  <h2 className="text-xl">تخصيص الدرس الخاص بك</h2>
-                </div>
-                <LessonTitleForm
-                  initialData={lesson}
-                  courseId={params.courseId}
-                  chapterId={params.chapterId}
-                  lessonId={params.lessonId}
-                />
+                {
+                  !isIntroductionCoursePage && (
+                    <div><div className="flex items-center gap-x-2">
+
+                    <IconBadge icon={LayoutDashboard} />
+                    <h2 className="text-xl">تخصيص الدرس الخاص بك</h2>
+                  </div>
+                  <LessonTitleForm
+                    initialData={lesson}
+                    courseId={params.courseId}
+                    chapterId={params.chapterId}
+                    lessonId={params.lessonId}
+                  /></div>
+                  )
+                }
+                
                 <LessonDescriptionForm
                   initialData={lesson}
                   courseId={params.courseId}
@@ -115,7 +122,7 @@ const LessonIdPage = async ({
                 />
               </div>
             </div>
-            )
+            
           }
           <div>
             <div className="flex items-center gap-x-2">
